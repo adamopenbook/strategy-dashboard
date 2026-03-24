@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Strategy Dashboard</title>
+<style>
+:root{--bg:#080d1a;--card:#0f1830;--border:#1e2d55;--text:#e8f0ff;--muted:#7a90bc;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:20px}
+.page{max-width:1100px;margin:0 auto}
+header{margin-bottom:24px}
+header h1{font-size:28px;font-weight:700;letter-spacing:-.5px}
+header .ts{color:var(--muted);font-size:13px;margin-top:4px}
+.section-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:28px 0 12px}
+.grid{display:grid;gap:12px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g1{grid-template-columns:1fr}
+@media(max-width:780px){.g3,.g2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
+.card-label{font-size:11px;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+.card-value{font-size:26px;font-weight:700;line-height:1.1}
+.card-sub{font-size:13px;color:var(--muted);margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;margin-top:8px}
+.badge-green{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.badge-yellow{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
+.badge-red{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.badge-blue{background:rgba(59,130,246,.15);color:#93c5fd;border:1px solid rgba(59,130,246,.3)}
+.badge-purple{background:rgba(139,92,246,.15);color:#c4b5fd;border:1px solid rgba(139,92,246,.3)}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.dot-green{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot-yellow{background:var(--yellow)}
+.dot-red{background:var(--red)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;padding:8px 6px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+td{padding:10px 6px;border-bottom:1px solid rgba(30,45,85,.5)}
+tr:last-child td{border-bottom:none}
+.tag{font-size:12px;font-family:monospace;background:rgba(59,130,246,.1);color:#93c5fd;padding:2px 6px;border-radius:4px}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.yellow{color:var(--yellow)}
+.pnl-bar{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--green),#34d399);margin-top:8px}
+.roadmap{display:flex;flex-direction:column;gap:12px}
+.phase{display:flex;gap:14px;align-items:flex-start}
+.phase-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.phase-active{background:rgba(16,185,129,.2);color:var(--green);border:1px solid rgba(16,185,129,.4)}
+.phase-next{background:rgba(59,130,246,.15);color:#93c5fd;border:1px solid rgba(59,130,246,.3)}
+.phase-future{background:rgba(30,45,85,.5);color:var(--muted);border:1px solid var(--border)}
+.phase-body h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.phase-body p{font-size:13px;color:var(--muted);line-height:1.5}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>🚀 Strategy Command Dashboard</h1>
+  <div class="ts">Updated: 2026-03-24 21:20 UTC</div>
+</header>
+
+<!-- Live Status -->
+<div class="section-title">Live Status</div>
+<div class="grid g3">
+  <div class="card">
+    <div class="card-label">Hyperliquid Live</div>
+    <div class="card-value">w25_mid_013</div>
+    <div class="card-sub">ETH / 4H Momentum</div>
+    <span class="badge badge-green"><span class="dot dot-green"></span>LIVE + ARMED</span>
+  </div>
+  <div class="card">
+    <div class="card-label">Live Notional</div>
+    <div class="card-value">100 USDC</div>
+    <div class="card-sub">Max 1 concurrent position</div>
+    <span class="badge badge-blue">Daily stop: 8U</span>
+  </div>
+  <div class="card">
+    <div class="card-label">Paper Observer</div>
+    <div class="card-value">w27_mid_016</div>
+    <div class="card-sub">ETH / 4H Momentum</div>
+    <span class="badge badge-yellow">Paper only</span>
+  </div>
+</div>
+
+<!-- Track C -->
+<div class="section-title">Track C (Polymarket)</div>
+<div class="grid g2">
+  <div class="card">
+    <div class="card-label">Track C V1</div>
+    <div class="card-value green">+$17.20</div>
+    <div class="card-sub">Realized P&L · Open positions: 4</div>
+    <div class="pnl-bar" style="width:70%"></div>
+  </div>
+  <div class="card">
+    <div class="card-label">Track C V2</div>
+    <div class="card-value green">+$18.33</div>
+    <div class="card-sub">Realized P&L · Open positions: 4</div>
+    <div class="pnl-bar" style="width:75%"></div>
+  </div>
+</div>
+
+<!-- Paper Validation -->
+<div class="section-title">14-Day Paper Validation</div>
+<div class="grid g2">
+  <div class="card">
+    <div class="card-label">Progress</div>
+    <div class="card-value">Day 3 / 14</div>
+    <div class="card-sub">core_eth_momentum · btc_mr_watch</div>
+    <div style="height:6px;background:var(--border);border-radius:3px;margin-top:12px"><div style="height:6px;background:var(--green);border-radius:3px;width:21%"></div></div>
+  </div>
+  <div class="card">
+    <div class="card-label">Paper P&L (Realized)</div>
+    <div class="card-value">$0.00</div>
+    <div class="card-sub">No trades triggered yet (low-frequency expected)</div>
+  </div>
+</div>
+
+<!-- Champion Pool -->
+<div class="section-title">Champion Pool (6 Slots)</div>
+<div class="card">
+<table>
+  <tr>
+    <th>Slot</th><th>ID</th><th>Type</th><th>TF</th><th>2025 CAGR</th><th>2025 DD</th><th>2026 CAGR</th><th>Status</th>
+  </tr>
+  <tr>
+    <td>core_1</td><td><span class="tag">w10_rob_002</span></td><td>Momentum</td><td>4H</td><td class="green">36.12%</td><td>8.34%</td><td class="green">19.70%</td><td><span class="badge badge-green">Active</span></td>
+  </tr>
+  <tr>
+    <td>core_2</td><td><span class="tag">w7_chal_009</span></td><td>Momentum</td><td>4H</td><td class="green">39.95%</td><td>6.48%</td><td class="green">9.79%</td><td><span class="badge badge-green">Active</span></td>
+  </tr>
+  <tr>
+    <td>hedge_1</td><td><span class="tag">w11b_pivot_011</span></td><td>Breakout</td><td>4H</td><td class="green">26.52%</td><td>7.31%</td><td class="green">16.98%</td><td><span class="badge badge-blue">Active</span></td>
+  </tr>
+  <tr>
+    <td>hedge_2</td><td><span class="tag">w9_rob_010</span></td><td>Breakout</td><td>4H</td><td class="green">18.37%</td><td>9.05%</td><td class="green">7.93%</td><td><span class="badge badge-blue">Active</span></td>
+  </tr>
+  <tr>
+    <td>bench_1</td><td><span class="tag">w15_conf_001</span></td><td>Hybrid</td><td>4H</td><td class="green">54.55%</td><td>5.88%</td><td class="green">47.92%</td><td><span class="badge badge-purple">Bench</span></td>
+  </tr>
+  <tr>
+    <td>bench_2</td><td><span class="tag">w20_btcmr_017</span></td><td>Mean-Rev</td><td>8H</td><td class="green">17.75%</td><td>8.26%</td><td class="green">45.30%</td><td><span class="badge badge-yellow">Watch</span></td>
+  </tr>
+</table>
+</div>
+
+<!-- Mid-Freq Explorer -->
+<div class="section-title">Mid-Frequency Explorer Results</div>
+<div class="card">
+<table>
+  <tr><th>Round</th><th>Winner</th><th>2025 CAGR</th><th>2025 DD</th><th>2026 CAGR</th><th>Decision</th></tr>
+  <tr><td>Week22</td><td><span class="tag">w22_mid_017</span></td><td>18.92%</td><td>9.54%</td><td>—</td><td><span class="badge badge-red">No promotion</span></td></tr>
+  <tr><td>Week23</td><td><span class="tag">w23_mid_005</span></td><td>18.63%</td><td>15.67%</td><td class="green">38.14%</td><td><span class="badge badge-yellow">Watch</span></td></tr>
+  <tr><td>Week24</td><td><span class="tag">w24_mid_001</span></td><td>31.57%</td><td>14.57%</td><td class="green">38.14%</td><td><span class="badge badge-yellow">Observer candidate</span></td></tr>
+  <tr><td>Week25</td><td><span class="tag">w25_mid_013</span></td><td>40.05%</td><td>15.67%</td><td class="green">38.14%</td><td><span class="badge badge-green">→ LIVE</span></td></tr>
+  <tr><td>Week27</td><td><span class="tag">w27_mid_016</span></td><td>42.27%</td><td>14.84%</td><td class="green">56.58%</td><td><span class="badge badge-blue">→ Observer</span></td></tr>
+</table>
+</div>
+
+<!-- Leverage -->
+<div class="section-title">Leverage Test (w25_mid_013)</div>
+<div class="card">
+<table>
+  <tr><th>Leverage</th><th>Gate (DD≤20%)</th><th>2025 CAGR</th><th>2025 DD</th><th>Verdict</th></tr>
+  <tr><td>1.0x</td><td><span class="badge badge-green">Pass</span></td><td class="green">40.05%</td><td>15.67%</td><td>Safe baseline</td></tr>
+  <tr><td>1.25x</td><td><span class="badge badge-yellow">Pass (close)</span></td><td class="green">51.20%</td><td class="yellow">19.25%</td><td>Cautious GO</td></tr>
+  <tr><td>1.5x+</td><td><span class="badge badge-red">Fail</span></td><td>—</td><td class="red">&gt;20%</td><td>Rejected</td></tr>
+</table>
+</div>
+
+<!-- Roadmap -->
+<div class="section-title">Roadmap</div>
+<div class="card">
+<div class="roadmap">
+  <div class="phase">
+    <div class="phase-num phase-active">1</div>
+    <div class="phase-body">
+      <h4>Phase 1 — Stable Execution <span class="badge badge-green" style="margin-left:8px;font-size:11px">NOW</span></h4>
+      <p>Keep w25_mid_013 live unchanged. Monitor paper observer. No new exploration. Let bots run.</p>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="phase-num phase-next">2</div>
+    <div class="phase-body">
+      <h4>Phase 2 — Validate Upgrade <span style="color:var(--muted);font-size:12px;margin-left:8px">Week 3-4</span></h4>
+      <p>Use live data to decide: promote w27_mid_016 or apply 1.25x leverage. Gate: CAGR≥20% AND DD≤20%.</p>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="phase-num phase-future">3</div>
+    <div class="phase-body">
+      <h4>Phase 3 — Multi-Strategy <span style="color:var(--muted);font-size:12px;margin-left:8px">Month 2+</span></h4>
+      <p>Add 2nd HL live lane. Re-validate w18_stab_014 (CAGR 115%, 2026 positive). Build three-track portfolio.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+</body>
+</html>
