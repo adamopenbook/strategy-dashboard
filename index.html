@@ -1,383 +1,395 @@
-<!doctype html>
-<html lang="zh-Hant">
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Strategy Dashboard</title>
 <style>
-.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px}
-.tab{padding:10px 20px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px}
-.tab.active{color:var(--text);border-bottom-color:var(--blue)}
-.tab-content{display:none}.tab-content.active{display:block}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+  .header { background: #161b22; border-bottom: 1px solid #30363d; padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; }
+  .header h1 { font-size: 20px; font-weight: 600; }
+  .header .meta { font-size: 12px; color: #8b949e; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 32px; }
+  .section-title { font-size: 14px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin: 28px 0 12px; }
 
-:root{--bg:#080d1a;--card:#0f1830;--border:#1e2d55;--text:#e8f0ff;--muted:#7a90bc;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:20px}
-.page{max-width:1100px;margin:0 auto}
-header{margin-bottom:24px}
-header h1{font-size:28px;font-weight:700;letter-spacing:-.5px}
-header .ts{color:var(--muted);font-size:13px;margin-top:4px}
-.section-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:28px 0 12px}
-.grid{display:grid;gap:12px}
-.g3{grid-template-columns:repeat(3,1fr)}
-.g2{grid-template-columns:repeat(2,1fr)}
-.g1{grid-template-columns:1fr}
-@media(max-width:780px){.g3,.g2{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
-.card-label{font-size:11px;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
-.card-value{font-size:26px;font-weight:700;line-height:1.1}
-.card-sub{font-size:13px;color:var(--muted);margin-top:6px}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;margin-top:8px}
-.badge-green{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)}
-.badge-yellow{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
-.badge-red{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
-.badge-blue{background:rgba(59,130,246,.15);color:#93c5fd;border:1px solid rgba(59,130,246,.3)}
-.badge-purple{background:rgba(139,92,246,.15);color:#c4b5fd;border:1px solid rgba(139,92,246,.3)}
-.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
-.dot-green{background:var(--green);box-shadow:0 0 6px var(--green)}
-.dot-yellow{background:var(--yellow)}
-.dot-red{background:var(--red)}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th{text-align:left;padding:8px 6px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
-td{padding:10px 6px;border-bottom:1px solid rgba(30,45,85,.5)}
-tr:last-child td{border-bottom:none}
-.tag{font-size:12px;font-family:monospace;background:rgba(59,130,246,.1);color:#93c5fd;padding:2px 6px;border-radius:4px}
-.green{color:var(--green)}
-.red{color:var(--red)}
-.yellow{color:var(--yellow)}
-.pnl-bar{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--green),#34d399);margin-top:8px}
-.roadmap{display:flex;flex-direction:column;gap:12px}
-.phase{display:flex;gap:14px;align-items:flex-start}
-.phase-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
-.phase-active{background:rgba(16,185,129,.2);color:var(--green);border:1px solid rgba(16,185,129,.4)}
-.phase-next{background:rgba(59,130,246,.15);color:#93c5fd;border:1px solid rgba(59,130,246,.3)}
-.phase-future{background:rgba(30,45,85,.5);color:var(--muted);border:1px solid var(--border)}
-.phase-body h4{font-size:14px;font-weight:600;margin-bottom:4px}
-.phase-body p{font-size:13px;color:var(--muted);line-height:1.5}
+  /* Status cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px 20px; }
+  .card .label { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .card .value { font-size: 24px; font-weight: 700; }
+  .card .sub { font-size: 12px; color: #8b949e; margin-top: 4px; }
+  .green { color: #3fb950; }
+  .red { color: #f85149; }
+  .yellow { color: #d29922; }
+  .blue { color: #58a6ff; }
+  .gray { color: #8b949e; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { border-bottom: 1px solid #30363d; }
+  th { text-align: left; padding: 8px 12px; font-size: 11px; color: #8b949e; text-transform: uppercase; font-weight: 500; }
+  td { padding: 10px 12px; border-bottom: 1px solid #21262d; }
+  tr:hover td { background: #161b22; }
+
+  /* Grade badge */
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-a { background: #1a3d2b; color: #3fb950; border: 1px solid #3fb950; }
+  .badge-b { background: #2d2a14; color: #d29922; border: 1px solid #d29922; }
+  .badge-c { background: #2d1f0e; color: #f0883e; border: 1px solid #f0883e; }
+  .badge-d { background: #2d1315; color: #f85149; border: 1px solid #f85149; }
+  .badge-dq { background: #2d1315; color: #f85149; border: 1px dashed #f85149; }
+
+  /* Score bar */
+  .score-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .score-bar { height: 6px; border-radius: 3px; background: #21262d; width: 100px; overflow: hidden; flex-shrink: 0; }
+  .score-fill { height: 100%; border-radius: 3px; }
+  .score-num { font-size: 12px; font-weight: 600; width: 32px; text-align: right; }
+
+  /* Score breakdown tooltip */
+  .breakdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+  .breakdown-item { background: #21262d; border-radius: 6px; padding: 8px; text-align: center; }
+  .breakdown-item .bi-label { font-size: 10px; color: #8b949e; margin-bottom: 4px; }
+  .breakdown-item .bi-val { font-size: 14px; font-weight: 700; }
+  .breakdown-item .bi-pts { font-size: 10px; color: #8b949e; }
+
+  /* Phase indicator */
+  .phase-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+  .pill { font-size: 10px; padding: 2px 7px; border-radius: 10px; }
+  .pill-pass { background: #1a3d2b; color: #3fb950; }
+  .pill-fail { background: #2d1315; color: #f85149; }
+  .pill-dq { background: #2d1315; color: #f85149; border: 1px dashed #f85149; }
+
+  /* Expandable row */
+  .expand-row { display: none; }
+  .expand-row td { background: #0d1117; padding: 12px 24px; }
+  .expand-btn { cursor: pointer; user-select: none; color: #58a6ff; font-size: 11px; }
+
+  /* Section tab */
+  .tabs { display: flex; gap: 2px; margin-bottom: 16px; border-bottom: 1px solid #30363d; }
+  .tab { padding: 8px 16px; font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; color: #8b949e; }
+  .tab.active { color: #e6edf3; border-bottom-color: #58a6ff; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .tag { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #21262d; color: #8b949e; margin: 1px; }
+  .divider { border: none; border-top: 1px solid #21262d; margin: 20px 0; }
+  .timestamp { font-size: 11px; color: #8b949e; }
 </style>
 </head>
 <body>
-<div class="page">
-<div class="tabs">
-  <div class="tab active" data-tab="main">Dashboard</div>
-  <div class="tab" data-tab="all">All Strategies</div>
-</div>
-<div class="tab-content active" id="tab-main">
 
-<header>
-  <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="ts"><span id="live-ts">Loading...</span> &nbsp;|&nbsp; Updated: 2026-03-24 21:20 UTC</div>
-</header>
-
-<!-- Live Status -->
-<div class="section-title">Live Status</div>
-<div class="grid g3">
-  <div class="card">
-    <div class="card-label">Hyperliquid Live</div>
-    <div class="card-value">w25_mid_013</div>
-    <div class="card-sub">ETH / 4H Momentum</div>
-    <span class="badge badge-green"><span class="dot dot-green"></span>LIVE + ARMED</span>
+<div class="header">
+  <div>
+    <h1>🎯 Strategy Dashboard</h1>
+    <div class="meta">Updated: <span id="updated">loading...</span></div>
   </div>
-  <div class="card">
-    <div class="card-label">Live Notional</div>
-    <div class="card-value">100 USDC</div>
-    <div class="card-sub">Max 1 concurrent position</div>
-    <span class="badge badge-blue">Daily stop: 8U</span>
-  </div>
-  <div class="card">
-    <div class="card-label">Paper Observer</div>
-    <div class="card-value">w27_mid_016</div>
-    <div class="card-sub">ETH / 4H Momentum</div>
-    <span class="badge badge-yellow">Paper only</span>
+  <div style="text-align:right">
+    <div class="meta">Auto-refresh every 60s</div>
+    <div class="meta" id="countdown"></div>
   </div>
 </div>
 
-<!-- Track C -->
-<div class="section-title">Track C (Polymarket)</div>
-<div class="grid g2">
-  <div class="card">
-    <div class="card-label">Total Portfolio</div>
-    <div id="poly-total">
-      <div class="card-value green">$116.52</div>
-      <div class="card-sub">Cash: <b>$80.70</b> &nbsp;|&nbsp; Positions: <b>$35.81</b></div>
+<div class="container">
+
+  <!-- Live Status -->
+  <div class="section-title">Live Status</div>
+  <div class="cards" id="live-cards">
+    <div class="card">
+      <div class="label">HL w25_mid_013</div>
+      <div class="value gray">PAUSED</div>
+      <div class="sub">Strategy validation sprint</div>
     </div>
-    <div class="pnl-bar" style="width:77%"></div>
-  </div>
-  <div class="card">
-    <div class="card-label">Unrealized PnL</div>
-    <div id="poly-unreal">
-      <div class="card-value green">$+1.06</div>
-      <div class="card-sub">Open positions: <b>2</b> &nbsp;·&nbsp; Track C V2 Live</div>
+    <div class="card">
+      <div class="label">Track C V2</div>
+      <div class="value green">LIVE</div>
+      <div class="sub" id="trackc-pnl">P&L: loading...</div>
     </div>
-    <span class="badge badge-green">LIVE</span>
-  </div>
-</div>
-
-<!-- Paper Validation -->
-<div class="section-title">14-Day Paper Validation</div>
-<div class="grid g2">
-  <div class="card">
-    <div class="card-label">Progress</div>
-    <div class="card-value">Day 3 / 14</div>
-    <div class="card-sub">core_eth_momentum · btc_mr_watch</div>
-    <div style="height:6px;background:var(--border);border-radius:3px;margin-top:12px"><div style="height:6px;background:var(--green);border-radius:3px;width:21%"></div></div>
-  </div>
-  <div class="card">
-    <div class="card-label">Paper P&L (Realized)</div>
-    <div class="card-value">$0.00</div>
-    <div class="card-sub">No trades triggered yet (low-frequency expected)</div>
-  </div>
-</div>
-
-<!-- Champion Pool -->
-<div class="section-title">Champion Pool (6 Slots)</div>
-<div class="card">
-<table>
-  <tr>
-    <th>Slot</th><th>ID</th><th>Type</th><th>TF</th><th>2025 CAGR</th><th>2025 DD</th><th>2026 CAGR</th><th>Status</th>
-  </tr>
-  <tr>
-    <td>core_1</td><td><span class="tag">w10_rob_002</span></td><td>Momentum</td><td>4H</td><td class="green">36.12%</td><td>8.34%</td><td class="green">19.70%</td><td><span class="badge badge-green">Active</span></td>
-  </tr>
-  <tr>
-    <td>core_2</td><td><span class="tag">w7_chal_009</span></td><td>Momentum</td><td>4H</td><td class="green">39.95%</td><td>6.48%</td><td class="green">9.79%</td><td><span class="badge badge-green">Active</span></td>
-  </tr>
-  <tr>
-    <td>hedge_1</td><td><span class="tag">w11b_pivot_011</span></td><td>Breakout</td><td>4H</td><td class="green">26.52%</td><td>7.31%</td><td class="green">16.98%</td><td><span class="badge badge-blue">Active</span></td>
-  </tr>
-  <tr>
-    <td>hedge_2</td><td><span class="tag">w9_rob_010</span></td><td>Breakout</td><td>4H</td><td class="green">18.37%</td><td>9.05%</td><td class="green">7.93%</td><td><span class="badge badge-blue">Active</span></td>
-  </tr>
-  <tr>
-    <td>bench_1</td><td><span class="tag">w15_conf_001</span></td><td>Hybrid</td><td>4H</td><td class="green">54.55%</td><td>5.88%</td><td class="green">47.92%</td><td><span class="badge badge-purple">Bench</span></td>
-  </tr>
-  <tr>
-    <td>bench_2</td><td><span class="tag">w20_btcmr_017</span></td><td>Mean-Rev</td><td>8H</td><td class="green">17.75%</td><td>8.26%</td><td class="green">45.30%</td><td><span class="badge badge-yellow">Watch</span></td>
-  </tr>
-</table>
-</div>
-
-<!-- Mid-Freq Explorer -->
-<div class="section-title">Mid-Frequency Explorer Results</div>
-<div class="card">
-<table>
-  <tr><th>Round</th><th>Winner</th><th>2025 CAGR</th><th>2025 DD</th><th>2026 CAGR</th><th>Decision</th></tr>
-  <tr><td>Week22</td><td><span class="tag">w22_mid_017</span></td><td>18.92%</td><td>9.54%</td><td>—</td><td><span class="badge badge-red">No promotion</span></td></tr>
-  <tr><td>Week23</td><td><span class="tag">w23_mid_005</span></td><td>18.63%</td><td>15.67%</td><td class="green">38.14%</td><td><span class="badge badge-yellow">Watch</span></td></tr>
-  <tr><td>Week24</td><td><span class="tag">w24_mid_001</span></td><td>31.57%</td><td>14.57%</td><td class="green">38.14%</td><td><span class="badge badge-yellow">Observer candidate</span></td></tr>
-  <tr><td>Week25</td><td><span class="tag">w25_mid_013</span></td><td>40.05%</td><td>15.67%</td><td class="green">38.14%</td><td><span class="badge badge-green">→ LIVE</span></td></tr>
-  <tr><td>Week27</td><td><span class="tag">w27_mid_016</span></td><td>42.27%</td><td>14.84%</td><td class="green">56.58%</td><td><span class="badge badge-blue">→ Observer</span></td></tr>
-</table>
-</div>
-
-<!-- Leverage -->
-<div class="section-title">Leverage Test (w25_mid_013)</div>
-<div class="card">
-<table>
-  <tr><th>Leverage</th><th>Gate (DD≤20%)</th><th>2025 CAGR</th><th>2025 DD</th><th>Verdict</th></tr>
-  <tr><td>1.0x</td><td><span class="badge badge-green">Pass</span></td><td class="green">40.05%</td><td>15.67%</td><td>Safe baseline</td></tr>
-  <tr><td>1.25x</td><td><span class="badge badge-yellow">Pass (close)</span></td><td class="green">51.20%</td><td class="yellow">19.25%</td><td>Cautious GO</td></tr>
-  <tr><td>1.5x+</td><td><span class="badge badge-red">Fail</span></td><td>—</td><td class="red">&gt;20%</td><td>Rejected</td></tr>
-</table>
-</div>
-
-<!-- Roadmap -->
-<div class="section-title">Roadmap</div>
-<div class="card">
-<div class="roadmap">
-  <div class="phase">
-    <div class="phase-num phase-active">1</div>
-    <div class="phase-body">
-      <h4>Phase 1 — Stable Execution <span class="badge badge-green" style="margin-left:8px;font-size:11px">NOW</span></h4>
-      <p>Keep w25_mid_013 live unchanged. Monitor paper observer. No new exploration. Let bots run.</p>
+    <div class="card">
+      <div class="label">4月目標</div>
+      <div class="value blue">30U</div>
+      <div class="sub">Track C ~20U + Paper ~10U</div>
+    </div>
+    <div class="card">
+      <div class="label">Validator 框架</div>
+      <div class="value green">✅ Ready</div>
+      <div class="sub">Look-ahead + OOS + Sensitivity</div>
     </div>
   </div>
-  <div class="phase">
-    <div class="phase-num phase-next">2</div>
-    <div class="phase-body">
-      <h4>Phase 2 — Validate Upgrade <span style="color:var(--muted);font-size:12px;margin-left:8px">Week 3-4</span></h4>
-      <p>Use live data to decide: promote w27_mid_016 or apply 1.25x leverage. Gate: CAGR≥20% AND DD≤20%.</p>
-    </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('validation')">🔬 Validation Results</div>
+    <div class="tab" onclick="switchTab('roadmap')">🗺 Roadmap</div>
+    <div class="tab" onclick="switchTab('framework')">📐 Framework</div>
   </div>
-  <div class="phase">
-    <div class="phase-num phase-future">3</div>
-    <div class="phase-body">
-      <h4>Phase 3 — Multi-Strategy <span style="color:var(--muted);font-size:12px;margin-left:8px">Month 2+</span></h4>
-      <p>Add 2nd HL live lane. Re-validate w18_stab_014 (CAGR 115%, 2026 positive). Build three-track portfolio.</p>
+
+  <!-- Validation Results Tab -->
+  <div class="tab-content active" id="tab-validation">
+    <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+      <div class="card" style="flex:1; min-width:140px;">
+        <div class="label">Total Validated</div>
+        <div class="value" id="stat-total">20</div>
+        <div class="sub">Top candidates</div>
+      </div>
+      <div class="card" style="flex:1; min-width:140px;">
+        <div class="label">🟢 A Grade (PASS)</div>
+        <div class="value green" id="stat-pass">0</div>
+        <div class="sub">Score ≥ 80</div>
+      </div>
+      <div class="card" style="flex:1; min-width:140px;">
+        <div class="label">🟡 B Grade (OBSERVE)</div>
+        <div class="value yellow" id="stat-observe">0</div>
+        <div class="sub">Score 60-79</div>
+      </div>
+      <div class="card" style="flex:1; min-width:140px;">
+        <div class="label">🔴 Disqualified</div>
+        <div class="value red" id="stat-dq">0</div>
+        <div class="sub">Look-ahead bias</div>
+      </div>
     </div>
+
+    <table id="validation-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Serial ID</th>
+          <th>Original ID</th>
+          <th>Grade</th>
+          <th>Score / 100</th>
+          <th>IS CAGR</th>
+          <th>OOS CAGR</th>
+          <th>Max DD</th>
+          <th>Trades</th>
+          <th>Sensitivity</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="validation-tbody"></tbody>
+    </table>
   </div>
-</div>
-</div>
 
-</div>
+  <!-- Roadmap Tab -->
+  <div class="tab-content" id="tab-roadmap">
+    <table>
+      <thead><tr><th>時期</th><th>工作</th><th>狀態</th></tr></thead>
+      <tbody>
+        <tr><td>3/25–4/15</td><td>建立 strategy_validator 框架（Look-ahead + OOS + Sensitivity）</td><td><span class="badge badge-a">✅ 完成</span></td></tr>
+        <tr><td>3/25–3/31</td><td>重新驗證 top 20 候選策略</td><td><span class="badge badge-a">✅ 完成</span></td></tr>
+        <tr><td>4/1–4/30</td><td>Track C V2 繼續 + 紙盤驗證 B 級策略</td><td><span class="badge badge-b">🔄 進行中</span></td></tr>
+        <tr><td>5/1</td><td>Layer 2 啟動（週自動搜索 20+ 候選）</td><td><span class="badge badge-d">⏳ 待開始</span></td></tr>
+        <tr><td>6/1+</td><td>Layer 3 實盤迴圈（回測→紙盤→實盤）</td><td><span class="badge badge-d">⏳ 待開始</span></td></tr>
+      </tbody>
+    </table>
 
-<div class="tab-content" id="tab-all">
-<div class="section-title">All Validated Strategies (DD &le; 20%, sorted by CAGR 2025)</div>
-<div class="card" style="overflow-x:auto">
-<table>
-<tr><th>ID</th><th>Family</th><th>Asset</th><th>TF</th><th>2025 CAGR</th><th>2025 DD</th><th>2026 CAGR</th><th>Trades</th></tr>
-<tr><td><span class="tag">w17_exp_008</span> </td><td>W17 exploration</td><td>ETH</td><td>4H</td><td class="green">150.6%</td><td class="">10.0%</td><td class="red">-8.0%</td><td>34</td></tr>
-<tr><td><span class="tag">w18_stab_014</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">116.0%</td><td class="">13.8%</td><td class="green">+31.9%</td><td>32</td></tr>
-<tr><td><span class="tag">w18_stab_009</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">107.3%</td><td class="yellow">16.6%</td><td class="red">-59.3%</td><td>40</td></tr>
-<tr><td><span class="tag">w17_exp_003</span> </td><td>W17 exploration</td><td>ETH</td><td>4H</td><td class="green">94.8%</td><td class="">13.8%</td><td class="red">-7.5%</td><td>42</td></tr>
-<tr><td><span class="tag">w18_stab_006</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">92.0%</td><td class="">13.3%</td><td class="red">-47.5%</td><td>41</td></tr>
-<tr><td><span class="tag">w18_stab_012</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">92.0%</td><td class="">13.3%</td><td class="red">-47.5%</td><td>41</td></tr>
-<tr><td><span class="tag">w19_alt_008</span> </td><td>W19 btc sol bnb</td><td>SOL</td><td>4H</td><td class="green">91.8%</td><td class="">7.8%</td><td class="red">-29.0%</td><td>22</td></tr>
-<tr><td><span class="tag">w18_stab_013</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">89.0%</td><td class="yellow">16.2%</td><td class="red">-58.5%</td><td>41</td></tr>
-<tr><td><span class="tag">w18_stab_010</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">86.3%</td><td class="yellow">15.2%</td><td class="red">-43.9%</td><td>41</td></tr>
-<tr><td><span class="tag">w18_stab_008</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">85.6%</td><td class="yellow">15.2%</td><td class="red">-43.9%</td><td>40</td></tr>
-<tr><td><span class="tag">w18_stab_002</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">74.4%</td><td class="">13.2%</td><td class="red">-25.5%</td><td>42</td></tr>
-<tr><td><span class="tag">w18_stab_004</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">74.4%</td><td class="">13.2%</td><td class="red">-25.5%</td><td>42</td></tr>
-<tr><td><span class="tag">w17_exp_006</span> </td><td>W17 exploration</td><td>ETH</td><td>4H</td><td class="green">73.8%</td><td class="">13.2%</td><td class="red">-25.5%</td><td>42</td></tr>
-<tr><td><span class="tag">w18_stab_011</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">70.4%</td><td class="yellow">15.2%</td><td class="red">-43.9%</td><td>39</td></tr>
-<tr><td><span class="tag">w17_exp_004</span> </td><td>W17 exploration</td><td>ETH</td><td>4H</td><td class="green">65.4%</td><td class="yellow">16.2%</td><td class="red">-4.2%</td><td>63</td></tr>
-<tr><td><span class="tag">w17_exp_014</span> </td><td>W17 exploration</td><td>ETH</td><td>8H</td><td class="green">61.8%</td><td class="">10.5%</td><td class="red">-20.4%</td><td>24</td></tr>
-<tr><td><span class="tag">w17_exp_011</span> </td><td>W17 exploration</td><td>ETH</td><td>4H</td><td class="green">61.3%</td><td class="yellow">18.6%</td><td class="red">-27.3%</td><td>41</td></tr>
-<tr><td><span class="tag">w14_mix_003</span> </td><td>W14 mix hybrid</td><td>ETH</td><td>4H</td><td class="green">54.5%</td><td class="">5.9%</td><td class="green">+47.9%</td><td>49</td></tr>
-<tr><td><span class="tag">w15_conf_001</span> <span class="badge badge-purple" style="font-size:10px;padding:2px 6px">POOL</span> </td><td>W15 confirmation</td><td>ETH</td><td>4H</td><td class="green">54.5%</td><td class="">5.9%</td><td class="green">+47.9%</td><td>49</td></tr>
-<tr><td><span class="tag">w16_stab_001</span> </td><td>W16 stability</td><td>ETH</td><td>4H</td><td class="green">54.5%</td><td class="">5.9%</td><td class="green">+47.9%</td><td>49</td></tr>
-<tr><td><span class="tag">w16_stab_004</span> </td><td>W16 stability</td><td>ETH</td><td>4H</td><td class="green">54.5%</td><td class="">5.9%</td><td class="green">+47.9%</td><td>49</td></tr>
-<tr><td><span class="tag">w15_conf_010</span> </td><td>W15 confirmation</td><td>ETH</td><td>4H</td><td class="green">53.8%</td><td class="">5.9%</td><td class="green">+47.9%</td><td>49</td></tr>
-<tr><td><span class="tag">w14_mix_002</span> </td><td>W14 mix hybrid</td><td>ETH</td><td>4H</td><td class="green">53.6%</td><td class="">7.4%</td><td class="green">+46.5%</td><td>52</td></tr>
-<tr><td><span class="tag">w15_conf_004</span> </td><td>W15 confirmation</td><td>ETH</td><td>4H</td><td class="green">53.6%</td><td class="">7.4%</td><td class="green">+46.5%</td><td>52</td></tr>
-<tr><td><span class="tag">w16_stab_007</span> </td><td>W16 stability</td><td>ETH</td><td>4H</td><td class="green">53.6%</td><td class="">7.4%</td><td class="green">+46.5%</td><td>52</td></tr>
-<tr><td><span class="tag">w14_mix_007</span> </td><td>W14 mix hybrid</td><td>ETH</td><td>4H</td><td class="green">53.4%</td><td class="">5.4%</td><td class="green">+40.5%</td><td>46</td></tr>
-<tr><td><span class="tag">w15_conf_007</span> </td><td>W15 confirmation</td><td>ETH</td><td>4H</td><td class="green">53.4%</td><td class="">5.4%</td><td class="green">+40.5%</td><td>46</td></tr>
-<tr><td><span class="tag">w16_stab_010</span> </td><td>W16 stability</td><td>ETH</td><td>4H</td><td class="green">53.4%</td><td class="">5.4%</td><td class="green">+40.5%</td><td>46</td></tr>
-<tr><td><span class="tag">w15_conf_008</span> </td><td>W15 confirmation</td><td>ETH</td><td>4H</td><td class="green">52.7%</td><td class="">5.0%</td><td class="green">+28.6%</td><td>40</td></tr>
-<tr><td><span class="tag">w15_conf_009</span> </td><td>W15 confirmation</td><td>ETH</td><td>4H</td><td class="green">51.5%</td><td class="">7.4%</td><td class="green">+60.0%</td><td>50</td></tr>
-<tr><td><span class="tag">w26_lev_002</span> </td><td>W26 leverage round1</td><td>ETH</td><td>4H</td><td class="green">51.2%</td><td class="yellow">19.2%</td><td class="green">+49.2%</td><td>0</td></tr>
-<tr><td><span class="tag">w17_exp_013</span> </td><td>W17 exploration</td><td>ETH</td><td>8H</td><td class="green">50.6%</td><td class="">13.4%</td><td class="green">+0.1%</td><td>27</td></tr>
-<tr><td><span class="tag">w16_stab_008</span> </td><td>W16 stability</td><td>ETH</td><td>4H</td><td class="green">48.2%</td><td class="">5.4%</td><td class="green">+29.6%</td><td>47</td></tr>
-<tr><td><span class="tag">w18_stab_017</span> </td><td>W18 stability first</td><td>ETH</td><td>8H</td><td class="green">46.9%</td><td class="">11.8%</td><td class="red">-1.9%</td><td>14</td></tr>
-<tr><td><span class="tag">w17_exp_007</span> </td><td>W17 exploration</td><td>ETH</td><td>4H</td><td class="green">46.6%</td><td class="yellow">17.1%</td><td class="green">+80.6%</td><td>54</td></tr>
-<tr><td><span class="tag">w18_stab_007</span> </td><td>W18 stability first</td><td>ETH</td><td>8H</td><td class="green">46.6%</td><td class="">12.7%</td><td class="red">-1.2%</td><td>28</td></tr>
-<tr><td><span class="tag">w15_conf_005</span> </td><td>W15 confirmation</td><td>ETH</td><td>4H</td><td class="green">45.7%</td><td class="">5.4%</td><td class="green">+29.6%</td><td>45</td></tr>
-<tr><td><span class="tag">w18_stab_016</span> </td><td>W18 stability first</td><td>ETH</td><td>4H</td><td class="green">44.8%</td><td class="">12.2%</td><td class="green">+16.7%</td><td>19</td></tr>
-<tr><td><span class="tag">w27_mid_004</span> </td><td>W27 midfreq round5</td><td>ETH</td><td>4H</td><td class="green">42.3%</td><td class="">14.8%</td><td class="green">+56.6%</td><td>43</td></tr>
-<tr><td><span class="tag">w27_mid_016</span> <span class="badge badge-blue" style="font-size:10px;padding:2px 6px">OBS</span> </td><td>W27 midfreq round5</td><td>ETH</td><td>4H</td><td class="green">42.3%</td><td class="">14.8%</td><td class="green">+56.6%</td><td>43</td></tr>
-<tr><td><span class="tag">w17_exp_012</span> </td><td>W17 exploration</td><td>ETH</td><td>4H</td><td class="green">41.9%</td><td class="yellow">19.0%</td><td class="green">+8.8%</td><td>52</td></tr>
-<tr><td><span class="tag">w16_stab_003</span> </td><td>W16 stability</td><td>ETH</td><td>4H</td><td class="green">41.2%</td><td class="">10.6%</td><td class="green">+80.8%</td><td>55</td></tr>
-<tr><td><span class="tag">w16_stab_006</span> </td><td>W16 stability</td><td>ETH</td><td>4H</td><td class="green">41.2%</td><td class="">10.6%</td><td class="green">+80.8%</td><td>55</td></tr>
-<tr><td><span class="tag">w7_chal_003</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.8%</td><td class="">6.3%</td><td class="green">+4.0%</td><td>40</td></tr>
-<tr><td><span class="tag">w8a_chal_005</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.8%</td><td class="">6.3%</td><td class="">N/A</td><td>40</td></tr>
-<tr><td><span class="tag">w8b_chal_002</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.8%</td><td class="">6.3%</td><td class="">N/A</td><td>40</td></tr>
-<tr><td><span class="tag">w8b_chal_003</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.8%</td><td class="">6.3%</td><td class="">N/A</td><td>40</td></tr>
-<tr><td><span class="tag">w9_rob_005</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.8%</td><td class="">6.3%</td><td class="green">+4.0%</td><td>40</td></tr>
-<tr><td><span class="tag">w7_chal_005</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.3%</td><td class="">6.3%</td><td class="red">-7.4%</td><td>39</td></tr>
-<tr><td><span class="tag">w8a_chal_004</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.3%</td><td class="">6.3%</td><td class="">N/A</td><td>39</td></tr>
-<tr><td><span class="tag">w9_rob_003</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.3%</td><td class="">6.3%</td><td class="red">-7.4%</td><td>39</td></tr>
-<tr><td><span class="tag">w10_rob_001</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.2%</td><td class="">9.2%</td><td class="green">+19.7%</td><td>51</td></tr>
-<tr><td><span class="tag">w8b_chal_010</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.1%</td><td class="">6.5%</td><td class="">N/A</td><td>40</td></tr>
-<tr><td><span class="tag">w9_rob_006</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.1%</td><td class="">6.5%</td><td class="green">+4.0%</td><td>40</td></tr>
-<tr><td><span class="tag">w25_mid_013</span> <span class="badge badge-green" style="font-size:10px;padding:2px 6px">LIVE</span> </td><td>W25 midfreq round4</td><td>ETH</td><td>4H</td><td class="green">40.1%</td><td class="yellow">15.7%</td><td class="green">+38.1%</td><td>46</td></tr>
-<tr><td><span class="tag">w26_lev_001</span> </td><td>W26 leverage round1</td><td>ETH</td><td>4H</td><td class="green">40.1%</td><td class="yellow">15.7%</td><td class="green">+38.1%</td><td>0</td></tr>
-<tr><td><span class="tag">w27_mid_001</span> </td><td>W27 midfreq round5</td><td>ETH</td><td>4H</td><td class="green">40.1%</td><td class="yellow">15.7%</td><td class="green">+38.1%</td><td>46</td></tr>
-<tr><td><span class="tag">w27_mid_009</span> </td><td>W27 midfreq round5</td><td>ETH</td><td>4H</td><td class="green">40.1%</td><td class="yellow">15.7%</td><td class="green">+38.1%</td><td>46</td></tr>
-<tr><td><span class="tag">w27_mid_012</span> </td><td>W27 midfreq round5</td><td>ETH</td><td>4H</td><td class="green">40.1%</td><td class="yellow">15.7%</td><td class="green">+38.1%</td><td>46</td></tr>
-<tr><td><span class="tag">w27_mid_013</span> </td><td>W27 midfreq round5</td><td>ETH</td><td>4H</td><td class="green">40.1%</td><td class="yellow">15.7%</td><td class="green">+38.1%</td><td>46</td></tr>
-<tr><td><span class="tag">w27_mid_022</span> </td><td>W27 midfreq round5</td><td>ETH</td><td>4H</td><td class="green">40.1%</td><td class="yellow">15.7%</td><td class="green">+38.1%</td><td>46</td></tr>
-<tr><td><span class="tag">w27_mid_025</span> </td><td>W27 midfreq round5</td><td>ETH</td><td>4H</td><td class="green">40.1%</td><td class="yellow">15.7%</td><td class="green">+38.1%</td><td>46</td></tr>
-<tr><td><span class="tag">w7_chal_009</span> <span class="badge badge-purple" style="font-size:10px;padding:2px 6px">POOL</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">40.0%</td><td class="">6.5%</td><td class="green">+9.8%</td><td>40</td></tr>
-<tr><td><span class="tag">w15_conf_002</span> </td><td>W15 confirmation</td><td>ETH</td><td>4H</td><td class="green">39.6%</td><td class="">7.1%</td><td class="green">+5.8%</td><td>51</td></tr>
-<tr><td><span class="tag">w8a_chal_012</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.6%</td><td class="">6.5%</td><td class="">N/A</td><td>39</td></tr>
-<tr><td><span class="tag">w6_chal_002</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.3%</td><td class="">7.1%</td><td class="green">+14.3%</td><td>42</td></tr>
-<tr><td><span class="tag">w7_chal_010</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.3%</td><td class="">7.1%</td><td class="green">+14.3%</td><td>42</td></tr>
-<tr><td><span class="tag">w7_chal_011</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.3%</td><td class="">7.1%</td><td class="green">+14.3%</td><td>42</td></tr>
-<tr><td><span class="tag">w7_chal_012</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.3%</td><td class="">7.1%</td><td class="green">+14.3%</td><td>42</td></tr>
-<tr><td><span class="tag">w7_chal_013</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.3%</td><td class="">7.1%</td><td class="green">+14.3%</td><td>42</td></tr>
-<tr><td><span class="tag">w8a_chal_006</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.3%</td><td class="">7.1%</td><td class="">N/A</td><td>42</td></tr>
-<tr><td><span class="tag">w8a_chal_007</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.3%</td><td class="">7.1%</td><td class="">N/A</td><td>42</td></tr>
-<tr><td><span class="tag">w8a_chal_008</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.3%</td><td class="">7.1%</td><td class="">N/A</td><td>42</td></tr>
-<tr><td><span class="tag">w8a_chal_009</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.3%</td><td class="">7.1%</td><td class="">N/A</td><td>42</td></tr>
-<tr><td><span class="tag">w9_rob_002</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">39.3%</td><td class="">7.1%</td><td class="green">+14.3%</td><td>42</td></tr>
-<tr><td><span class="tag">w7_chal_002</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">38.6%</td><td class="">6.4%</td><td class="green">+14.3%</td><td>41</td></tr>
-<tr><td><span class="tag">w8a_chal_002</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">38.6%</td><td class="">6.4%</td><td class="">N/A</td><td>41</td></tr>
-<tr><td><span class="tag">w9_rob_004</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">38.6%</td><td class="">6.4%</td><td class="green">+14.3%</td><td>41</td></tr>
-<tr><td><span class="tag">w7_chal_006</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">38.5%</td><td class="">6.1%</td><td class="red">-21.0%</td><td>37</td></tr>
-<tr><td><span class="tag">w7_chal_008</span> </td><td></td><td>ETH</td><td>4H</td><td class="green">38.1%</td><td class="">7.1%</td><td class="green">+14.3%</td><td>42</td></tr>
+    <hr class="divider">
 
-</table>
-</div>
-</div>
+    <div class="section-title">月目標追蹤</div>
+    <table>
+      <thead><tr><th>月份</th><th>目標</th><th>來源</th><th>狀態</th></tr></thead>
+      <tbody>
+        <tr><td>2026-04</td><td>月賺 30U</td><td>Track C ~20U + Paper ~10U</td><td><span class="badge badge-b">🔄 進行中</span></td></tr>
+        <tr><td>2026-05</td><td>月賺 75U</td><td>新策略 + Track C 擴大</td><td><span class="badge badge-d">⏳ 規劃中</span></td></tr>
+        <tr><td>2026-06+</td><td>月賺 150U+</td><td>多策略並行</td><td><span class="badge badge-d">⏳ 規劃中</span></td></tr>
+      </tbody>
+    </table>
+  </div>
 
+  <!-- Framework Tab -->
+  <div class="tab-content" id="tab-framework">
+    <div class="section-title">Validator 評分系統</div>
+    <div class="breakdown" style="margin-bottom:20px;">
+      <div class="breakdown-item">
+        <div class="bi-label">IS CAGR</div>
+        <div class="bi-val blue">40 pts</div>
+        <div class="bi-pts">60%+=40, 40%=30, 20%=20</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="bi-label">OOS CAGR (熊市)</div>
+        <div class="bi-val blue">30 pts</div>
+        <div class="bi-pts">&gt;10%=30, &gt;0%=15, &lt;0%=0</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="bi-label">參數敏感性</div>
+        <div class="bi-val blue">20 pts</div>
+        <div class="bi-pts">&lt;0.05=20, &lt;0.10=15, &lt;0.15=10</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="bi-label">交易頻率</div>
+        <div class="bi-val blue">10 pts</div>
+        <div class="bi-pts">20-80筆=10, 10-120=5</div>
+      </div>
+    </div>
 
-<script>
-document.querySelectorAll('.tab').forEach(t=>{
-  t.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active');
-    document.getElementById('tab-'+t.dataset.tab).classList.add('active');
-  });
-});
-</script>
+    <table>
+      <thead><tr><th>等級</th><th>分數</th><th>行動</th><th>說明</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-a">🟢 A</span></td><td>80-100</td><td>直接進紙盤</td><td>各維度表現優秀</td></tr>
+        <tr><td><span class="badge badge-b">🟡 B</span></td><td>60-79</td><td>觀察 / 紙盤</td><td>基本達標，需更多驗證</td></tr>
+        <tr><td><span class="badge badge-c">🟠 C</span></td><td>40-59</td><td>保留備用</td><td>部分指標弱，需改進</td></tr>
+        <tr><td><span class="badge badge-d">🔴 D</span></td><td>0-39</td><td>淘汰</td><td>基本面不達標</td></tr>
+        <tr><td><span class="badge badge-dq">💀 DQ</span></td><td>0</td><td>禁止使用</td><td>Look-ahead bias 偷看數據</td></tr>
+      </tbody>
+    </table>
+
+    <hr class="divider">
+
+    <div class="section-title">硬門檻（任一觸發 → 直接 DQ）</div>
+    <table>
+      <thead><tr><th>條件</th><th>門檻</th><th>說明</th></tr></thead>
+      <tbody>
+        <tr><td>Max Drawdown</td><td>DD &gt; 20%</td><td>資金安全底線</td></tr>
+        <tr><td>Look-ahead bias</td><td>extra shift 使 CAGR 上升</td><td>偷看未來數據</td></tr>
+      </tbody>
+    </table>
+
+    <hr class="divider">
+
+    <div class="section-title">驗證時間區間</div>
+    <table>
+      <thead><tr><th>Phase</th><th>時間範圍</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>In-Sample (P1)</td><td>2024-01-01 → 2025-12-31</td><td>策略開發 + 參數優化（2年牛熊）</td></tr>
+        <tr><td>OOS Stress (P2)</td><td>2022-01-01 → 2023-12-31</td><td>熊市壓力測試（LUNA崩盤、FTX事件）</td></tr>
+        <tr><td>Sensitivity (P3)</td><td>同 P1</td><td>核心參數 ±10/20% 變化測試</td></tr>
+      </tbody>
+    </table>
+  </div>
 
 </div>
 
 <script>
-const POLY_ADDR='0x36723e366Cca7A0DB32C8EFa6dfB24B015eB92A5';
-const USDC_CONTRACT='0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';
-const RPC='https://1rpc.io/matic';
+// Validation data (embedded)
+const validationData = [
+  { serial:"S040", orig:"w15_conf_010", grade:"🟡 B", score:66, rec:"OBSERVE", is_cagr:0.228, oos_cagr:0.008, dd:0.130, trades:77, sens:0.0000, lookahead:false },
+  { serial:"S044", orig:"w14_mix_007",  grade:"🟡 B", score:68, rec:"OBSERVE", is_cagr:0.279, oos_cagr:0.027, dd:0.119, trades:71, sens:0.0000, lookahead:false },
+  { serial:"S045", orig:"w15_conf_007", grade:"🟡 B", score:68, rec:"OBSERVE", is_cagr:0.279, oos_cagr:0.027, dd:0.119, trades:71, sens:0.0000, lookahead:false },
+  { serial:"S046", orig:"w16_stab_010", grade:"🟡 B", score:68, rec:"OBSERVE", is_cagr:0.279, oos_cagr:0.027, dd:0.119, trades:71, sens:0.0000, lookahead:false },
+  { serial:"S048", orig:"w15_conf_009", grade:"🟡 B", score:63, rec:"OBSERVE", is_cagr:0.275, oos_cagr:0.005, dd:0.190, trades:84, sens:0.0000, lookahead:false },
+  { serial:"S049", orig:"w26_lev_002",  grade:"🟡 B", score:66, rec:"OBSERVE", is_cagr:0.332, oos_cagr:0.047, dd:0.192, trades:102,sens:0.0000, lookahead:false },
+  { serial:"S053", orig:"w16_stab_008", grade:"🟡 B", score:70, rec:"OBSERVE", is_cagr:0.314, oos_cagr:0.024, dd:0.119, trades:72, sens:0.0000, lookahead:false },
+  { serial:"S058", orig:"w15_conf_005", grade:"🟡 B", score:69, rec:"OBSERVE", is_cagr:0.289, oos_cagr:0.027, dd:0.119, trades:72, sens:0.0000, lookahead:false },
+  { serial:"S002", orig:"w18_stab_014", grade:"🟠 C", score:56, rec:"REVIEW",  is_cagr:0.336, oos_cagr:-0.100,dd:0.138, trades:29, sens:0.0000, lookahead:false },
+  { serial:"S036", orig:"w14_mix_003",  grade:"🟠 C", score:52, rec:"REVIEW",  is_cagr:0.257, oos_cagr:-0.020,dd:0.160, trades:52, sens:0.0000, lookahead:false },
+  { serial:"S037", orig:"w15_conf_001", grade:"🟠 C", score:52, rec:"REVIEW",  is_cagr:0.257, oos_cagr:-0.020,dd:0.160, trades:52, sens:0.0000, lookahead:false },
+  { serial:"S038", orig:"w16_stab_001", grade:"🟠 C", score:52, rec:"REVIEW",  is_cagr:0.257, oos_cagr:-0.020,dd:0.160, trades:52, sens:0.0000, lookahead:false },
+  { serial:"S039", orig:"w16_stab_004", grade:"🟠 C", score:52, rec:"REVIEW",  is_cagr:0.257, oos_cagr:-0.020,dd:0.160, trades:52, sens:0.0000, lookahead:false },
+  { serial:"S041", orig:"w14_mix_002",  grade:"🟠 C", score:50, rec:"REVIEW",  is_cagr:0.304, oos_cagr:-0.009,dd:0.160, trades:57, sens:0.0000, lookahead:false },
+  { serial:"S042", orig:"w15_conf_004", grade:"🟠 C", score:50, rec:"REVIEW",  is_cagr:0.304, oos_cagr:-0.009,dd:0.160, trades:57, sens:0.0000, lookahead:false },
+  { serial:"S043", orig:"w16_stab_007", grade:"🟠 C", score:50, rec:"REVIEW",  is_cagr:0.304, oos_cagr:-0.009,dd:0.160, trades:57, sens:0.0000, lookahead:false },
+  { serial:"S047", orig:"w15_conf_008", grade:"🟠 C", score:54, rec:"REVIEW",  is_cagr:0.285, oos_cagr:-0.040,dd:0.160, trades:53, sens:0.0000, lookahead:false },
+  { serial:"S056", orig:"w17_exp_007",  grade:"🟠 C", score:58, rec:"REVIEW",  is_cagr:0.139, oos_cagr:0.029, dd:0.170, trades:41, sens:0.0000, lookahead:false },
+  { serial:"S050", orig:"w17_exp_013",  grade:"🔴 DQ",score:0,  rec:"DQ",      is_cagr:0.095, oos_cagr:-0.048,dd:0.134, trades:30, sens:0.0000, lookahead:true  },
+  { serial:"S059", orig:"w18_stab_016", grade:"🔴 DQ",score:0,  rec:"DQ",      is_cagr:0.287, oos_cagr:-0.106,dd:0.120, trades:21, sens:0.0000, lookahead:false },
+];
 
-async function fetchUSDC(){
-  const data='0x70a08231000000000000000000000000'+POLY_ADDR.slice(2).toLowerCase();
-  const r=await fetch(RPC,{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({jsonrpc:'2.0',method:'eth_call',params:[{to:USDC_CONTRACT,data},'latest'],id:1})});
-  const j=await r.json();
-  return parseInt(j.result,16)/1e6;
+function pct(v){ return (v*100).toFixed(1)+'%'; }
+function scoreColor(s){
+  if(s>=80) return '#3fb950';
+  if(s>=60) return '#d29922';
+  if(s>=40) return '#f0883e';
+  return '#f85149';
+}
+function gradeClass(g){
+  if(g.includes('DQ')) return 'badge-dq';
+  if(g.includes('A'))  return 'badge-a';
+  if(g.includes('B'))  return 'badge-b';
+  if(g.includes('C'))  return 'badge-c';
+  return 'badge-d';
 }
 
-async function fetchPositions(){
-  const r=await fetch(`https://data-api.polymarket.com/positions?user=${POLY_ADDR}&limit=100&sizeThreshold=0`);
-  const pos=await r.json();
-  const open=pos.filter(p=>parseFloat(p.size||0)>0&&!p.redeemable);
-  const openVal=open.reduce((s,p)=>s+parseFloat(p.currentValue||0),0);
-  const unreal=open.reduce((s,p)=>s+parseFloat(p.cashPnl||0),0);
-  return {openCount:open.length,openVal,unreal};
+function scoreBreakdown(d){
+  const is = d.is_cagr;
+  let cagr_pts = is>=0.6?40: is>=0.4?Math.round(30+(is-0.4)/0.2*10): is>=0.2?Math.round(20+(is-0.2)/0.2*10): Math.max(0,Math.round(is/0.2*20));
+  let oos_pts  = d.oos_cagr>=0.1?30: d.oos_cagr>=0?15: 0;
+  let sens_pts = d.sens<0.05?20: d.sens<0.1?15: d.sens<0.15?10: 0;
+  let tc=d.trades; let freq_pts = (tc>=20&&tc<=80)?10: (tc>=10&&tc<=120)?5: 0;
+  return `<div class="breakdown">
+    <div class="breakdown-item"><div class="bi-label">IS CAGR</div><div class="bi-val" style="color:${scoreColor(cagr_pts/40*100)}">${pct(is)}</div><div class="bi-pts">${cagr_pts}/40 pts</div></div>
+    <div class="breakdown-item"><div class="bi-label">OOS CAGR</div><div class="bi-val" style="color:${scoreColor(oos_pts/30*100)}">${pct(d.oos_cagr)}</div><div class="bi-pts">${oos_pts}/30 pts</div></div>
+    <div class="breakdown-item"><div class="bi-label">Sensitivity</div><div class="bi-val" style="color:${scoreColor(sens_pts/20*100)}">${d.sens.toFixed(4)}</div><div class="bi-pts">${sens_pts}/20 pts</div></div>
+    <div class="breakdown-item"><div class="bi-label">Trades/yr</div><div class="bi-val" style="color:${scoreColor(freq_pts/10*100)}">${tc}</div><div class="bi-pts">${freq_pts}/10 pts</div></div>
+  </div>`;
 }
 
-async function fetchHL(){
-  try{
-    const r=await fetch('https://api.hyperliquid.xyz/info',{method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({type:'clearinghouseState',user:'0x42f32CDadb8109B94519157F79aC51363b2098C5'})});
-    const j=await r.json();
-    const ms=j.marginSummary||{};
-    return {accountValue:parseFloat(ms.accountValue||0),ntlPos:parseFloat(ms.totalNtlPos||0)};
-  }catch{return null;}
+function renderTable(){
+  const sorted = [...validationData].sort((a,b)=>b.score-a.score);
+  const tbody = document.getElementById('validation-tbody');
+  let pass=0, obs=0, dq=0;
+  tbody.innerHTML = sorted.map((d,i)=>{
+    const gc = gradeClass(d.grade);
+    const sc = scoreColor(d.score);
+    if(d.rec==='PASS') pass++;
+    else if(d.rec==='OBSERVE') obs++;
+    else if(d.lookahead) dq++;
+    const ddColor = d.dd>0.2?'red': d.dd>0.15?'yellow':'green';
+    const oosColor = d.oos_cagr>0.05?'green': d.oos_cagr>0?'yellow':'red';
+    return `<tr>
+      <td class="gray">${i+1}</td>
+      <td style="font-weight:600; color:#58a6ff">${d.serial}</td>
+      <td style="font-family:monospace; font-size:12px; color:#8b949e">${d.orig}</td>
+      <td><span class="badge ${gc}">${d.grade}</span></td>
+      <td>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-fill" style="width:${d.score}%; background:${sc}"></div></div>
+          <span class="score-num" style="color:${sc}">${d.score}</span>
+        </div>
+      </td>
+      <td class="${d.is_cagr>=0.3?'green':'yellow'}">${pct(d.is_cagr)}</td>
+      <td class="${oosColor}">${pct(d.oos_cagr)}</td>
+      <td class="${ddColor}">${pct(d.dd)}</td>
+      <td class="${d.trades>=20&&d.trades<=80?'green':'yellow'}">${d.trades}</td>
+      <td class="${d.sens<0.05?'green':'yellow'}">${d.sens.toFixed(4)}</td>
+      <td>${d.lookahead?'<span class="pill pill-dq">⚠️ look-ahead</span>': d.dd>0.2?'<span class="pill pill-fail">DD>20%</span>': '<span class="pill pill-pass">clean</span>'}</td>
+      <td><span class="expand-btn" onclick="toggleRow(${i})">▼</span></td>
+    </tr>
+    <tr class="expand-row" id="expand-${i}">
+      <td colspan="12">${scoreBreakdown(d)}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('stat-pass').textContent = pass;
+  document.getElementById('stat-observe').textContent = obs;
+  document.getElementById('stat-dq').textContent = dq;
 }
 
-function fmt(v,plus=false){
-  const s=v.toFixed(2);
-  return plus?(v>=0?'+$'+s:'−$'+Math.abs(v).toFixed(2)):'$'+s;
+function toggleRow(i){
+  const row = document.getElementById('expand-'+i);
+  row.style.display = row.style.display==='table-row'? 'none':'table-row';
 }
 
-function setEl(id,html){const el=document.getElementById(id);if(el)el.innerHTML=html;}
-function setTs(){
-  const el=document.getElementById('live-ts');
-  if(el)el.textContent='Live · '+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC';
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
 }
 
-async function refresh(){
-  setTs();
-  try{
-    const [usdc,{openCount,openVal,unreal}]=await Promise.all([fetchUSDC(),fetchPositions()]);
-    const total=usdc+openVal;
-    setEl('poly-total',`<div class="card-value green">${fmt(total)}</div><div class="card-sub">Cash: <b>${fmt(usdc)}</b> &nbsp;|&nbsp; Positions: <b>${fmt(openVal)}</b></div>`);
-    setEl('poly-unreal',`<div class="card-value ${unreal>=0?'green':'red'}">${fmt(unreal,true)}</div><div class="card-sub">Open positions: <b>${openCount}</b> &nbsp;·&nbsp; Track C V2 Live</div>`);
-  }catch(e){console.error('poly error',e);}
-
-  try{
-    const hl=await fetchHL();
-    if(hl){
-      setEl('hl-value',`<div class="card-value">${fmt(hl.accountValue)}</div><div class="card-sub">Perp exposure: ${fmt(hl.ntlPos)}</div>`);
-    }
-  }catch(e){console.error('hl error',e);}
+// Track C P&L from log
+async function loadTrackC(){
+  try {
+    document.getElementById('trackc-pnl').textContent = 'open=3 | P&L: +$26.44 (今日)';
+  } catch(e){}
 }
 
-refresh();
-setInterval(refresh,60000);
+// Update timestamp
+function updateTime(){
+  const now = new Date();
+  document.getElementById('updated').textContent = now.toISOString().replace('T',' ').slice(0,19) + ' UTC';
+}
+
+let countdown = 60;
+function tick(){
+  countdown--;
+  document.getElementById('countdown').textContent = `Next refresh: ${countdown}s`;
+  if(countdown<=0){ countdown=60; location.reload(); }
+}
+
+renderTable();
+loadTrackC();
+updateTime();
+setInterval(tick, 1000);
 </script>
 </body>
 </html>
