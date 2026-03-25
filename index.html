@@ -66,7 +66,7 @@ tr:last-child td{border-bottom:none}
 
 <header>
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="ts">Updated: 2026-03-24 21:20 UTC</div>
+  <div class="ts"><span id="live-ts">Loading...</span> &nbsp;|&nbsp; Updated: 2026-03-24 21:20 UTC</div>
 </header>
 
 <!-- Live Status -->
@@ -96,15 +96,15 @@ tr:last-child td{border-bottom:none}
 <div class="section-title">Track C (Polymarket)</div>
 <div class="grid g2">
   <div class="card">
-    <div class="card-label">Total Portfolio</div>
+    <div class="card-label">Total Portfolio</div><div id="poly-total">
     <div class="card-value green">$116.51</div>
     <div class="card-sub">Cash: <b>$70.70</b> &nbsp;|&nbsp; Positions: <b>$45.81</b></div>
-    <div class="pnl-bar" style="width:77%"></div>
+    </div><div class="pnl-bar" style="width:77%"></div>
   </div>
   <div class="card">
-    <div class="card-label">Unrealized PnL &nbsp;·&nbsp; Open: 3</div>
+    <div class="card-label">Unrealized PnL</div><div id="poly-unreal"> &nbsp;·&nbsp; Open: 3</div>
     <div class="card-value green">$+2.96</div>
-    <div class="card-sub">Track C V2 &nbsp;·&nbsp; Scanning every 10min</div>
+    </div><div class="card-sub">Track C V2 &nbsp;·&nbsp; Scanning every 10min</div>
     <span class="badge badge-green">LIVE</span>
   </div>
 </div>
@@ -310,5 +310,70 @@ document.querySelectorAll('.tab').forEach(t=>{
 </script>
 
 </div>
+
+<script>
+const POLY_ADDR='0x36723e366Cca7A0DB32C8EFa6dfB24B015eB92A5';
+const USDC_CONTRACT='0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';
+const RPC='https://1rpc.io/matic';
+
+async function fetchUSDC(){
+  const data='0x70a08231000000000000000000000000'+POLY_ADDR.slice(2).toLowerCase();
+  const r=await fetch(RPC,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({jsonrpc:'2.0',method:'eth_call',params:[{to:USDC_CONTRACT,data},'latest'],id:1})});
+  const j=await r.json();
+  return parseInt(j.result,16)/1e6;
+}
+
+async function fetchPositions(){
+  const r=await fetch(`https://data-api.polymarket.com/positions?user=${POLY_ADDR}&limit=100&sizeThreshold=0`);
+  const pos=await r.json();
+  const open=pos.filter(p=>parseFloat(p.size||0)>0&&!p.redeemable);
+  const openVal=open.reduce((s,p)=>s+parseFloat(p.currentValue||0),0);
+  const unreal=open.reduce((s,p)=>s+parseFloat(p.cashPnl||0),0);
+  return {openCount:open.length,openVal,unreal};
+}
+
+async function fetchHL(){
+  try{
+    const r=await fetch('https://api.hyperliquid.xyz/info',{method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({type:'clearinghouseState',user:'0x42f32CDadb8109B94519157F79aC51363b2098C5'})});
+    const j=await r.json();
+    const ms=j.marginSummary||{};
+    return {accountValue:parseFloat(ms.accountValue||0),ntlPos:parseFloat(ms.totalNtlPos||0)};
+  }catch{return null;}
+}
+
+function fmt(v,plus=false){
+  const s=v.toFixed(2);
+  return plus?(v>=0?'+$'+s:'−$'+Math.abs(v).toFixed(2)):'$'+s;
+}
+
+function setEl(id,html){const el=document.getElementById(id);if(el)el.innerHTML=html;}
+function setTs(){
+  const el=document.getElementById('live-ts');
+  if(el)el.textContent='Live · '+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC';
+}
+
+async function refresh(){
+  setTs();
+  try{
+    const [usdc,{openCount,openVal,unreal}]=await Promise.all([fetchUSDC(),fetchPositions()]);
+    const total=usdc+openVal;
+    setEl('poly-total',`<div class="card-value green">${fmt(total)}</div><div class="card-sub">Cash: <b>${fmt(usdc)}</b> &nbsp;|&nbsp; Positions: <b>${fmt(openVal)}</b></div>`);
+    setEl('poly-unreal',`<div class="card-value ${unreal>=0?'green':'red'}">${fmt(unreal,true)}</div><div class="card-sub">Open positions: <b>${openCount}</b> &nbsp;·&nbsp; Track C V2 Live</div>`);
+  }catch(e){console.error('poly error',e);}
+
+  try{
+    const hl=await fetchHL();
+    if(hl){
+      setEl('hl-value',`<div class="card-value">${fmt(hl.accountValue)}</div><div class="card-sub">Perp exposure: ${fmt(hl.ntlPos)}</div>`);
+    }
+  }catch(e){console.error('hl error',e);}
+}
+
+refresh();
+setInterval(refresh,60000);
+</script>
 </body>
 </html>
