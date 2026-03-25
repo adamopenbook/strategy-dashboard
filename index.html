@@ -120,7 +120,7 @@
   <!-- Tabs -->
   <div class="tabs">
     <div class="tab active" onclick="switchTab('validation')">🔬 Validation Results</div>
-    <div class="tab" onclick="switchTab('roadmap')">🗺 Roadmap</div>
+    <div class="tab" onclick="switchTab('trackc')">🎯 Track C</div>
     <div class="tab" onclick="switchTab('framework')">📐 Framework</div>
   </div>
 
@@ -170,28 +170,64 @@
     </table>
   </div>
 
-  <!-- Roadmap Tab -->
-  <div class="tab-content" id="tab-roadmap">
+
+
+  <!-- Track C Tab -->
+  <div class="tab-content" id="tab-trackc">
+    <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+      <div class="card" style="flex:1; min-width:140px;">
+        <div class="label">Capital</div>
+        <div class="value blue">$45.44</div>
+        <div class="sub">Polymarket USDC</div>
+      </div>
+      <div class="card" style="flex:1; min-width:140px;">
+        <div class="label">Total Realized P&L</div>
+        <div class="value green">+$27.70</div>
+        <div class="sub">Since 2026-03-22</div>
+      </div>
+      <div class="card" style="flex:1; min-width:140px;">
+        <div class="label">Win Rate</div>
+        <div class="value green">100%</div>
+        <div class="sub">14 / 14 trades</div>
+      </div>
+      <div class="card" style="flex:1; min-width:140px;">
+        <div class="label">Open Positions</div>
+        <div class="value yellow">2</div>
+        <div class="sub">Unrealized pending</div>
+      </div>
+    </div>
+
+    <div class="section-title">Daily P&L</div>
     <table>
-      <thead><tr><th>時期</th><th>工作</th><th>狀態</th></tr></thead>
+      <thead><tr><th>Date</th><th>P&L</th><th>Cumulative</th></tr></thead>
       <tbody>
-        <tr><td>3/25–4/15</td><td>建立 strategy_validator 框架（Look-ahead + OOS + Sensitivity）</td><td><span class="badge badge-a">✅ 完成</span></td></tr>
-        <tr><td>3/25–3/31</td><td>重新驗證 top 20 候選策略</td><td><span class="badge badge-a">✅ 完成</span></td></tr>
-        <tr><td>4/1–4/30</td><td>Track C V2 繼續 + 紙盤驗證 B 級策略</td><td><span class="badge badge-b">🔄 進行中</span></td></tr>
-        <tr><td>5/1</td><td>Layer 2 啟動（週自動搜索 20+ 候選）</td><td><span class="badge badge-d">⏳ 待開始</span></td></tr>
-        <tr><td>6/1+</td><td>Layer 3 實盤迴圈（回測→紙盤→實盤）</td><td><span class="badge badge-d">⏳ 待開始</span></td></tr>
+        <tr><td>2026-03-22</td><td class="green">+$3.25</td><td class="green">+$3.25</td></tr>
+        <tr><td>2026-03-23</td><td class="green">+$6.95</td><td class="green">+$10.20</td></tr>
+        <tr><td>2026-03-24</td><td class="green">+$8.12</td><td class="green">+$18.32</td></tr>
+        <tr><td>2026-03-25</td><td class="green">+$9.38</td><td class="green">+$27.70</td></tr>
       </tbody>
     </table>
 
     <hr class="divider">
 
-    <div class="section-title">月目標追蹤</div>
+    <div class="section-title">Trade History (Last 14)</div>
     <table>
-      <thead><tr><th>月份</th><th>目標</th><th>來源</th><th>狀態</th></tr></thead>
+      <thead><tr><th>Time (UTC)</th><th>Event</th><th>P&L</th></tr></thead>
       <tbody>
-        <tr><td>2026-04</td><td>月賺 30U</td><td>Track C ~20U + Paper ~10U</td><td><span class="badge badge-b">🔄 進行中</span></td></tr>
-        <tr><td>2026-05</td><td>月賺 75U</td><td>新策略 + Track C 擴大</td><td><span class="badge badge-d">⏳ 規劃中</span></td></tr>
-        <tr><td>2026-06+</td><td>月賺 150U+</td><td>多策略並行</td><td><span class="badge badge-d">⏳ 規劃中</span></td></tr>
+        <tr><td class="gray">2026-03-22 23:52</td><td>Real Madrid CF vs. Club Atlético de Madr</td><td class="green">+$3.25</td></tr>
+        <tr><td class="gray">2026-03-23 03:22</td><td>Call of Duty: Miami Heretics vs Boston B</td><td class="green">+$0.43</td></tr>
+        <tr><td class="gray">2026-03-23 11:12</td><td>Counter-Strike: 3DMAX vs FOKUS REALITY</td><td class="green">+$2.81</td></tr>
+        <tr><td class="gray">2026-03-23 11:32</td><td>Counter-Strike: FOKUS vs GAMEHARMONY</td><td class="green">+$2.79</td></tr>
+        <tr><td class="gray">2026-03-23 12:22</td><td>Counter-Strike: 3DMAX vs GAMEHARMONY</td><td class="green">+$0.92</td></tr>
+        <tr><td class="gray">2026-03-24 10:42</td><td>LoL: French Flair vs G2 NORD (BO3)</td><td class="green">+$2.81</td></tr>
+        <tr><td class="gray">2026-03-24 13:32</td><td>Valorant: KRÜ Blaze vs Looking For Labour</td><td class="green">+$1.82</td></tr>
+        <tr><td class="gray">2026-03-24 16:12</td><td>Counter-Strike: Johnny Speeds vs FC Famalicão</td><td class="green">+$2.20</td></tr>
+        <tr><td class="gray">2026-03-24 22:12</td><td>Counter-Strike: Bestia Esports vs Team Solid</td><td class="green">+$1.29</td></tr>
+        <tr><td class="gray">2026-03-25 08:12</td><td>Valorant: QoR vs Shopify Rebellion Gold</td><td class="green">+$1.63</td></tr>
+        <tr><td class="gray">2026-03-25 12:52</td><td>Valorant: Dplus vs FearX (BO3) - VCL Korea</td><td class="green">+$3.03</td></tr>
+        <tr><td class="gray">2026-03-25 15:52</td><td>Counter-Strike: Betclic Apogee Esports vs HEROIC</td><td class="green">+$2.20</td></tr>
+        <tr><td class="gray">2026-03-25 19:52</td><td>Dota 2: Rune Eaters vs Spirit Academy</td><td class="green">+$1.25</td></tr>
+        <tr><td class="gray">2026-03-25 21:12</td><td>Counter-Strike: Bebop vs 8Sins (BO3)</td><td class="green">+$1.27</td></tr>
       </tbody>
     </table>
   </div>
