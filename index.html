@@ -1,431 +1,300 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+<!doctype html>
+<html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Strategy Dashboard</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
-  .header { background: #161b22; border-bottom: 1px solid #30363d; padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; }
-  .header h1 { font-size: 20px; font-weight: 600; }
-  .header .meta { font-size: 12px; color: #8b949e; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 24px 32px; }
-  .section-title { font-size: 14px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin: 28px 0 12px; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Strategy Command Dashboard</title>
+  <style>
+    :root{--bg:#0b1020;--card:#121a33;--muted:#9fb0d3;--text:#eaf0ff;--ok:#2dd4bf;--warn:#f59e0b;--bad:#ef4444;--line:#243055;--blue:#58a6ff}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#0b1020,#0a1326);color:var(--text)}
+    .wrap{max-width:1200px;margin:24px auto;padding:0 16px}
+    h1{margin:0 0 4px;font-size:28px} .sub{color:var(--muted);margin-bottom:20px;font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+    .c3{grid-column:span 3}.c4{grid-column:span 4}.c6{grid-column:span 6}.c8{grid-column:span 8}.c12{grid-column:span 12}
+    @media(max-width:900px){.c3,.c4,.c6,.c8,.c12{grid-column:span 12}}
+    .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+    .v{font-size:26px;font-weight:700}
+    .vs{font-size:13px;color:var(--muted);margin-top:4px}
+    .pill{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:600;font-size:12px}
+    .ok{background:rgba(45,212,191,.15);color:#5eead4;border:1px solid rgba(45,212,191,.35)}
+    .warn{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.35)}
+    .bad{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.35)}
+    .info{background:rgba(88,166,255,.15);color:#79c0ff;border:1px solid rgba(88,166,255,.35)}
+    .pause{background:rgba(139,148,158,.15);color:#8b949e;border:1px solid rgba(139,148,158,.35)}
+    table{width:100%;border-collapse:collapse;font-size:13px} th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
+    th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+    tr:last-child td{border-bottom:none}
+    .green{color:#3fb950}.red{color:#f85149}.yellow{color:#d29922}.blue{color:#58a6ff}.gray{color:#8b949e}
+    .sec{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
 
-  /* Status cards */
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 28px; }
-  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px 20px; }
-  .card .label { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .card .value { font-size: 24px; font-weight: 700; }
-  .card .sub { font-size: 12px; color: #8b949e; margin-top: 4px; }
-  .green { color: #3fb950; }
-  .red { color: #f85149; }
-  .yellow { color: #d29922; }
-  .blue { color: #58a6ff; }
-  .gray { color: #8b949e; }
+    /* Tabs */
+    .tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid var(--line)}
+    .tab{padding:9px 18px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);background:none;border-top:none;border-left:none;border-right:none}
+    .tab:hover{color:var(--text)}
+    .tab.active{color:var(--text);border-bottom-color:var(--blue)}
+    .tab-pane{display:none}.tab-pane.active{display:block}
 
-  /* Table */
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  thead tr { border-bottom: 1px solid #30363d; }
-  th { text-align: left; padding: 8px 12px; font-size: 11px; color: #8b949e; text-transform: uppercase; font-weight: 500; }
-  td { padding: 10px 12px; border-bottom: 1px solid #21262d; }
-  tr:hover td { background: #161b22; }
+    /* Score bar */
+    .sbar{display:flex;align-items:center;gap:8px}
+    .sbar-bg{height:5px;border-radius:3px;background:#243055;width:80px;overflow:hidden;flex-shrink:0}
+    .sbar-fill{height:100%;border-radius:3px}
+    .sbar-n{font-size:12px;font-weight:700;width:28px}
 
-  /* Grade badge */
-  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
-  .badge-a { background: #1a3d2b; color: #3fb950; border: 1px solid #3fb950; }
-  .badge-b { background: #2d2a14; color: #d29922; border: 1px solid #d29922; }
-  .badge-c { background: #2d1f0e; color: #f0883e; border: 1px solid #f0883e; }
-  .badge-d { background: #2d1315; color: #f85149; border: 1px solid #f85149; }
-  .badge-dq { background: #2d1315; color: #f85149; border: 1px dashed #f85149; }
+    /* Badge */
+    .badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+    .ba{background:#1a3d2b;color:#3fb950;border:1px solid #3fb950}
+    .bb{background:#2d2a14;color:#d29922;border:1px solid #d29922}
+    .bc{background:#2d1f0e;color:#f0883e;border:1px solid #f0883e}
+    .bdq{background:#2d1315;color:#f85149;border:1px dashed #f85149}
 
-  /* Score bar */
-  .score-bar-wrap { display: flex; align-items: center; gap: 8px; }
-  .score-bar { height: 6px; border-radius: 3px; background: #21262d; width: 100px; overflow: hidden; flex-shrink: 0; }
-  .score-fill { height: 100%; border-radius: 3px; }
-  .score-num { font-size: 12px; font-weight: 600; width: 32px; text-align: right; }
-
-  /* Score breakdown tooltip */
-  .breakdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
-  .breakdown-item { background: #21262d; border-radius: 6px; padding: 8px; text-align: center; }
-  .breakdown-item .bi-label { font-size: 10px; color: #8b949e; margin-bottom: 4px; }
-  .breakdown-item .bi-val { font-size: 14px; font-weight: 700; }
-  .breakdown-item .bi-pts { font-size: 10px; color: #8b949e; }
-
-  /* Phase indicator */
-  .phase-pills { display: flex; gap: 4px; flex-wrap: wrap; }
-  .pill { font-size: 10px; padding: 2px 7px; border-radius: 10px; }
-  .pill-pass { background: #1a3d2b; color: #3fb950; }
-  .pill-fail { background: #2d1315; color: #f85149; }
-  .pill-dq { background: #2d1315; color: #f85149; border: 1px dashed #f85149; }
-
-  /* Expandable row */
-  .expand-row { display: none; }
-  .expand-row td { background: #0d1117; padding: 12px 24px; }
-  .expand-btn { cursor: pointer; user-select: none; color: #58a6ff; font-size: 11px; }
-
-  /* Section tab */
-  .tabs { display: flex; gap: 2px; margin-bottom: 16px; border-bottom: 1px solid #30363d; }
-  .tab { padding: 8px 16px; font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; color: #8b949e; }
-  .tab.active { color: #e6edf3; border-bottom-color: #58a6ff; }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
-  .tag { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #21262d; color: #8b949e; margin: 1px; }
-  .divider { border: none; border-top: 1px solid #21262d; margin: 20px 0; }
-  .timestamp { font-size: 11px; color: #8b949e; }
-</style>
+    /* Expandable */
+    .expand-btn{cursor:pointer;color:var(--blue);font-size:11px;user-select:none}
+    .expand-row{display:none}
+    .expand-row td{background:#0b1020;padding:12px 20px}
+    .breakdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .bi{background:#121a33;border-radius:8px;padding:10px;text-align:center}
+    .bi .bil{font-size:10px;color:var(--muted);margin-bottom:4px}
+    .bi .biv{font-size:15px;font-weight:700}
+    .bi .bip{font-size:10px;color:var(--muted)}
+  </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="header">
-  <div>
-    <h1>🎯 Strategy Dashboard</h1>
-    <div class="meta">Updated: <span id="updated">loading...</span></div>
-  </div>
-  <div style="text-align:right">
-    <div class="meta">Auto-refresh every 60s</div>
-    <div class="meta" id="countdown"></div>
-  </div>
-</div>
+  <h1>🚀 Strategy Command Dashboard</h1>
+  <div class="sub">Updated: <span id="ts">—</span> · Auto-refresh 60s</div>
 
-<div class="container">
-
-  <!-- Live Status -->
-  <div class="section-title">Live Status</div>
-  <div class="cards" id="live-cards">
-    <div class="card">
-      <div class="label">HL w25_mid_013</div>
-      <div class="value gray">PAUSED</div>
-      <div class="sub">Strategy validation sprint</div>
+  <!-- Live Status Cards -->
+  <div class="grid" style="margin-bottom:16px">
+    <div class="card c4">
+      <div class="k">HL w25_mid_013</div>
+      <div class="v"><span class="pill pause">PAUSED</span></div>
+      <div class="vs">Strategy validation sprint</div>
     </div>
-    <div class="card">
-      <div class="label">Track C V2</div>
-      <div class="value green">LIVE</div>
-      <div class="sub" id="trackc-pnl">P&L: loading...</div>
+    <div class="card c4">
+      <div class="k">Track C V2</div>
+      <div class="v"><span class="pill ok">LIVE</span></div>
+      <div class="vs">Polymarket · esports / sports</div>
     </div>
-    <div class="card">
-      <div class="label">4月目標</div>
-      <div class="value blue">30U</div>
-      <div class="sub">Track C ~20U + Paper ~10U</div>
-    </div>
-    <div class="card">
-      <div class="label">Validator 框架</div>
-      <div class="value green">✅ Ready</div>
-      <div class="sub">Look-ahead + OOS + Sensitivity</div>
+    <div class="card c4">
+      <div class="k">Validator Framework</div>
+      <div class="v"><span class="pill ok">READY</span></div>
+      <div class="vs">Look-ahead + OOS + Sensitivity</div>
     </div>
   </div>
 
   <!-- Tabs -->
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('validation')">🔬 Validation Results</div>
-    <div class="tab" onclick="switchTab('trackc')">🎯 Track C</div>
-    <div class="tab" onclick="switchTab('framework')">📐 Framework</div>
+    <button class="tab active" onclick="switchTab('trackc',this)">🎯 Track C</button>
+    <button class="tab" onclick="switchTab('validation',this)">🔬 Validation</button>
+    <button class="tab" onclick="switchTab('framework',this)">📐 Framework</button>
   </div>
 
-  <!-- Validation Results Tab -->
-  <div class="tab-content active" id="tab-validation">
-    <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
-      <div class="card" style="flex:1; min-width:140px;">
-        <div class="label">Total Validated</div>
-        <div class="value" id="stat-total">20</div>
-        <div class="sub">Top candidates</div>
+  <!-- TRACK C TAB -->
+  <div class="tab-pane active" id="tab-trackc">
+    <div class="grid" style="margin-bottom:16px">
+      <div class="card c3">
+        <div class="k">Portfolio Balance</div>
+        <div class="v green">$45.44</div>
+        <div class="vs">USDC on Polymarket</div>
       </div>
-      <div class="card" style="flex:1; min-width:140px;">
-        <div class="label">🟢 A Grade (PASS)</div>
-        <div class="value green" id="stat-pass">0</div>
-        <div class="sub">Score ≥ 80</div>
+      <div class="card c3">
+        <div class="k">Total Realized P&L</div>
+        <div class="v green">+$27.70</div>
+        <div class="vs">Since 2026-03-22</div>
       </div>
-      <div class="card" style="flex:1; min-width:140px;">
-        <div class="label">🟡 B Grade (OBSERVE)</div>
-        <div class="value yellow" id="stat-observe">0</div>
-        <div class="sub">Score 60-79</div>
+      <div class="card c3">
+        <div class="k">Win Rate</div>
+        <div class="v green">100%</div>
+        <div class="vs">14 / 14 trades</div>
       </div>
-      <div class="card" style="flex:1; min-width:140px;">
-        <div class="label">🔴 Disqualified</div>
-        <div class="value red" id="stat-dq">0</div>
-        <div class="sub">Look-ahead bias</div>
+      <div class="card c3">
+        <div class="k">Open Positions</div>
+        <div class="v yellow">2</div>
+        <div class="vs">Unrealized in market</div>
       </div>
     </div>
 
-    <table id="validation-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Serial ID</th>
-          <th>Original ID</th>
-          <th>Grade</th>
-          <th>Score / 100</th>
-          <th>IS CAGR</th>
-          <th>OOS CAGR</th>
-          <th>Max DD</th>
-          <th>Trades</th>
-          <th>Sensitivity</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="validation-tbody"></tbody>
-    </table>
-  </div>
-
-
-
-  <!-- Track C Tab -->
-  <div class="tab-content" id="tab-trackc">
-    <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
-      <div class="card" style="flex:1; min-width:140px;">
-        <div class="label">Capital</div>
-        <div class="value blue">$45.44</div>
-        <div class="sub">Polymarket USDC</div>
+    <div class="grid">
+      <div class="card c4">
+        <div class="k">Daily P&L</div>
+        <table>
+          <tr><th>Date</th><th>P&L</th><th>Cumulative</th></tr>
+          <tr><td class="gray">2026-03-22</td><td class="green">+$3.25</td><td class="green">+$3.25</td></tr>
+          <tr><td class="gray">2026-03-23</td><td class="green">+$6.95</td><td class="green">+$10.20</td></tr>
+          <tr><td class="gray">2026-03-24</td><td class="green">+$8.12</td><td class="green">+$18.32</td></tr>
+          <tr><td class="gray">2026-03-25</td><td class="green">+$9.38</td><td class="green">+$27.70</td></tr>
+        </table>
       </div>
-      <div class="card" style="flex:1; min-width:140px;">
-        <div class="label">Total Realized P&L</div>
-        <div class="value green">+$27.70</div>
-        <div class="sub">Since 2026-03-22</div>
-      </div>
-      <div class="card" style="flex:1; min-width:140px;">
-        <div class="label">Win Rate</div>
-        <div class="value green">100%</div>
-        <div class="sub">14 / 14 trades</div>
-      </div>
-      <div class="card" style="flex:1; min-width:140px;">
-        <div class="label">Open Positions</div>
-        <div class="value yellow">2</div>
-        <div class="sub">Unrealized pending</div>
+      <div class="card c8">
+        <div class="k">Trade History (14 trades)</div>
+        <table>
+          <tr><th>Time UTC</th><th>Event</th><th>P&L</th></tr>
+          <tr><td class="gray">03-22 23:52</td><td>Real Madrid CF vs Club Atlético de Madrid</td><td class="green">+$3.25</td></tr>
+          <tr><td class="gray">03-23 03:22</td><td>Call of Duty: Miami Heretics vs Boston Breach</td><td class="green">+$0.43</td></tr>
+          <tr><td class="gray">03-23 11:12</td><td>Counter-Strike: 3DMAX vs FOKUS REALITY</td><td class="green">+$2.81</td></tr>
+          <tr><td class="gray">03-23 11:32</td><td>Counter-Strike: FOKUS vs GAMEHARMONY</td><td class="green">+$2.79</td></tr>
+          <tr><td class="gray">03-23 12:22</td><td>Counter-Strike: 3DMAX vs GAMEHARMONY</td><td class="green">+$0.92</td></tr>
+          <tr><td class="gray">03-24 10:42</td><td>LoL: French Flair vs G2 NORD (BO3)</td><td class="green">+$2.81</td></tr>
+          <tr><td class="gray">03-24 13:32</td><td>Valorant: KRÜ Blaze vs Looking For Labour</td><td class="green">+$1.82</td></tr>
+          <tr><td class="gray">03-24 16:12</td><td>Counter-Strike: Johnny Speeds vs FC Famalicão</td><td class="green">+$2.20</td></tr>
+          <tr><td class="gray">03-24 22:12</td><td>Counter-Strike: Bestia Esports vs Team Solid</td><td class="green">+$1.29</td></tr>
+          <tr><td class="gray">03-25 08:12</td><td>Valorant: QoR vs Shopify Rebellion Gold</td><td class="green">+$1.63</td></tr>
+          <tr><td class="gray">03-25 12:52</td><td>Valorant: Dplus vs FearX (BO3) - VCL Korea</td><td class="green">+$3.03</td></tr>
+          <tr><td class="gray">03-25 15:52</td><td>Counter-Strike: Betclic Apogee vs HEROIC A</td><td class="green">+$2.20</td></tr>
+          <tr><td class="gray">03-25 19:52</td><td>Dota 2: Rune Eaters vs Spirit Academy (BO3)</td><td class="green">+$1.25</td></tr>
+          <tr><td class="gray">03-25 21:12</td><td>Counter-Strike: Bebop vs 8Sins (BO3)</td><td class="green">+$1.27</td></tr>
+        </table>
       </div>
     </div>
-
-    <div class="section-title">Daily P&L</div>
-    <table>
-      <thead><tr><th>Date</th><th>P&L</th><th>Cumulative</th></tr></thead>
-      <tbody>
-        <tr><td>2026-03-22</td><td class="green">+$3.25</td><td class="green">+$3.25</td></tr>
-        <tr><td>2026-03-23</td><td class="green">+$6.95</td><td class="green">+$10.20</td></tr>
-        <tr><td>2026-03-24</td><td class="green">+$8.12</td><td class="green">+$18.32</td></tr>
-        <tr><td>2026-03-25</td><td class="green">+$9.38</td><td class="green">+$27.70</td></tr>
-      </tbody>
-    </table>
-
-    <hr class="divider">
-
-    <div class="section-title">Trade History (Last 14)</div>
-    <table>
-      <thead><tr><th>Time (UTC)</th><th>Event</th><th>P&L</th></tr></thead>
-      <tbody>
-        <tr><td class="gray">2026-03-22 23:52</td><td>Real Madrid CF vs. Club Atlético de Madr</td><td class="green">+$3.25</td></tr>
-        <tr><td class="gray">2026-03-23 03:22</td><td>Call of Duty: Miami Heretics vs Boston B</td><td class="green">+$0.43</td></tr>
-        <tr><td class="gray">2026-03-23 11:12</td><td>Counter-Strike: 3DMAX vs FOKUS REALITY</td><td class="green">+$2.81</td></tr>
-        <tr><td class="gray">2026-03-23 11:32</td><td>Counter-Strike: FOKUS vs GAMEHARMONY</td><td class="green">+$2.79</td></tr>
-        <tr><td class="gray">2026-03-23 12:22</td><td>Counter-Strike: 3DMAX vs GAMEHARMONY</td><td class="green">+$0.92</td></tr>
-        <tr><td class="gray">2026-03-24 10:42</td><td>LoL: French Flair vs G2 NORD (BO3)</td><td class="green">+$2.81</td></tr>
-        <tr><td class="gray">2026-03-24 13:32</td><td>Valorant: KRÜ Blaze vs Looking For Labour</td><td class="green">+$1.82</td></tr>
-        <tr><td class="gray">2026-03-24 16:12</td><td>Counter-Strike: Johnny Speeds vs FC Famalicão</td><td class="green">+$2.20</td></tr>
-        <tr><td class="gray">2026-03-24 22:12</td><td>Counter-Strike: Bestia Esports vs Team Solid</td><td class="green">+$1.29</td></tr>
-        <tr><td class="gray">2026-03-25 08:12</td><td>Valorant: QoR vs Shopify Rebellion Gold</td><td class="green">+$1.63</td></tr>
-        <tr><td class="gray">2026-03-25 12:52</td><td>Valorant: Dplus vs FearX (BO3) - VCL Korea</td><td class="green">+$3.03</td></tr>
-        <tr><td class="gray">2026-03-25 15:52</td><td>Counter-Strike: Betclic Apogee Esports vs HEROIC</td><td class="green">+$2.20</td></tr>
-        <tr><td class="gray">2026-03-25 19:52</td><td>Dota 2: Rune Eaters vs Spirit Academy</td><td class="green">+$1.25</td></tr>
-        <tr><td class="gray">2026-03-25 21:12</td><td>Counter-Strike: Bebop vs 8Sins (BO3)</td><td class="green">+$1.27</td></tr>
-      </tbody>
-    </table>
   </div>
 
-  <!-- Framework Tab -->
-  <div class="tab-content" id="tab-framework">
-    <div class="section-title">Validator 評分系統</div>
-    <div class="breakdown" style="margin-bottom:20px;">
-      <div class="breakdown-item">
-        <div class="bi-label">IS CAGR</div>
-        <div class="bi-val blue">40 pts</div>
-        <div class="bi-pts">60%+=40, 40%=30, 20%=20</div>
-      </div>
-      <div class="breakdown-item">
-        <div class="bi-label">OOS CAGR (熊市)</div>
-        <div class="bi-val blue">30 pts</div>
-        <div class="bi-pts">&gt;10%=30, &gt;0%=15, &lt;0%=0</div>
-      </div>
-      <div class="breakdown-item">
-        <div class="bi-label">參數敏感性</div>
-        <div class="bi-val blue">20 pts</div>
-        <div class="bi-pts">&lt;0.05=20, &lt;0.10=15, &lt;0.15=10</div>
-      </div>
-      <div class="breakdown-item">
-        <div class="bi-label">交易頻率</div>
-        <div class="bi-val blue">10 pts</div>
-        <div class="bi-pts">20-80筆=10, 10-120=5</div>
-      </div>
+  <!-- VALIDATION TAB -->
+  <div class="tab-pane" id="tab-validation">
+    <div class="grid" style="margin-bottom:16px">
+      <div class="card c3"><div class="k">Validated</div><div class="v">20</div><div class="vs">Top candidates</div></div>
+      <div class="card c3"><div class="k">🟢 A Grade</div><div class="v green">0</div><div class="vs">Score ≥ 80</div></div>
+      <div class="card c3"><div class="k">🟡 B Grade</div><div class="v yellow">8</div><div class="vs">Score 60–79 · OBSERVE</div></div>
+      <div class="card c3"><div class="k">💀 Disqualified</div><div class="v red">2</div><div class="vs">Look-ahead bias</div></div>
     </div>
 
-    <table>
-      <thead><tr><th>等級</th><th>分數</th><th>行動</th><th>說明</th></tr></thead>
-      <tbody>
-        <tr><td><span class="badge badge-a">🟢 A</span></td><td>80-100</td><td>直接進紙盤</td><td>各維度表現優秀</td></tr>
-        <tr><td><span class="badge badge-b">🟡 B</span></td><td>60-79</td><td>觀察 / 紙盤</td><td>基本達標，需更多驗證</td></tr>
-        <tr><td><span class="badge badge-c">🟠 C</span></td><td>40-59</td><td>保留備用</td><td>部分指標弱，需改進</td></tr>
-        <tr><td><span class="badge badge-d">🔴 D</span></td><td>0-39</td><td>淘汰</td><td>基本面不達標</td></tr>
-        <tr><td><span class="badge badge-dq">💀 DQ</span></td><td>0</td><td>禁止使用</td><td>Look-ahead bias 偷看數據</td></tr>
-      </tbody>
-    </table>
+    <div class="card c12">
+      <div class="k">Validation Results · click ▼ for score breakdown</div>
+      <table id="vtable">
+        <tr><th>#</th><th>Serial</th><th>Original ID</th><th>Grade</th><th>Score</th><th>IS CAGR</th><th>OOS CAGR</th><th>Max DD</th><th>Trades</th><th>Status</th><th></th></tr>
+      </table>
+    </div>
+  </div>
 
-    <hr class="divider">
-
-    <div class="section-title">硬門檻（任一觸發 → 直接 DQ）</div>
-    <table>
-      <thead><tr><th>條件</th><th>門檻</th><th>說明</th></tr></thead>
-      <tbody>
-        <tr><td>Max Drawdown</td><td>DD &gt; 20%</td><td>資金安全底線</td></tr>
-        <tr><td>Look-ahead bias</td><td>extra shift 使 CAGR 上升</td><td>偷看未來數據</td></tr>
-      </tbody>
-    </table>
-
-    <hr class="divider">
-
-    <div class="section-title">驗證時間區間</div>
-    <table>
-      <thead><tr><th>Phase</th><th>時間範圍</th><th>用途</th></tr></thead>
-      <tbody>
-        <tr><td>In-Sample (P1)</td><td>2024-01-01 → 2025-12-31</td><td>策略開發 + 參數優化（2年牛熊）</td></tr>
-        <tr><td>OOS Stress (P2)</td><td>2022-01-01 → 2023-12-31</td><td>熊市壓力測試（LUNA崩盤、FTX事件）</td></tr>
-        <tr><td>Sensitivity (P3)</td><td>同 P1</td><td>核心參數 ±10/20% 變化測試</td></tr>
-      </tbody>
-    </table>
+  <!-- FRAMEWORK TAB -->
+  <div class="tab-pane" id="tab-framework">
+    <div class="grid">
+      <div class="card c6">
+        <div class="k">Scoring System (0–100)</div>
+        <table>
+          <tr><th>Metric</th><th>Max</th><th>Criteria</th></tr>
+          <tr><td>IS CAGR (2024–2025)</td><td class="blue">40 pts</td><td>≥60%=40, ≥40%=30, ≥20%=20</td></tr>
+          <tr><td>OOS CAGR (2022–2023 Bear)</td><td class="blue">30 pts</td><td>≥10%=30, ≥0%=15, &lt;0%=0</td></tr>
+          <tr><td>Param Sensitivity</td><td class="blue">20 pts</td><td>&lt;0.05=20, &lt;0.10=15, &lt;0.15=10</td></tr>
+          <tr><td>Trade Frequency</td><td class="blue">10 pts</td><td>20–80/yr=10, 10–120=5</td></tr>
+        </table>
+      </div>
+      <div class="card c6">
+        <div class="k">Grade & Action</div>
+        <table>
+          <tr><th>Grade</th><th>Score</th><th>Action</th></tr>
+          <tr><td><span class="badge ba">🟢 A</span></td><td>80–100</td><td>Direct paper trading</td></tr>
+          <tr><td><span class="badge bb">🟡 B</span></td><td>60–79</td><td>Observe / paper</td></tr>
+          <tr><td><span class="badge bc">🟠 C</span></td><td>40–59</td><td>Keep for review</td></tr>
+          <tr><td><span class="badge" style="background:#2d1315;color:#f85149;border:1px solid #f85149">🔴 D</span></td><td>0–39</td><td>Reject</td></tr>
+          <tr><td><span class="badge bdq">💀 DQ</span></td><td>0</td><td>Disqualified — look-ahead</td></tr>
+        </table>
+      </div>
+      <div class="card c6">
+        <div class="k">Hard Disqualifiers</div>
+        <table>
+          <tr><th>Condition</th><th>Threshold</th></tr>
+          <tr><td>Max Drawdown</td><td class="red">DD &gt; 20%</td></tr>
+          <tr><td>Look-ahead bias</td><td class="red">Extra shift raises CAGR</td></tr>
+        </table>
+      </div>
+      <div class="card c6">
+        <div class="k">Validation Time Ranges</div>
+        <table>
+          <tr><th>Phase</th><th>Range</th><th>Purpose</th></tr>
+          <tr><td>In-Sample (P1)</td><td>2024–2025</td><td>Dev + optimization (2yr)</td></tr>
+          <tr><td>OOS Stress (P2)</td><td>2022–2023</td><td>Bear market test</td></tr>
+          <tr><td>Sensitivity (P3)</td><td>Same as P1</td><td>±10/20% param variation</td></tr>
+        </table>
+      </div>
+    </div>
   </div>
 
 </div>
 
 <script>
-// Validation data (embedded)
-const validationData = [
-  { serial:"S040", orig:"w15_conf_010", grade:"🟡 B", score:66, rec:"OBSERVE", is_cagr:0.228, oos_cagr:0.008, dd:0.130, trades:77, sens:0.0000, lookahead:false },
-  { serial:"S044", orig:"w14_mix_007",  grade:"🟡 B", score:68, rec:"OBSERVE", is_cagr:0.279, oos_cagr:0.027, dd:0.119, trades:71, sens:0.0000, lookahead:false },
-  { serial:"S045", orig:"w15_conf_007", grade:"🟡 B", score:68, rec:"OBSERVE", is_cagr:0.279, oos_cagr:0.027, dd:0.119, trades:71, sens:0.0000, lookahead:false },
-  { serial:"S046", orig:"w16_stab_010", grade:"🟡 B", score:68, rec:"OBSERVE", is_cagr:0.279, oos_cagr:0.027, dd:0.119, trades:71, sens:0.0000, lookahead:false },
-  { serial:"S048", orig:"w15_conf_009", grade:"🟡 B", score:63, rec:"OBSERVE", is_cagr:0.275, oos_cagr:0.005, dd:0.190, trades:84, sens:0.0000, lookahead:false },
-  { serial:"S049", orig:"w26_lev_002",  grade:"🟡 B", score:66, rec:"OBSERVE", is_cagr:0.332, oos_cagr:0.047, dd:0.192, trades:102,sens:0.0000, lookahead:false },
-  { serial:"S053", orig:"w16_stab_008", grade:"🟡 B", score:70, rec:"OBSERVE", is_cagr:0.314, oos_cagr:0.024, dd:0.119, trades:72, sens:0.0000, lookahead:false },
-  { serial:"S058", orig:"w15_conf_005", grade:"🟡 B", score:69, rec:"OBSERVE", is_cagr:0.289, oos_cagr:0.027, dd:0.119, trades:72, sens:0.0000, lookahead:false },
-  { serial:"S002", orig:"w18_stab_014", grade:"🟠 C", score:56, rec:"REVIEW",  is_cagr:0.336, oos_cagr:-0.100,dd:0.138, trades:29, sens:0.0000, lookahead:false },
-  { serial:"S036", orig:"w14_mix_003",  grade:"🟠 C", score:52, rec:"REVIEW",  is_cagr:0.257, oos_cagr:-0.020,dd:0.160, trades:52, sens:0.0000, lookahead:false },
-  { serial:"S037", orig:"w15_conf_001", grade:"🟠 C", score:52, rec:"REVIEW",  is_cagr:0.257, oos_cagr:-0.020,dd:0.160, trades:52, sens:0.0000, lookahead:false },
-  { serial:"S038", orig:"w16_stab_001", grade:"🟠 C", score:52, rec:"REVIEW",  is_cagr:0.257, oos_cagr:-0.020,dd:0.160, trades:52, sens:0.0000, lookahead:false },
-  { serial:"S039", orig:"w16_stab_004", grade:"🟠 C", score:52, rec:"REVIEW",  is_cagr:0.257, oos_cagr:-0.020,dd:0.160, trades:52, sens:0.0000, lookahead:false },
-  { serial:"S041", orig:"w14_mix_002",  grade:"🟠 C", score:50, rec:"REVIEW",  is_cagr:0.304, oos_cagr:-0.009,dd:0.160, trades:57, sens:0.0000, lookahead:false },
-  { serial:"S042", orig:"w15_conf_004", grade:"🟠 C", score:50, rec:"REVIEW",  is_cagr:0.304, oos_cagr:-0.009,dd:0.160, trades:57, sens:0.0000, lookahead:false },
-  { serial:"S043", orig:"w16_stab_007", grade:"🟠 C", score:50, rec:"REVIEW",  is_cagr:0.304, oos_cagr:-0.009,dd:0.160, trades:57, sens:0.0000, lookahead:false },
-  { serial:"S047", orig:"w15_conf_008", grade:"🟠 C", score:54, rec:"REVIEW",  is_cagr:0.285, oos_cagr:-0.040,dd:0.160, trades:53, sens:0.0000, lookahead:false },
-  { serial:"S056", orig:"w17_exp_007",  grade:"🟠 C", score:58, rec:"REVIEW",  is_cagr:0.139, oos_cagr:0.029, dd:0.170, trades:41, sens:0.0000, lookahead:false },
-  { serial:"S050", orig:"w17_exp_013",  grade:"🔴 DQ",score:0,  rec:"DQ",      is_cagr:0.095, oos_cagr:-0.048,dd:0.134, trades:30, sens:0.0000, lookahead:true  },
-  { serial:"S059", orig:"w18_stab_016", grade:"🔴 DQ",score:0,  rec:"DQ",      is_cagr:0.287, oos_cagr:-0.106,dd:0.120, trades:21, sens:0.0000, lookahead:false },
+const vdata=[
+  {serial:"S053",orig:"w16_stab_008",score:70,is:0.314,oos:0.024,dd:0.119,tc:72,sens:0.0000,la:false},
+  {serial:"S058",orig:"w15_conf_005",score:69,is:0.289,oos:0.027,dd:0.119,tc:72,sens:0.0000,la:false},
+  {serial:"S044",orig:"w14_mix_007", score:68,is:0.279,oos:0.027,dd:0.119,tc:71,sens:0.0000,la:false},
+  {serial:"S045",orig:"w15_conf_007",score:68,is:0.279,oos:0.027,dd:0.119,tc:71,sens:0.0000,la:false},
+  {serial:"S046",orig:"w16_stab_010",score:68,is:0.279,oos:0.027,dd:0.119,tc:71,sens:0.0000,la:false},
+  {serial:"S040",orig:"w15_conf_010",score:66,is:0.228,oos:0.008,dd:0.130,tc:77,sens:0.0000,la:false},
+  {serial:"S049",orig:"w26_lev_002", score:66,is:0.332,oos:0.047,dd:0.192,tc:102,sens:0.0000,la:false},
+  {serial:"S048",orig:"w15_conf_009",score:63,is:0.275,oos:0.005,dd:0.190,tc:84,sens:0.0000,la:false},
+  {serial:"S056",orig:"w17_exp_007", score:58,is:0.139,oos:0.029,dd:0.170,tc:41,sens:0.0000,la:false},
+  {serial:"S002",orig:"w18_stab_014",score:56,is:0.336,oos:-0.100,dd:0.138,tc:29,sens:0.0000,la:false},
+  {serial:"S047",orig:"w15_conf_008",score:54,is:0.285,oos:-0.040,dd:0.160,tc:53,sens:0.0000,la:false},
+  {serial:"S036",orig:"w14_mix_003", score:52,is:0.257,oos:-0.020,dd:0.160,tc:52,sens:0.0000,la:false},
+  {serial:"S037",orig:"w15_conf_001",score:52,is:0.257,oos:-0.020,dd:0.160,tc:52,sens:0.0000,la:false},
+  {serial:"S038",orig:"w16_stab_001",score:52,is:0.257,oos:-0.020,dd:0.160,tc:52,sens:0.0000,la:false},
+  {serial:"S039",orig:"w16_stab_004",score:52,is:0.257,oos:-0.020,dd:0.160,tc:52,sens:0.0000,la:false},
+  {serial:"S041",orig:"w14_mix_002", score:50,is:0.304,oos:-0.009,dd:0.160,tc:57,sens:0.0000,la:false},
+  {serial:"S042",orig:"w15_conf_004",score:50,is:0.304,oos:-0.009,dd:0.160,tc:57,sens:0.0000,la:false},
+  {serial:"S043",orig:"w16_stab_007",score:50,is:0.304,oos:-0.009,dd:0.160,tc:57,sens:0.0000,la:false},
+  {serial:"S050",orig:"w17_exp_013", score:0, is:0.095,oos:-0.048,dd:0.134,tc:30,sens:0.0000,la:true},
+  {serial:"S059",orig:"w18_stab_016",score:0, is:0.287,oos:-0.106,dd:0.120,tc:21,sens:0.0000,la:false},
 ];
 
-function pct(v){ return (v*100).toFixed(1)+'%'; }
-function scoreColor(s){
-  if(s>=80) return '#3fb950';
-  if(s>=60) return '#d29922';
-  if(s>=40) return '#f0883e';
-  return '#f85149';
-}
-function gradeClass(g){
-  if(g.includes('DQ')) return 'badge-dq';
-  if(g.includes('A'))  return 'badge-a';
-  if(g.includes('B'))  return 'badge-b';
-  if(g.includes('C'))  return 'badge-c';
-  return 'badge-d';
+function pct(v){return(v*100).toFixed(1)+'%'}
+function sc(s){return s>=80?'#3fb950':s>=60?'#d29922':s>=40?'#f0883e':'#f85149'}
+function grade(s,la){
+  if(la)return{cls:'bdq',label:'💀 DQ'};
+  if(s>=80)return{cls:'ba',label:'🟢 A'};
+  if(s>=60)return{cls:'bb',label:'🟡 B'};
+  if(s>=40)return{cls:'bc',label:'🟠 C'};
+  return{cls:'',label:'🔴 D'};
 }
 
-function scoreBreakdown(d){
-  const is = d.is_cagr;
-  let cagr_pts = is>=0.6?40: is>=0.4?Math.round(30+(is-0.4)/0.2*10): is>=0.2?Math.round(20+(is-0.2)/0.2*10): Math.max(0,Math.round(is/0.2*20));
-  let oos_pts  = d.oos_cagr>=0.1?30: d.oos_cagr>=0?15: 0;
-  let sens_pts = d.sens<0.05?20: d.sens<0.1?15: d.sens<0.15?10: 0;
-  let tc=d.trades; let freq_pts = (tc>=20&&tc<=80)?10: (tc>=10&&tc<=120)?5: 0;
-  return `<div class="breakdown">
-    <div class="breakdown-item"><div class="bi-label">IS CAGR</div><div class="bi-val" style="color:${scoreColor(cagr_pts/40*100)}">${pct(is)}</div><div class="bi-pts">${cagr_pts}/40 pts</div></div>
-    <div class="breakdown-item"><div class="bi-label">OOS CAGR</div><div class="bi-val" style="color:${scoreColor(oos_pts/30*100)}">${pct(d.oos_cagr)}</div><div class="bi-pts">${oos_pts}/30 pts</div></div>
-    <div class="breakdown-item"><div class="bi-label">Sensitivity</div><div class="bi-val" style="color:${scoreColor(sens_pts/20*100)}">${d.sens.toFixed(4)}</div><div class="bi-pts">${sens_pts}/20 pts</div></div>
-    <div class="breakdown-item"><div class="bi-label">Trades/yr</div><div class="bi-val" style="color:${scoreColor(freq_pts/10*100)}">${tc}</div><div class="bi-pts">${freq_pts}/10 pts</div></div>
+function bkd(d){
+  const s=d.score,is=d.is,oos=d.oos,sens=d.sens,tc=d.tc;
+  const cp=is>=0.6?40:is>=0.4?Math.round(30+(is-0.4)/0.2*10):is>=0.2?Math.round(20+(is-0.2)/0.2*10):Math.max(0,Math.round(is/0.2*20));
+  const op=oos>=0.1?30:oos>=0?15:0;
+  const sp=sens<0.05?20:sens<0.1?15:sens<0.15?10:0;
+  const fp=(tc>=20&&tc<=80)?10:(tc>=10&&tc<=120)?5:0;
+  return`<div class="breakdown">
+    <div class="bi"><div class="bil">IS CAGR</div><div class="biv" style="color:${sc(cp/40*100)}">${pct(is)}</div><div class="bip">${cp}/40 pts</div></div>
+    <div class="bi"><div class="bil">OOS CAGR</div><div class="biv" style="color:${sc(op/30*100)}">${pct(oos)}</div><div class="bip">${op}/30 pts</div></div>
+    <div class="bi"><div class="bil">Sensitivity</div><div class="biv" style="color:${sc(sp/20*100)}">${sens.toFixed(4)}</div><div class="bip">${sp}/20 pts</div></div>
+    <div class="bi"><div class="bil">Trades/yr</div><div class="biv" style="color:${sc(fp/10*100)}">${tc}</div><div class="bip">${fp}/10 pts</div></div>
   </div>`;
 }
 
-function renderTable(){
-  const sorted = [...validationData].sort((a,b)=>b.score-a.score);
-  const tbody = document.getElementById('validation-tbody');
-  let pass=0, obs=0, dq=0;
-  tbody.innerHTML = sorted.map((d,i)=>{
-    const gc = gradeClass(d.grade);
-    const sc = scoreColor(d.score);
-    if(d.rec==='PASS') pass++;
-    else if(d.rec==='OBSERVE') obs++;
-    else if(d.lookahead) dq++;
-    const ddColor = d.dd>0.2?'red': d.dd>0.15?'yellow':'green';
-    const oosColor = d.oos_cagr>0.05?'green': d.oos_cagr>0?'yellow':'red';
-    return `<tr>
-      <td class="gray">${i+1}</td>
-      <td style="font-weight:600; color:#58a6ff">${d.serial}</td>
-      <td style="font-family:monospace; font-size:12px; color:#8b949e">${d.orig}</td>
-      <td><span class="badge ${gc}">${d.grade}</span></td>
-      <td>
-        <div class="score-bar-wrap">
-          <div class="score-bar"><div class="score-fill" style="width:${d.score}%; background:${sc}"></div></div>
-          <span class="score-num" style="color:${sc}">${d.score}</span>
-        </div>
-      </td>
-      <td class="${d.is_cagr>=0.3?'green':'yellow'}">${pct(d.is_cagr)}</td>
-      <td class="${oosColor}">${pct(d.oos_cagr)}</td>
-      <td class="${ddColor}">${pct(d.dd)}</td>
-      <td class="${d.trades>=20&&d.trades<=80?'green':'yellow'}">${d.trades}</td>
-      <td class="${d.sens<0.05?'green':'yellow'}">${d.sens.toFixed(4)}</td>
-      <td>${d.lookahead?'<span class="pill pill-dq">⚠️ look-ahead</span>': d.dd>0.2?'<span class="pill pill-fail">DD>20%</span>': '<span class="pill pill-pass">clean</span>'}</td>
-      <td><span class="expand-btn" onclick="toggleRow(${i})">▼</span></td>
-    </tr>
-    <tr class="expand-row" id="expand-${i}">
-      <td colspan="12">${scoreBreakdown(d)}</td>
-    </tr>`;
-  }).join('');
+const tbody=document.querySelector('#vtable');
+vdata.forEach((d,i)=>{
+  const g=grade(d.score,d.la);
+  const c=sc(d.score);
+  const ddcol=d.dd>0.2?'red':d.dd>0.15?'yellow':'green';
+  const ooscol=d.oos>=0.05?'green':d.oos>=0?'yellow':'red';
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td class="gray">${i+1}</td>
+    <td style="color:#58a6ff;font-weight:600">${d.serial}</td>
+    <td style="font-family:monospace;font-size:12px;color:#8b949e">${d.orig}</td>
+    <td><span class="badge ${g.cls}">${g.label}</span></td>
+    <td><div class="sbar"><div class="sbar-bg"><div class="sbar-fill" style="width:${d.score}%;background:${c}"></div></div><span class="sbar-n" style="color:${c}">${d.score}</span></div></td>
+    <td class="${d.is>=0.3?'green':'yellow'}">${pct(d.is)}</td>
+    <td class="${ooscol}">${pct(d.oos)}</td>
+    <td class="${ddcol}">${pct(d.dd)}</td>
+    <td class="${d.tc>=20&&d.tc<=80?'green':'yellow'}">${d.tc}</td>
+    <td>${d.la?'<span class="pill bad">⚠️ look-ahead</span>':d.dd>0.2?'<span class="pill bad">DD>20%</span>':'<span class="pill ok">✓ clean</span>'}</td>
+    <td><span class="expand-btn" onclick="toggle(${i})">▼</span></td>`;
+  tbody.appendChild(tr);
+  const xr=document.createElement('tr');
+  xr.className='expand-row'; xr.id='xr'+i;
+  xr.innerHTML=`<td colspan="11">${bkd(d)}</td>`;
+  tbody.appendChild(xr);
+});
 
-  document.getElementById('stat-pass').textContent = pass;
-  document.getElementById('stat-observe').textContent = obs;
-  document.getElementById('stat-dq').textContent = dq;
-}
-
-function toggleRow(i){
-  const row = document.getElementById('expand-'+i);
-  row.style.display = row.style.display==='table-row'? 'none':'table-row';
-}
-
-function switchTab(name){
+function toggle(i){const r=document.getElementById('xr'+i);r.style.display=r.style.display==='table-row'?'none':'table-row';}
+function switchTab(name,el){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
-  event.target.classList.add('active');
+  el.classList.add('active');
 }
-
-// Track C P&L from log
-async function loadTrackC(){
-  try {
-    document.getElementById('trackc-pnl').textContent = 'open=3 | P&L: +$26.44 (今日)';
-  } catch(e){}
-}
-
-// Update timestamp
-function updateTime(){
-  const now = new Date();
-  document.getElementById('updated').textContent = now.toISOString().replace('T',' ').slice(0,19) + ' UTC';
-}
-
-let countdown = 60;
-function tick(){
-  countdown--;
-  document.getElementById('countdown').textContent = `Next refresh: ${countdown}s`;
-  if(countdown<=0){ countdown=60; location.reload(); }
-}
-
-renderTable();
-loadTrackC();
-updateTime();
-setInterval(tick, 1000);
+document.getElementById('ts').textContent=new Date().toISOString().replace('T',' ').slice(0,19)+' UTC';
+let cd=60; setInterval(()=>{cd--;if(cd<=0){cd=60;location.reload();}},1000);
 </script>
 </body>
 </html>
