@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-26 23:13 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-26 23:21 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -96,15 +96,15 @@
     <div class="grid" style="margin-bottom:16px">
       <div class="card c3">
         <div class="k">Portfolio Balance</div>
-        <div id="poly-total"><div class="v">$493.68</div><div class="vs">Cash $434.62 + Positions $59.06</div></div><div class="vs">Live from Polymarket</div></div>
+        <div id="poly-total"><div class="v gray">Loading…</div><div class="vs">Live from Polymarket</div></div>
       </div>
       <div class="card c3">
         <div class="k">Open Positions</div>
-        <div id="poly-open"><div class="v">3</div></div></div>
+        <div id="poly-open"><div class="v gray">…</div></div>
       </div>
       <div class="card c3">
         <div class="k">Net Profit</div>
-        <div id="tc-netprofit"><div class="v green">+$21.87</div></div></div>
+        <div id="tc-netprofit"><div class="v green">…</div></div>
         <div class="vs">Current value − $471.81 deposit</div>
       </div>
       <div class="card c3">
@@ -279,6 +279,8 @@ let cd=60; setInterval(()=>{cd--;if(cd<=0){cd=60;location.reload();}},1000);
 
 
 const POLY_ADDR='0x36723e366cca7a0db32c8efa6dfb24b015eb92a5';
+var CLOB_CASH=434.62;   // injected by generate_dashboard.py
+var DEPOSIT_AMT=471.81; // injected by generate_dashboard.py
 const DATA='https://data-api.polymarket.com';
 const BLOCKSCOUT='https://polygon.blockscout.com';
 const USDC_ADDR='0x2791bca1f2de4661ed88a30c99a7a9449aa84174';
@@ -306,19 +308,19 @@ async function fetchCash(){
 async function refresh(){
   setTs();
   try{
-    var [valR,posR,cash]=await Promise.all([
+    var [valR,posR]=await Promise.all([
       fetch(DATA+'/value?user='+POLY_ADDR).then(r=>r.json()),
       fetch(DATA+'/positions?user='+POLY_ADDR+'&limit=50&sizeThreshold=0').then(r=>r.json()),
-      fetchCash()
     ]);
     var portVal=valR&&valR[0]?parseFloat(valR[0].value):0;
-    var total=cash!==null?portVal+cash:portVal;
-    var sub=cash!==null?'Cash $'+cash.toFixed(2)+' + Positions $'+portVal.toFixed(2):'Positions only';
+    var cash=CLOB_CASH;  // injected by generate_dashboard.py (CLOB API)
+    var total=portVal+cash;
+    var sub='Cash $'+cash.toFixed(2)+' + Positions $'+portVal.toFixed(2);
     // Net profit = portfolio value - initial deposit
-    var netProfit = total - 471.81;  // from account_baseline.json
+    var netProfit = total - DEPOSIT_AMT;
     var nc = netProfit >= 0 ? 'green' : 'red';
     setEl('tc-netprofit','<div class="v '+nc+'">'+(netProfit>=0?'+':'')+fmt(netProfit)+'</div>');
-            setEl('poly-total','<div class="v green">'+fmt(total)+'</div><div class="vs">'+sub+'</div>');
+    setEl('poly-total','<div class="v">'+'$'+total.toFixed(2)+'</div><div class="vs">'+sub+'</div>');
 
     var open=(posR||[]).filter(function(p){return !p.redeemable&&parseFloat(p.size||0)>0;});
     var unreal=open.reduce(function(s,p){return s+parseFloat(p.cashPnl||0);},0);
