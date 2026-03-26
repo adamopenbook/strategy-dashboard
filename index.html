@@ -93,21 +93,23 @@
 
   <!-- TRACK C TAB -->
     <div class="tab-pane active" id="tab-trackc">
-    <div id="tc-loading" style="color:#8b949e;padding:20px;text-align:center">Loading live data from Polymarket...</div>
+    <div id="tc-loading" class="gray" style="padding:20px">Loading live data…</div>
     <div id="tc-content" style="display:none">
       <div class="grid" style="margin-bottom:16px">
-        <div class="card c3"><div class="k">Portfolio Balance</div><div class="v green" id="tc-total">-</div><div class="vs" id="tc-breakdown">Live from Polymarket</div></div>
-        <div class="card c3"><div class="k">Settled P&L</div><div class="v green" id="tc-pnl">-</div><div class="vs" id="tc-pnl-sub">-</div></div>
-        <div class="card c3"><div class="k">Win Rate</div><div class="v green" id="tc-wr">-</div><div class="vs" id="tc-wr-sub">-</div></div>
-        <div class="card c3"><div class="k">Open Positions</div><div class="v yellow" id="tc-open">-</div><div class="vs">Live on Polymarket</div></div>
+        <div class="card c3"><div class="k">Portfolio Value</div><div class="v green" id="tc-total">—</div><div class="vs" id="tc-breakdown">Live from Polymarket</div></div>
+        <div class="card c3"><div class="k">Open Positions</div><div class="v yellow" id="tc-open">—</div><div class="vs">Live in market</div></div>
+        <div class="card c3"><div class="k">Realized P&L</div><div class="v green" id="tc-pnl">—</div><div class="vs" id="tc-pnl-sub">Settled trades</div></div>
+        <div class="card c3"><div class="k">Win Rate</div><div class="v green" id="tc-wr">—</div><div class="vs" id="tc-wr-sub">Settled trades</div></div>
       </div>
       <div class="grid">
-        <div class="card c4"><div class="k">Open Positions</div><table><tr><th>Market</th><th>Value</th><th>P&amp;L</th></tr><tbody id="tc-pos-tbody"></tbody></table></div>
-        <div class="card c4"><div class="k">Daily P&amp;L</div><table><tr><th>Date</th><th>P&amp;L</th><th>Cumulative</th></tr><tbody id="daily-tbody"></tbody></table></div>
-        <div class="card c4"><div class="k">Redeemable</div><table><tr><th>Market</th><th>Value</th></tr><tbody id="tc-redeem-tbody"></tbody></table></div>
-      </div>
-      <div class="grid" style="margin-top:12px">
-        <div class="card c12"><div class="k">Settled Trade History</div><table><tr><th>Time UTC</th><th>Event</th><th>P&amp;L</th></tr><tbody id="trade-tbody"></tbody></table></div>
+        <div class="card c6"><div class="k">Open Positions <span style="font-size:10px;color:#8b949e">live</span></div>
+          <table><tr><th>Market</th><th>Value</th><th>P&L</th></tr><tbody id="tc-pos-tbody"><tr><td colspan="3" class="gray">Loading…</td></tr></tbody></table></div>
+        <div class="card c6"><div class="k">Redeemable</div>
+          <table><tr><th>Market</th><th>Value</th></tr><tbody id="tc-redeem-tbody"><tr><td colspan="2" class="gray">None</td></tr></tbody></table></div>
+        <div class="card c4"><div class="k">Daily P&L</div>
+          <table><tr><th>Date</th><th>P&L</th><th>Cumulative</th></tr><tbody id="daily-tbody"></tbody></table></div>
+        <div class="card c8"><div class="k">Settled Trades (14)</div>
+          <table><tr><th>Time UTC</th><th>Event</th><th>P&L</th></tr><tbody id="trade-tbody"></tbody></table></div>
       </div>
     </div>
   </div>
