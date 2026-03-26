@@ -103,9 +103,9 @@
         <div id="poly-open"><div class="v gray">…</div></div>
       </div>
       <div class="card c3">
-        <div class="k">Realized P&L</div>
-        <div class="v green">+$44.10</div>
-        <div class="vs">44/46 trades won</div>
+        <div class="k">Net Profit</div>
+        <div id="tc-netprofit"><div class="v green">…</div></div>
+        <div class="vs">Current value − $99.80 deposit</div>
       </div>
       <div class="card c3">
         <div class="k">Win Rate</div>
@@ -314,7 +314,11 @@ async function refresh(){
     var portVal=valR&&valR[0]?parseFloat(valR[0].value):0;
     var total=cash!==null?portVal+cash:portVal;
     var sub=cash!==null?'Cash $'+cash.toFixed(2)+' + Positions $'+portVal.toFixed(2):'Positions only';
-    setEl('poly-total','<div class="v green">'+fmt(total)+'</div><div class="vs">'+sub+'</div>');
+    // Net profit = portfolio value - initial deposit
+    var netProfit = portVal - 99.80;
+    var nc = netProfit >= 0 ? 'green' : 'red';
+    setEl('tc-netprofit','<div class="v '+nc+'">'+(netProfit>=0?'+':'')+fmt(netProfit)+'</div>');
+            setEl('poly-total','<div class="v green">'+fmt(total)+'</div><div class="vs">'+sub+'</div>');
 
     var open=(posR||[]).filter(function(p){return !p.redeemable&&parseFloat(p.size||0)>0;});
     var unreal=open.reduce(function(s,p){return s+parseFloat(p.cashPnl||0);},0);
