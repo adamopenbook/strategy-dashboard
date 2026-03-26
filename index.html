@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-26 22:39 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-26 22:44 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -315,7 +315,7 @@ async function refresh(){
     var total=cash!==null?portVal+cash:portVal;
     var sub=cash!==null?'Cash $'+cash.toFixed(2)+' + Positions $'+portVal.toFixed(2):'Positions only';
     // Net profit = portfolio value - initial deposit
-    var netProfit = total - 471.81;  // total deposit
+    var netProfit = total - 471.81;  // from account_baseline.json
     var nc = netProfit >= 0 ? 'green' : 'red';
     setEl('tc-netprofit','<div class="v '+nc+'">'+(netProfit>=0?'+':'')+fmt(netProfit)+'</div>');
             setEl('poly-total','<div class="v green">'+fmt(total)+'</div><div class="vs">'+sub+'</div>');
