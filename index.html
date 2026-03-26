@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">—</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-26 22:20 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -95,22 +95,19 @@
     <div class="tab-pane active" id="tab-trackc">
     <div class="grid" style="margin-bottom:16px">
       <div class="card c3">
-        <div class="k">Portfolio Balance</div>
-        <div id="poly-total"><div class="v gray">Loading…</div><div class="vs">Live from Polymarket</div></div>
+        ${d["capital"]:.2f}<div class="vs">Live from Polymarket</div></div>
       </div>
       <div class="card c3">
-        <div class="k">Open Positions</div>
-        <div id="poly-open"><div class="v gray">…</div></div>
+        1</div>
       </div>
       <div class="card c3">
         <div class="k">Net Profit</div>
         <div id="tc-netprofit"><div class="v green">…</div></div>
-        <div class="vs">Current value − $99.80 deposit</div>
+        <div class="vs">Current value − $476.99 deposit</div>
       </div>
       <div class="card c3">
-        <div class="k">Win Rate</div>
-        <div class="v green">96%</div>
-        <div class="vs">44/46 · V1+V2 combined</div>
+        {d["win_rate"]:.0f}%
+        <div class="vs">53/56 · V1+V2 combined</div>
       </div>
     </div>
     <div class="grid">
@@ -315,7 +312,7 @@ async function refresh(){
     var total=cash!==null?portVal+cash:portVal;
     var sub=cash!==null?'Cash $'+cash.toFixed(2)+' + Positions $'+portVal.toFixed(2):'Positions only';
     // Net profit = portfolio value - initial deposit
-    var netProfit = total - 99.95;
+    var netProfit = total - 476.99;  // 原始 $99.95 + 充值 $377.04
     var nc = netProfit >= 0 ? 'green' : 'red';
     setEl('tc-netprofit','<div class="v '+nc+'">'+(netProfit>=0?'+':'')+fmt(netProfit)+'</div>');
             setEl('poly-total','<div class="v green">'+fmt(total)+'</div><div class="vs">'+sub+'</div>');
