@@ -93,25 +93,23 @@
 
   <!-- TRACK C TAB -->
     <div class="tab-pane active" id="tab-trackc">
-    <div id="tc-loading" class="gray" style="padding:20px">Loading live data…</div>
-    <div id="tc-content" style="display:none">
       <div class="grid" style="margin-bottom:16px">
-        <div class="card c3"><div class="k">Portfolio Value</div><div class="v green" id="tc-total">—</div><div class="vs" id="tc-breakdown">Live from Polymarket</div></div>
-        <div class="card c3"><div class="k">Open Positions</div><div class="v yellow" id="tc-open">—</div><div class="vs">Live in market</div></div>
-        <div class="card c3"><div class="k">Realized P&L</div><div class="v green" id="tc-pnl">—</div><div class="vs" id="tc-pnl-sub">Settled trades</div></div>
-        <div class="card c3"><div class="k">Win Rate</div><div class="v green" id="tc-wr">—</div><div class="vs" id="tc-wr-sub">Settled trades</div></div>
+        <div class="card c3"><div class="k">Portfolio Balance</div><div class="v green">$123.51</div><div class="vs">Cash $68.59 + Pos $54.92</div></div>
+        <div class="card c3"><div class="k">Open Positions</div><div class="v yellow">4</div><div class="vs">Live in market</div></div>
+        <div class="card c3"><div class="k">Realized P&L</div><div class="v green">+$27.70</div><div class="vs">14/14 trades won</div></div>
+        <div class="card c3"><div class="k">Win Rate</div><div class="v green">100%</div><div class="vs">14 settled trades</div></div>
       </div>
       <div class="grid">
-        <div class="card c6"><div class="k">Open Positions <span style="font-size:10px;color:#8b949e">live</span></div>
-          <table><tr><th>Market</th><th>Value</th><th>P&L</th></tr><tbody id="tc-pos-tbody"><tr><td colspan="3" class="gray">Loading…</td></tr></tbody></table></div>
+        <div class="card c6"><div class="k">Open Positions</div>
+          <table><tr><th>Market</th><th>Value</th><th>P&L</th></tr><tr><td style="font-size:12px">Will Mette Frederiksen be the next prime minister of De</td><td class="green">$21.12</td><td class="red">$0.12</td></tr><tr><td style="font-size:12px">Will People's Party win the most seats in the Løgting i</td><td class="green">$14.03</td><td class="red">$0.07</td></tr><tr><td style="font-size:12px">Spurs vs. Grizzlies</td><td class="green">$9.99</td><td class="green">+$0.80</td></tr><tr><td style="font-size:12px">Will Nepal vs. Hong Kong SAR end in a draw?</td><td class="green">$9.78</td><td class="green">+$0.32</td></tr></table></div>
         <div class="card c6"><div class="k">Redeemable</div>
-          <table><tr><th>Market</th><th>Value</th></tr><tbody id="tc-redeem-tbody"><tr><td colspan="2" class="gray">None</td></tr></tbody></table></div>
+          <table><tr><th>Market</th><th>Value</th></tr><tr><td colspan="2" class="gray">None</td></tr></table></div>
         <div class="card c4"><div class="k">Daily P&L</div>
-          <table><tr><th>Date</th><th>P&L</th><th>Cumulative</th></tr><tbody id="daily-tbody"></tbody></table></div>
+          <table><tr><th>Date</th><th>P&L</th><th>Cumulative</th></tr><tr><td class="gray">2026-03-22</td><td class="green">+$3.25</td><td class="green">+$3.25</td></tr><tr><td class="gray">2026-03-23</td><td class="green">+$6.95</td><td class="green">+$10.20</td></tr><tr><td class="gray">2026-03-24</td><td class="green">+$8.12</td><td class="green">+$18.32</td></tr><tr><td class="gray">2026-03-25</td><td class="green">+$9.38</td><td class="green">+$27.70</td></tr></table></div>
         <div class="card c8"><div class="k">Settled Trades (14)</div>
-          <table><tr><th>Time UTC</th><th>Event</th><th>P&L</th></tr><tbody id="trade-tbody"></tbody></table></div>
+          <table><tr><th>Time UTC</th><th>Event</th><th>P&L</th></tr><tr><td class="gray">03-22 23:52</td><td style="font-size:12px">Real Madrid CF vs. Club Atlético de Madr</td><td class="green">+$3.25</td></tr><tr><td class="gray">03-23 03:22</td><td style="font-size:12px">Call of Duty: Miami Heretics vs Boston B</td><td class="green">+$0.43</td></tr><tr><td class="gray">03-23 11:12</td><td style="font-size:12px">Counter-Strike: 3DMAX vs FOKUS REALITY (</td><td class="green">+$2.81</td></tr><tr><td class="gray">03-23 11:32</td><td style="font-size:12px">Counter-Strike: FOKUS vs GAMEHARMONY (BO</td><td class="green">+$2.79</td></tr><tr><td class="gray">03-23 12:22</td><td style="font-size:12px">Counter-Strike: 3DMAX vs GAMEHARMONY (BO</td><td class="green">+$0.92</td></tr><tr><td class="gray">03-24 10:42</td><td style="font-size:12px">LoL: French Flair vs G2 NORD (BO3) - EME</td><td class="green">+$2.81</td></tr><tr><td class="gray">03-24 13:32</td><td style="font-size:12px">Valorant: KRÜ Blaze vs Looking For Labur</td><td class="green">+$1.82</td></tr><tr><td class="gray">03-24 16:12</td><td style="font-size:12px">Counter-Strike: Johnny Speeds vs FC Fama</td><td class="green">+$2.20</td></tr><tr><td class="gray">03-24 19:42</td><td style="font-size:12px">Will Manuel Saavedra win the 2026 Santa </td><td class="green">+$1.29</td></tr><tr><td class="gray">03-25 08:12</td><td style="font-size:12px">Valorant: QoR vs Shopify Rebellion Gold </td><td class="green">+$1.63</td></tr><tr><td class="gray">03-25 12:52</td><td style="font-size:12px">Valorant: Dplus vs FearX (BO3) - VCL Kor</td><td class="green">+$3.03</td></tr><tr><td class="gray">03-25 15:52</td><td style="font-size:12px">Counter-Strike: Betclic Apogee Esports v</td><td class="green">+$2.20</td></tr><tr><td class="gray">03-25 19:52</td><td style="font-size:12px">Dota 2: Rune Eaters vs Spirit Academy (B</td><td class="green">+$1.25</td></tr><tr><td class="gray">03-25 21:12</td><td style="font-size:12px">Counter-Strike: Bebop vs 8Sins (BO3) - C</td><td class="green">+$1.27</td></tr></table></div>
       </div>
-    </div>
+      <div style="font-size:11px;color:#8b949e;margin-top:12px">Data source: Polymarket API · Last updated: 2026-03-26 02:02 UTC</div>
   </div>
 
 <div class="tab-pane" id="tab-validation">
@@ -258,65 +256,6 @@ function switchTab(name,el){
 }
 document.getElementById('ts').textContent=new Date().toISOString().replace('T',' ').slice(0,19)+' UTC';
 let cd=60; setInterval(()=>{cd--;if(cd<=0){cd=60;location.reload();}},1000);
-const POLY_ADDR="0x36723e366cca7a0db32c8efa6dfb24b015eb92a5";
-const SETTLED=[{"ts": "2026-03-22 23:52 UTC", "desc": "Real Madrid CF vs. Club Atl\u00e9tico de Madr", "pnl": 3.25}, {"ts": "2026-03-23 03:22 UTC", "desc": "Call of Duty: Miami Heretics vs Boston B", "pnl": 0.43}, {"ts": "2026-03-23 11:12 UTC", "desc": "Counter-Strike: 3DMAX vs FOKUS REALITY (", "pnl": 2.81}, {"ts": "2026-03-23 11:32 UTC", "desc": "Counter-Strike: FOKUS vs GAMEHARMONY (BO", "pnl": 2.79}, {"ts": "2026-03-23 12:22 UTC", "desc": "Counter-Strike: 3DMAX vs GAMEHARMONY (BO", "pnl": 0.92}, {"ts": "2026-03-24 10:42 UTC", "desc": "LoL: French Flair vs G2 NORD (BO3) - EME", "pnl": 2.81}, {"ts": "2026-03-24 13:32 UTC", "desc": "Valorant: KR\u00dc Blaze vs Looking For Labur", "pnl": 1.82}, {"ts": "2026-03-24 16:12 UTC", "desc": "Counter-Strike: Johnny Speeds vs FC Fama", "pnl": 2.2}, {"ts": "2026-03-24 19:42 UTC", "desc": "Will Manuel Saavedra win the 2026 Santa ", "pnl": 1.29}, {"ts": "2026-03-25 08:12 UTC", "desc": "Valorant: QoR vs Shopify Rebellion Gold ", "pnl": 1.63}, {"ts": "2026-03-25 12:52 UTC", "desc": "Valorant: Dplus vs FearX (BO3) - VCL Kor", "pnl": 3.03}, {"ts": "2026-03-25 15:52 UTC", "desc": "Counter-Strike: Betclic Apogee Esports v", "pnl": 2.2}, {"ts": "2026-03-25 19:52 UTC", "desc": "Dota 2: Rune Eaters vs Spirit Academy (B", "pnl": 1.25}, {"ts": "2026-03-25 21:12 UTC", "desc": "Counter-Strike: Bebop vs 8Sins (BO3) - C", "pnl": 1.27}];
-
-async function polyFetch(path,extra){
-  const enc=encodeURIComponent("https://data-api.polymarket.com"+path+"?user="+POLY_ADDR+(extra||""));
-  const r=await fetch("https://api.allorigins.win/get?url="+enc);
-  return JSON.parse((await r.json()).contents);
-}
-
-async function loadTrackC(){
-  try{
-    const[valD,posD]=await Promise.all([polyFetch("/value"),polyFetch("/positions","&limit=50&sizeThreshold=0.01")]);
-    const pv=(valD[0]&&valD[0].value)||0;
-    const openP=posD.filter(function(p){return !p.redeemable;});
-    const redeemP=posD.filter(function(p){return p.redeemable;});
-    const posTotal=openP.reduce(function(s,p){return s+parseFloat(p.currentValue||0);},0);
-    document.getElementById("tc-total").textContent="$"+pv.toFixed(2);
-    document.getElementById("tc-breakdown").textContent="Positions $"+posTotal.toFixed(2);
-    document.getElementById("tc-open").textContent=openP.length;
-    if(openP.length===0){
-      document.getElementById("tc-pos-tbody").innerHTML='<tr><td colspan="3" class="gray">No open positions</td></tr>';
-    }else{
-      document.getElementById("tc-pos-tbody").innerHTML=openP.map(function(p){
-        var v=parseFloat(p.currentValue||0),pnl=parseFloat(p.cashPnl||0),c=pnl>=0?"green":"red";
-        return "<tr><td style='font-size:12px'>"+(p.title||"").slice(0,50)+"</td><td class='green'>$"+v.toFixed(2)+"</td><td class='"+c+"'>"+(pnl>=0?"+":"-")+"$"+Math.abs(pnl).toFixed(2)+"</td></tr>";
-      }).join("");
-    }
-    if(redeemP.length===0){
-      document.getElementById("tc-redeem-tbody").innerHTML='<tr><td colspan="2" class="gray">None</td></tr>';
-    }else{
-      document.getElementById("tc-redeem-tbody").innerHTML=redeemP.map(function(p){
-        return "<tr><td style='font-size:12px'>"+(p.title||"").slice(0,50)+"</td><td class='green'>$"+parseFloat(p.currentValue||0).toFixed(2)+"</td></tr>";
-      }).join("");
-    }
-    document.getElementById("tc-loading").style.display="none";
-    document.getElementById("tc-content").style.display="block";
-  }catch(e){document.getElementById("tc-loading").textContent="Error: "+e.message;}
-}
-
-(function injectSettled(){
-  var byDay={};
-  SETTLED.forEach(function(s){var d=s.ts.slice(0,10);byDay[d]=(byDay[d]||0)+s.pnl;});
-  var cum=0;
-  document.getElementById("daily-tbody").innerHTML=Object.keys(byDay).sort().map(function(d){
-    cum+=byDay[d];
-    return "<tr><td class='gray'>"+d+"</td><td class='green'>+$"+byDay[d].toFixed(2)+"</td><td class='green'>+$"+cum.toFixed(2)+"</td></tr>";
-  }).join("");
-  var wins=SETTLED.filter(function(s){return s.pnl>0;}).length;
-  var tot=SETTLED.reduce(function(a,s){return a+s.pnl;},0);
-  document.getElementById("tc-pnl").textContent="+$"+tot.toFixed(2);
-  document.getElementById("tc-pnl-sub").textContent=SETTLED.length+" settled trades";
-  document.getElementById("tc-wr").textContent=(wins/SETTLED.length*100).toFixed(0)+"%";
-  document.getElementById("tc-wr-sub").textContent=wins+" / "+SETTLED.length+" trades";
-  document.getElementById("trade-tbody").innerHTML=SETTLED.map(function(s){
-    var c=s.pnl>0?"green":"red";
-    return "<tr><td class='gray'>"+s.ts.slice(5,16)+"</td><td style='font-size:12px'>"+s.desc+"</td><td class='"+c+"'>"+(s.pnl>0?"+":"-")+"$"+Math.abs(s.pnl).toFixed(2)+"</td></tr>";
-  }).join("");
-})();
-loadTrackC();
 </script>
 </body>
 </html>
