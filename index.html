@@ -125,9 +125,9 @@
         <tr><td class="gray">2026-03-22</td><td class="green">+$3.25</td><td class="green">+$3.25</td></tr><tr><td class="gray">2026-03-23</td><td class="green">+$6.95</td><td class="green">+$10.20</td></tr><tr><td class="gray">2026-03-24</td><td class="green">+$8.12</td><td class="green">+$18.32</td></tr><tr><td class="gray">2026-03-25</td><td class="green">+$9.38</td><td class="green">+$27.70</td></tr></table>
       </div>
       <div class="card c12">
-        <div class="k">Settled Trades (14)</div>
-        <table><tr><th>Time UTC</th><th>Event</th><th>P&L</th></tr>
-        <tr><td class="gray">03-22 23:52</td><td style="font-size:12px">Real Madrid CF vs. Club Atlético de Madr</td><td class="green">+$3.25</td></tr><tr><td class="gray">03-23 03:22</td><td style="font-size:12px">Call of Duty: Miami Heretics vs Boston B</td><td class="green">+$0.43</td></tr><tr><td class="gray">03-23 11:12</td><td style="font-size:12px">Counter-Strike: 3DMAX vs FOKUS REALITY (</td><td class="green">+$2.81</td></tr><tr><td class="gray">03-23 11:32</td><td style="font-size:12px">Counter-Strike: FOKUS vs GAMEHARMONY (BO</td><td class="green">+$2.79</td></tr><tr><td class="gray">03-23 12:22</td><td style="font-size:12px">Counter-Strike: 3DMAX vs GAMEHARMONY (BO</td><td class="green">+$0.92</td></tr><tr><td class="gray">03-24 10:42</td><td style="font-size:12px">LoL: French Flair vs G2 NORD (BO3) - EME</td><td class="green">+$2.81</td></tr><tr><td class="gray">03-24 13:32</td><td style="font-size:12px">Valorant: KRÜ Blaze vs Looking For Labur</td><td class="green">+$1.82</td></tr><tr><td class="gray">03-24 16:12</td><td style="font-size:12px">Counter-Strike: Johnny Speeds vs FC Fama</td><td class="green">+$2.20</td></tr><tr><td class="gray">03-24 19:42</td><td style="font-size:12px">Will Manuel Saavedra win the 2026 Santa </td><td class="green">+$1.29</td></tr><tr><td class="gray">03-25 08:12</td><td style="font-size:12px">Valorant: QoR vs Shopify Rebellion Gold </td><td class="green">+$1.63</td></tr><tr><td class="gray">03-25 12:52</td><td style="font-size:12px">Valorant: Dplus vs FearX (BO3) - VCL Kor</td><td class="green">+$3.03</td></tr><tr><td class="gray">03-25 15:52</td><td style="font-size:12px">Counter-Strike: Betclic Apogee Esports v</td><td class="green">+$2.20</td></tr><tr><td class="gray">03-25 19:52</td><td style="font-size:12px">Dota 2: Rune Eaters vs Spirit Academy (B</td><td class="green">+$1.25</td></tr><tr><td class="gray">03-25 21:12</td><td style="font-size:12px">Counter-Strike: Bebop vs 8Sins (BO3) - C</td><td class="green">+$1.27</td></tr></table>
+        <div class="k">Settled Trades (14) <span id="sort-btn" onclick="toggleSort()" style="cursor:pointer;font-size:10px;color:#58a6ff;margin-left:8px">▼ Newest first</span></div>
+        <table id="trade-table"><tr><th onclick="toggleSort()" style="cursor:pointer">Time UTC ↕</th><th>Event</th><th>P&L</th></tr>
+        <tbody id="trade-tbody"><tr><td class="gray">03-22 23:52</td><td style="font-size:12px">Real Madrid CF vs. Club Atlético de Madr</td><td class="green">+$3.25</td></tr><tr><td class="gray">03-23 03:22</td><td style="font-size:12px">Call of Duty: Miami Heretics vs Boston B</td><td class="green">+$0.43</td></tr><tr><td class="gray">03-23 11:12</td><td style="font-size:12px">Counter-Strike: 3DMAX vs FOKUS REALITY (</td><td class="green">+$2.81</td></tr><tr><td class="gray">03-23 11:32</td><td style="font-size:12px">Counter-Strike: FOKUS vs GAMEHARMONY (BO</td><td class="green">+$2.79</td></tr><tr><td class="gray">03-23 12:22</td><td style="font-size:12px">Counter-Strike: 3DMAX vs GAMEHARMONY (BO</td><td class="green">+$0.92</td></tr><tr><td class="gray">03-24 10:42</td><td style="font-size:12px">LoL: French Flair vs G2 NORD (BO3) - EME</td><td class="green">+$2.81</td></tr><tr><td class="gray">03-24 13:32</td><td style="font-size:12px">Valorant: KRÜ Blaze vs Looking For Labur</td><td class="green">+$1.82</td></tr><tr><td class="gray">03-24 16:12</td><td style="font-size:12px">Counter-Strike: Johnny Speeds vs FC Fama</td><td class="green">+$2.20</td></tr><tr><td class="gray">03-24 19:42</td><td style="font-size:12px">Will Manuel Saavedra win the 2026 Santa </td><td class="green">+$1.29</td></tr><tr><td class="gray">03-25 08:12</td><td style="font-size:12px">Valorant: QoR vs Shopify Rebellion Gold </td><td class="green">+$1.63</td></tr><tr><td class="gray">03-25 12:52</td><td style="font-size:12px">Valorant: Dplus vs FearX (BO3) - VCL Kor</td><td class="green">+$3.03</td></tr><tr><td class="gray">03-25 15:52</td><td style="font-size:12px">Counter-Strike: Betclic Apogee Esports v</td><td class="green">+$2.20</td></tr><tr><td class="gray">03-25 19:52</td><td style="font-size:12px">Dota 2: Rune Eaters vs Spirit Academy (B</td><td class="green">+$1.25</td></tr><tr><td class="gray">03-25 21:12</td><td style="font-size:12px">Counter-Strike: Bebop vs 8Sins (BO3) - C</td><td class="green">+$1.27</td></tr></tbody></table>
       </div>
     </div>
   </div>
@@ -337,6 +337,28 @@ async function refresh(){
 
 refresh();
 setInterval(refresh,60000);
+
+
+var tradeAsc = false;
+function toggleSort() {
+  tradeAsc = !tradeAsc;
+  var btn = document.getElementById('sort-btn');
+  if(btn) btn.textContent = tradeAsc ? '▲ Oldest first' : '▼ Newest first';
+  sortTrades();
+}
+function sortTrades() {
+  var tbody = document.getElementById('trade-tbody');
+  if(!tbody) return;
+  var rows = Array.from(tbody.querySelectorAll('tr'));
+  rows.sort(function(a,b){
+    var ta = a.cells[0] ? a.cells[0].textContent.trim() : '';
+    var tb = b.cells[0] ? b.cells[0].textContent.trim() : '';
+    return tradeAsc ? ta.localeCompare(tb) : tb.localeCompare(ta);
+  });
+  rows.forEach(function(r){ tbody.appendChild(r); });
+}
+// Default: newest first on load
+document.addEventListener('DOMContentLoaded', function(){ sortTrades(); });
 
 </script>
 </body>
