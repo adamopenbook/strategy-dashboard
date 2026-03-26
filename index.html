@@ -93,23 +93,43 @@
 
   <!-- TRACK C TAB -->
     <div class="tab-pane active" id="tab-trackc">
-      <div class="grid" style="margin-bottom:16px">
-        <div class="card c3"><div class="k">Portfolio Balance</div><div class="v green">$123.51</div><div class="vs">Cash $68.59 + Pos $54.92</div></div>
-        <div class="card c3"><div class="k">Open Positions</div><div class="v yellow">4</div><div class="vs">Live in market</div></div>
-        <div class="card c3"><div class="k">Realized P&L</div><div class="v green">+$27.70</div><div class="vs">14/14 trades won</div></div>
-        <div class="card c3"><div class="k">Win Rate</div><div class="v green">100%</div><div class="vs">14 settled trades</div></div>
+    <div class="grid" style="margin-bottom:16px">
+      <div class="card c3">
+        <div class="k">Portfolio Balance</div>
+        <div id="poly-total"><div class="v green">Loading…</div></div>
       </div>
-      <div class="grid">
-        <div class="card c6"><div class="k">Open Positions</div>
-          <table><tr><th>Market</th><th>Value</th><th>P&L</th></tr><tr><td style="font-size:12px">Will Mette Frederiksen be the next prime minister of De</td><td class="green">$21.12</td><td class="red">$0.12</td></tr><tr><td style="font-size:12px">Will People's Party win the most seats in the Løgting i</td><td class="green">$14.03</td><td class="red">$0.07</td></tr><tr><td style="font-size:12px">Spurs vs. Grizzlies</td><td class="green">$9.99</td><td class="green">+$0.80</td></tr><tr><td style="font-size:12px">Will Nepal vs. Hong Kong SAR end in a draw?</td><td class="green">$9.78</td><td class="green">+$0.32</td></tr></table></div>
-        <div class="card c6"><div class="k">Redeemable</div>
-          <table><tr><th>Market</th><th>Value</th></tr><tr><td colspan="2" class="gray">None</td></tr></table></div>
-        <div class="card c4"><div class="k">Daily P&L</div>
-          <table><tr><th>Date</th><th>P&L</th><th>Cumulative</th></tr><tr><td class="gray">2026-03-22</td><td class="green">+$3.25</td><td class="green">+$3.25</td></tr><tr><td class="gray">2026-03-23</td><td class="green">+$6.95</td><td class="green">+$10.20</td></tr><tr><td class="gray">2026-03-24</td><td class="green">+$8.12</td><td class="green">+$18.32</td></tr><tr><td class="gray">2026-03-25</td><td class="green">+$9.38</td><td class="green">+$27.70</td></tr></table></div>
-        <div class="card c8"><div class="k">Settled Trades (14)</div>
-          <table><tr><th>Time UTC</th><th>Event</th><th>P&L</th></tr><tr><td class="gray">03-22 23:52</td><td style="font-size:12px">Real Madrid CF vs. Club Atlético de Madr</td><td class="green">+$3.25</td></tr><tr><td class="gray">03-23 03:22</td><td style="font-size:12px">Call of Duty: Miami Heretics vs Boston B</td><td class="green">+$0.43</td></tr><tr><td class="gray">03-23 11:12</td><td style="font-size:12px">Counter-Strike: 3DMAX vs FOKUS REALITY (</td><td class="green">+$2.81</td></tr><tr><td class="gray">03-23 11:32</td><td style="font-size:12px">Counter-Strike: FOKUS vs GAMEHARMONY (BO</td><td class="green">+$2.79</td></tr><tr><td class="gray">03-23 12:22</td><td style="font-size:12px">Counter-Strike: 3DMAX vs GAMEHARMONY (BO</td><td class="green">+$0.92</td></tr><tr><td class="gray">03-24 10:42</td><td style="font-size:12px">LoL: French Flair vs G2 NORD (BO3) - EME</td><td class="green">+$2.81</td></tr><tr><td class="gray">03-24 13:32</td><td style="font-size:12px">Valorant: KRÜ Blaze vs Looking For Labur</td><td class="green">+$1.82</td></tr><tr><td class="gray">03-24 16:12</td><td style="font-size:12px">Counter-Strike: Johnny Speeds vs FC Fama</td><td class="green">+$2.20</td></tr><tr><td class="gray">03-24 19:42</td><td style="font-size:12px">Will Manuel Saavedra win the 2026 Santa </td><td class="green">+$1.29</td></tr><tr><td class="gray">03-25 08:12</td><td style="font-size:12px">Valorant: QoR vs Shopify Rebellion Gold </td><td class="green">+$1.63</td></tr><tr><td class="gray">03-25 12:52</td><td style="font-size:12px">Valorant: Dplus vs FearX (BO3) - VCL Kor</td><td class="green">+$3.03</td></tr><tr><td class="gray">03-25 15:52</td><td style="font-size:12px">Counter-Strike: Betclic Apogee Esports v</td><td class="green">+$2.20</td></tr><tr><td class="gray">03-25 19:52</td><td style="font-size:12px">Dota 2: Rune Eaters vs Spirit Academy (B</td><td class="green">+$1.25</td></tr><tr><td class="gray">03-25 21:12</td><td style="font-size:12px">Counter-Strike: Bebop vs 8Sins (BO3) - C</td><td class="green">+$1.27</td></tr></table></div>
+      <div class="card c3">
+        <div class="k">Unrealized P&L</div>
+        <div id="poly-unreal"><div class="v">Loading…</div></div>
       </div>
-      <div style="font-size:11px;color:#8b949e;margin-top:12px">Data source: Polymarket API · Last updated: 2026-03-26 02:02 UTC</div>
+      <div class="card c3">
+        <div class="k">Realized P&L</div>
+        <div class="v green">+$27.70</div>
+        <div class="vs">14/14 trades won</div>
+      </div>
+      <div class="card c3">
+        <div class="k">Win Rate</div>
+        <div class="v green">100%</div>
+        <div class="vs">14 settled trades</div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card c6">
+        <div class="k">Open Positions <span id="live-ts" style="font-size:10px;color:#8b949e"></span></div>
+        <table><tr><th>Market</th><th>Value</th><th>P&L</th></tr>
+        <tbody id="pos-tbody"><tr><td colspan="3" class="gray">Loading…</td></tr></tbody></table>
+      </div>
+      <div class="card c6">
+        <div class="k">Daily P&L (from log)</div>
+        <table><tr><th>Date</th><th>P&L</th><th>Cumulative</th></tr>
+        <tr><td class="gray">2026-03-22</td><td class="green">+$3.25</td><td class="green">+$3.25</td></tr><tr><td class="gray">2026-03-23</td><td class="green">+$6.95</td><td class="green">+$10.20</td></tr><tr><td class="gray">2026-03-24</td><td class="green">+$8.12</td><td class="green">+$18.32</td></tr><tr><td class="gray">2026-03-25</td><td class="green">+$9.38</td><td class="green">+$27.70</td></tr></table>
+      </div>
+      <div class="card c12">
+        <div class="k">Settled Trades (14)</div>
+        <table><tr><th>Time UTC</th><th>Event</th><th>P&L</th></tr>
+        <tr><td class="gray">03-22 23:52</td><td style="font-size:12px">Real Madrid CF vs. Club Atlético de Madr</td><td class="green">+$3.25</td></tr><tr><td class="gray">03-23 03:22</td><td style="font-size:12px">Call of Duty: Miami Heretics vs Boston B</td><td class="green">+$0.43</td></tr><tr><td class="gray">03-23 11:12</td><td style="font-size:12px">Counter-Strike: 3DMAX vs FOKUS REALITY (</td><td class="green">+$2.81</td></tr><tr><td class="gray">03-23 11:32</td><td style="font-size:12px">Counter-Strike: FOKUS vs GAMEHARMONY (BO</td><td class="green">+$2.79</td></tr><tr><td class="gray">03-23 12:22</td><td style="font-size:12px">Counter-Strike: 3DMAX vs GAMEHARMONY (BO</td><td class="green">+$0.92</td></tr><tr><td class="gray">03-24 10:42</td><td style="font-size:12px">LoL: French Flair vs G2 NORD (BO3) - EME</td><td class="green">+$2.81</td></tr><tr><td class="gray">03-24 13:32</td><td style="font-size:12px">Valorant: KRÜ Blaze vs Looking For Labur</td><td class="green">+$1.82</td></tr><tr><td class="gray">03-24 16:12</td><td style="font-size:12px">Counter-Strike: Johnny Speeds vs FC Fama</td><td class="green">+$2.20</td></tr><tr><td class="gray">03-24 19:42</td><td style="font-size:12px">Will Manuel Saavedra win the 2026 Santa </td><td class="green">+$1.29</td></tr><tr><td class="gray">03-25 08:12</td><td style="font-size:12px">Valorant: QoR vs Shopify Rebellion Gold </td><td class="green">+$1.63</td></tr><tr><td class="gray">03-25 12:52</td><td style="font-size:12px">Valorant: Dplus vs FearX (BO3) - VCL Kor</td><td class="green">+$3.03</td></tr><tr><td class="gray">03-25 15:52</td><td style="font-size:12px">Counter-Strike: Betclic Apogee Esports v</td><td class="green">+$2.20</td></tr><tr><td class="gray">03-25 19:52</td><td style="font-size:12px">Dota 2: Rune Eaters vs Spirit Academy (B</td><td class="green">+$1.25</td></tr><tr><td class="gray">03-25 21:12</td><td style="font-size:12px">Counter-Strike: Bebop vs 8Sins (BO3) - C</td><td class="green">+$1.27</td></tr></table>
+      </div>
+    </div>
   </div>
 
 <div class="tab-pane" id="tab-validation">
@@ -256,6 +276,59 @@ function switchTab(name,el){
 }
 document.getElementById('ts').textContent=new Date().toISOString().replace('T',' ').slice(0,19)+' UTC';
 let cd=60; setInterval(()=>{cd--;if(cd<=0){cd=60;location.reload();}},1000);
+
+const POLY_ADDR='0x36723e366Cca7A0DB32C8EFa6dfB24B015eB92A5';
+const USDC_CONTRACT='0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';
+const RPC='https://1rpc.io/matic';
+
+async function fetchUSDC(){
+  const data='0x70a08231000000000000000000000000'+POLY_ADDR.slice(2).toLowerCase();
+  const r=await fetch(RPC,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({jsonrpc:'2.0',method:'eth_call',params:[{to:USDC_CONTRACT,data},'latest'],id:1})});
+  const j=await r.json();
+  return parseInt(j.result,16)/1e6;
+}
+
+async function fetchPositions(){
+  const r=await fetch('https://data-api.polymarket.com/positions?user='+POLY_ADDR.toLowerCase()+'&limit=100&sizeThreshold=0');
+  const pos=await r.json();
+  const open=pos.filter(p=>parseFloat(p.size||0)>0&&!p.redeemable);
+  const openVal=open.reduce((s,p)=>s+parseFloat(p.currentValue||0),0);
+  const unreal=open.reduce((s,p)=>s+parseFloat(p.cashPnl||0),0);
+  return {open,openCount:open.length,openVal,unreal};
+}
+
+function fmt(v,plus=false){
+  const s=Math.abs(v).toFixed(2);
+  if(plus) return v>=0?'+$'+s:'\u2212$'+s;
+  return '$'+s;
+}
+
+function setEl(id,html){const el=document.getElementById(id);if(el)el.innerHTML=html;}
+function setTs(){const el=document.getElementById('live-ts');if(el)el.textContent='Live · '+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC';}
+
+async function refresh(){
+  setTs();
+  try{
+    const [usdc,{open,openCount,openVal,unreal}]=await Promise.all([fetchUSDC(),fetchPositions()]);
+    const total=usdc+openVal;
+    setEl('poly-total','<div class="v green">'+fmt(total)+'</div><div class="vs">Cash '+fmt(usdc)+' · Pos '+fmt(openVal)+'</div>');
+    const c=unreal>=0?'green':'red';
+    setEl('poly-unreal','<div class="v '+c+'">'+fmt(unreal,true)+'</div><div class="vs">'+openCount+' open positions</div>');
+    // Update positions table
+    let rows=open.length?'':'<tr><td colspan="3" class="gray">No open positions</td></tr>';
+    open.forEach(function(p){
+      const v=parseFloat(p.currentValue||0),pnl=parseFloat(p.cashPnl||0);
+      const pc=pnl>=0?'green':'red';
+      rows+='<tr><td style="font-size:12px">'+(p.title||'').slice(0,55)+'</td><td class="green">'+fmt(v)+'</td><td class="'+pc+'">'+fmt(pnl,true)+'</td></tr>';
+    });
+    setEl('pos-tbody',rows);
+  }catch(e){console.error('poly error',e);setEl('poly-total','<div class="v gray">API error</div>');}
+}
+
+refresh();
+setInterval(refresh,60000);
+
 </script>
 </body>
 </html>
