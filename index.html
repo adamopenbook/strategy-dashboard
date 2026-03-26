@@ -96,11 +96,11 @@
     <div class="grid" style="margin-bottom:16px">
       <div class="card c3">
         <div class="k">Portfolio Balance</div>
-        <div id="poly-total"><div class="v green">Loading…</div></div>
+        <div id="poly-total"><div class="v gray">Loading…</div><div class="vs">Live from Polymarket</div></div>
       </div>
       <div class="card c3">
-        <div class="k">Unrealized P&L</div>
-        <div id="poly-unreal"><div class="v">Loading…</div></div>
+        <div class="k">Open Positions</div>
+        <div id="poly-open"><div class="v gray">…</div></div>
       </div>
       <div class="card c3">
         <div class="k">Realized P&L</div>
@@ -277,53 +277,45 @@ function switchTab(name,el){
 document.getElementById('ts').textContent=new Date().toISOString().replace('T',' ').slice(0,19)+' UTC';
 let cd=60; setInterval(()=>{cd--;if(cd<=0){cd=60;location.reload();}},1000);
 
-const POLY_ADDR='0x36723e366Cca7A0DB32C8EFa6dfB24B015eB92A5';
-const USDC_CONTRACT='0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';
-const RPC='https://1rpc.io/matic';
 
-async function fetchUSDC(){
-  const data='0x70a08231000000000000000000000000'+POLY_ADDR.slice(2).toLowerCase();
-  const r=await fetch(RPC,{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({jsonrpc:'2.0',method:'eth_call',params:[{to:USDC_CONTRACT,data},'latest'],id:1})});
-  const j=await r.json();
-  return parseInt(j.result,16)/1e6;
-}
 
-async function fetchPositions(){
-  const r=await fetch('https://data-api.polymarket.com/positions?user='+POLY_ADDR.toLowerCase()+'&limit=100&sizeThreshold=0');
-  const pos=await r.json();
-  const open=pos.filter(p=>parseFloat(p.size||0)>0&&!p.redeemable);
-  const openVal=open.reduce((s,p)=>s+parseFloat(p.currentValue||0),0);
-  const unreal=open.reduce((s,p)=>s+parseFloat(p.cashPnl||0),0);
-  return {open,openCount:open.length,openVal,unreal};
-}
+const POLY_ADDR='0x36723e366cca7a0db32c8efa6dfb24b015eb92a5';
+const DATA='https://data-api.polymarket.com';
 
-function fmt(v,plus=false){
-  const s=Math.abs(v).toFixed(2);
-  if(plus) return v>=0?'+$'+s:'\u2212$'+s;
+function fmt(v,plus){
+  var s=Math.abs(v).toFixed(2);
+  if(plus) return v>=0?'+$'+s:'-$'+s;
   return '$'+s;
 }
-
-function setEl(id,html){const el=document.getElementById(id);if(el)el.innerHTML=html;}
-function setTs(){const el=document.getElementById('live-ts');if(el)el.textContent='Live · '+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC';}
+function setEl(id,html){var el=document.getElementById(id);if(el)el.innerHTML=html;}
+function setTs(){var el=document.getElementById('live-ts');if(el)el.textContent='Live · '+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC';}
 
 async function refresh(){
   setTs();
   try{
-    const [usdc,{open,openCount,openVal,unreal}]=await Promise.all([fetchUSDC(),fetchPositions()]);
-    const total=usdc+openVal;
-    setEl('poly-total','<div class="v green">'+fmt(total)+'</div><div class="vs">Cash '+fmt(usdc)+' · Pos '+fmt(openVal)+'</div>');
-    const c=unreal>=0?'green':'red';
-    setEl('poly-unreal','<div class="v '+c+'">'+fmt(unreal,true)+'</div><div class="vs">'+openCount+' open positions</div>');
-    // Update positions table
-    let rows=open.length?'':'<tr><td colspan="3" class="gray">No open positions</td></tr>';
+    var [valR,posR]=await Promise.all([
+      fetch(DATA+'/value?user='+POLY_ADDR).then(r=>r.json()),
+      fetch(DATA+'/positions?user='+POLY_ADDR+'&limit=50&sizeThreshold=0').then(r=>r.json())
+    ]);
+    var portVal=valR&&valR[0]?parseFloat(valR[0].value):0;
+    setEl('poly-total','<div class="v green">'+fmt(portVal)+'</div><div class="vs">Portfolio value (Polymarket)</div>');
+
+    var open=(posR||[]).filter(function(p){return !p.redeemable&&parseFloat(p.size||0)>0;});
+    var unreal=open.reduce(function(s,p){return s+parseFloat(p.cashPnl||0);},0);
+    var uc=unreal>=0?'green':'red';
+    setEl('poly-open','<div class="v yellow">'+open.length+'</div><div class="vs">Unrealized: <span class="'+uc+'">'+fmt(unreal,true)+'</span></div>');
+
+    var rows=open.length?'':'<tr><td colspan="3" class="gray">No open positions</td></tr>';
     open.forEach(function(p){
-      const v=parseFloat(p.currentValue||0),pnl=parseFloat(p.cashPnl||0);
-      const pc=pnl>=0?'green':'red';
-      rows+='<tr><td style="font-size:12px">'+(p.title||'').slice(0,55)+'</td><td class="green">'+fmt(v)+'</td><td class="'+pc+'">'+fmt(pnl,true)+'</td></tr>';
+      var v=parseFloat(p.currentValue||0),pnl=parseFloat(p.cashPnl||0);
+      var c=pnl>=0?'green':'red';
+      rows+='<tr><td style="font-size:12px">'+(p.title||'').slice(0,55)+'</td><td class="green">'+fmt(v)+'</td><td class="'+c+'">'+fmt(pnl,true)+'</td></tr>';
     });
     setEl('pos-tbody',rows);
-  }catch(e){console.error('poly error',e);setEl('poly-total','<div class="v gray">API error</div>');}
+  }catch(e){
+    console.error('Polymarket error:',e);
+    setEl('poly-total','<div class="v gray">—</div><div class="vs red">'+e.message+'</div>');
+  }
 }
 
 refresh();
