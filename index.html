@@ -315,7 +315,7 @@ async function refresh(){
     var total=cash!==null?portVal+cash:portVal;
     var sub=cash!==null?'Cash $'+cash.toFixed(2)+' + Positions $'+portVal.toFixed(2):'Positions only';
     // Net profit = portfolio value - initial deposit
-    var netProfit = portVal - 99.80;
+    var netProfit = total - 99.95;
     var nc = netProfit >= 0 ? 'green' : 'red';
     setEl('tc-netprofit','<div class="v '+nc+'">'+(netProfit>=0?'+':'')+fmt(netProfit)+'</div>');
             setEl('poly-total','<div class="v green">'+fmt(total)+'</div><div class="vs">'+sub+'</div>');
