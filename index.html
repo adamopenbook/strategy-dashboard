@@ -281,6 +281,8 @@ let cd=60; setInterval(()=>{cd--;if(cd<=0){cd=60;location.reload();}},1000);
 
 const POLY_ADDR='0x36723e366cca7a0db32c8efa6dfb24b015eb92a5';
 const DATA='https://data-api.polymarket.com';
+const BLOCKSCOUT='https://polygon.blockscout.com';
+const USDC_ADDR='0x2791bca1f2de4661ed88a30c99a7a9449aa84174';
 
 function fmt(v,plus){
   var s=Math.abs(v).toFixed(2);
@@ -290,15 +292,30 @@ function fmt(v,plus){
 function setEl(id,html){var el=document.getElementById(id);if(el)el.innerHTML=html;}
 function setTs(){var el=document.getElementById('live-ts');if(el)el.textContent='Live · '+new Date().toISOString().slice(0,16).replace('T',' ')+' UTC';}
 
+async function fetchCash(){
+  try{
+    var r=await fetch(BLOCKSCOUT+'/api/v2/addresses/'+POLY_ADDR+'/token-balances');
+    var data=await r.json();
+    var usdc=data.find(function(t){return t.token&&(t.token.address_hash||'').toLowerCase().includes(USDC_ADDR);});
+    if(usdc&&usdc.token&&usdc.token.decimals){
+      return parseInt(usdc.value)/Math.pow(10,parseInt(usdc.token.decimals));
+    }
+  }catch(e){console.warn('blockscout error:',e);}
+  return null;
+}
+
 async function refresh(){
   setTs();
   try{
-    var [valR,posR]=await Promise.all([
+    var [valR,posR,cash]=await Promise.all([
       fetch(DATA+'/value?user='+POLY_ADDR).then(r=>r.json()),
-      fetch(DATA+'/positions?user='+POLY_ADDR+'&limit=50&sizeThreshold=0').then(r=>r.json())
+      fetch(DATA+'/positions?user='+POLY_ADDR+'&limit=50&sizeThreshold=0').then(r=>r.json()),
+      fetchCash()
     ]);
     var portVal=valR&&valR[0]?parseFloat(valR[0].value):0;
-    setEl('poly-total','<div class="v green">'+fmt(portVal)+'</div><div class="vs">Portfolio value (Polymarket)</div>');
+    var total=cash!==null?portVal+cash:portVal;
+    var sub=cash!==null?'Cash $'+cash.toFixed(2)+' + Positions $'+portVal.toFixed(2):'Positions only';
+    setEl('poly-total','<div class="v green">'+fmt(total)+'</div><div class="vs">'+sub+'</div>');
 
     var open=(posR||[]).filter(function(p){return !p.redeemable&&parseFloat(p.size||0)>0;});
     var unreal=open.reduce(function(s,p){return s+parseFloat(p.cashPnl||0);},0);
@@ -313,8 +330,8 @@ async function refresh(){
     });
     setEl('pos-tbody',rows);
   }catch(e){
-    console.error('Polymarket error:',e);
-    setEl('poly-total','<div class="v gray">—</div><div class="vs red">'+e.message+'</div>');
+    console.error('refresh error:',e);
+    setEl('poly-total','<div class="v gray">—</div><div class="vs" style="color:#f85149">'+e.message+'</div>');
   }
 }
 
