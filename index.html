@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-26 22:23 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-26 22:24 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -95,10 +95,12 @@
     <div class="tab-pane active" id="tab-trackc">
     <div class="grid" style="margin-bottom:16px">
       <div class="card c3">
-        <div class="k">Portfolio Balance</div><div class="v" id="tc-balance">…</div><div class="vs">Live from Polymarket</div></div>
+        <div class="k">Portfolio Balance</div>
+        <div id="poly-total"><div class="v gray">Loading…</div><div class="vs">Live from Polymarket</div></div>
       </div>
       <div class="card c3">
-        1</div>
+        <div class="k">Open Positions</div>
+        <div id="poly-open"><div class="v gray">…</div></div>
       </div>
       <div class="card c3">
         <div class="k">Net Profit</div>
@@ -106,7 +108,8 @@
         <div class="vs">Current value − $476.99 deposit</div>
       </div>
       <div class="card c3">
-        93%
+        <div class="k">Win Rate</div>
+        <div class="v green">93%</div>
         <div class="vs">53/57 · V1+V2 combined</div>
       </div>
     </div>
