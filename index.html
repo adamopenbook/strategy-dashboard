@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-27 04:02 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-27 04:04 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -368,21 +368,7 @@ async function refresh(){
     setEl('pos-tbody',rows);
   }catch(e){
     console.error('refresh error:',e);
-    setEl('poly-total','<div class="v gray">—</div><div class="vs" style="color:#f85149">'+e.message+'
-<div class="card c12" style="margin-top:12px">
-  <div class="k">W29 Volatility Regime — 2026-03-27</div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px">
-    <div><div class="k">測試數</div><div class="v">25</div></div>
-    <div><div class="k">通過率</div><div class="v">0/25</div></div>
-    <div><div class="k">最佳策略</div><div class="v">N/A</div></div>
-    <div><div class="k">最佳評分</div><div class="v ">0/100</div></div>
-  </div>
-  <div style="margin-top:8px;font-size:13px;color:#9fb0d3">
-    BTC CAGR: +0.0% | ETH CAGR: +0.0% | Avg DD: 0.0% | Grade: N/A | 建議: 觀察
-  </div>
-</div>
-
-</div>');
+    setEl('poly-total','<div class="v gray">—</div><div class="vs" style="color:#f85149">'+e.message+'</div>');
   }
 }
 
