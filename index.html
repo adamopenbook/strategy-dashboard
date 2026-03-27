@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-27 03:38 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-27 03:41 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -133,8 +133,8 @@
 
 <div class="tab-pane" id="tab-validation">
     <div class="grid" style="margin-bottom:16px">
-      <div class="card c3"><div class="k">Validated</div><div class="v">20</div><div class="vs">Top candidates</div></div>
-      <div class="card c3"><div class="k">🟢 A Grade</div><div class="v green">0</div><div class="vs">Score ≥ 80</div></div>
+      <div class="card c3"><div class="k">Validated</div><div class="v">45</div><div class="vs">W1–W29 累計</div></div>
+      <div class="card c3"><div class="k">🟢 A Grade</div><div class="v green">1</div><div class="vs">w28_regime_024 · 紙盤中</div></div>
       <div class="card c3"><div class="k">🟡 B Grade</div><div class="v yellow">8</div><div class="vs">Score 60–79 · OBSERVE</div></div>
       <div class="card c3"><div class="k">💀 Disqualified</div><div class="v red">2</div><div class="vs">Look-ahead bias</div></div>
     </div>
@@ -168,13 +168,22 @@
         </div>
       </div>
 
-      <!-- W29 placeholder -->
+      <!-- W29 -->
       <div id="w29-result" style="border:1px solid #243055;border-radius:10px;padding:12px;margin-top:10px">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <span style="font-weight:700">W29 · Volatility Regime (ATR)</span>
-          <span class="pill warn">⏳ 探索中…</span>
+          <span class="pill info">✅ ETH 優化</span>
         </div>
-        <div style="color:#8b949e;font-size:13px;margin-top:8px">結果即將更新</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px">
+          <div><div class="k">測試數</div><div class="v" style="font-size:18px">25</div></div>
+          <div><div class="k">通過率</div><div class="v" style="font-size:18px">17/25</div></div>
+          <div><div class="k">最佳策略</div><div class="v" style="font-size:16px">w29_vol_023</div></div>
+          <div><div class="k">評分</div><div class="v yellow" style="font-size:18px">B</div></div>
+          <div><div class="k">建議</div><div class="v" style="font-size:14px;color:#58a6ff">觀察</div></div>
+        </div>
+        <div style="margin-top:8px;font-size:13px;color:#9fb0d3">
+          ETH CAGR: +40.3% · DD: 15.6% · ATR過濾 · 發現：ETH適合波動率篩選，BTC負相關 · 符號特異性驗證
+        </div>
       </div>
 
     </div>
@@ -228,6 +237,7 @@
 
 <script>
 const vdata=[
+  {serial:"W28-1",orig:"w28_regime_024",score:72,is:0.123,oos:0.074,dd:0.074,tc:76,sens:0.0000,la:false,note:"BTC+ETH雙市場通過 · 紙盤進行中"},
   {serial:"S053",orig:"w16_stab_008",score:70,is:0.314,oos:0.024,dd:0.119,tc:72,sens:0.0000,la:false},
   {serial:"S058",orig:"w15_conf_005",score:69,is:0.289,oos:0.027,dd:0.119,tc:72,sens:0.0000,la:false},
   {serial:"S044",orig:"w14_mix_007", score:68,is:0.279,oos:0.027,dd:0.119,tc:71,sens:0.0000,la:false},
@@ -375,7 +385,21 @@ async function refresh(){
     setEl('pos-tbody',rows);
   }catch(e){
     console.error('refresh error:',e);
-    setEl('poly-total','<div class="v gray">—</div><div class="vs" style="color:#f85149">'+e.message+'</div>');
+    setEl('poly-total','<div class="v gray">—</div><div class="vs" style="color:#f85149">'+e.message+'
+<div class="card c12" style="margin-top:12px">
+  <div class="k">W29 Volatility Regime — 2026-03-27</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px">
+    <div><div class="k">測試數</div><div class="v">25</div></div>
+    <div><div class="k">通過率</div><div class="v">0/25</div></div>
+    <div><div class="k">最佳策略</div><div class="v">N/A</div></div>
+    <div><div class="k">最佳評分</div><div class="v ">0/100</div></div>
+  </div>
+  <div style="margin-top:8px;font-size:13px;color:#9fb0d3">
+    BTC CAGR: +0.0% | ETH CAGR: +0.0% | Avg DD: 0.0% | Grade: N/A | 建議: 觀察
+  </div>
+</div>
+
+</div>');
   }
 }
 
