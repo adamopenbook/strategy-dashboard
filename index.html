@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-27 03:12 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-27 03:17 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -279,7 +279,7 @@ let cd=60; setInterval(()=>{cd--;if(cd<=0){cd=60;location.reload();}},1000);
 
 
 const POLY_ADDR='0x36723e366cca7a0db32c8efa6dfb24b015eb92a5';
-var CLOB_CASH=434.62;   // injected by generate_dashboard.py
+var CLOB_CASH=449.62;   // injected by generate_dashboard.py
 var DEPOSIT_AMT=471.81; // injected by generate_dashboard.py
 const DATA='https://data-api.polymarket.com';
 const BLOCKSCOUT='https://polygon.blockscout.com';
@@ -297,7 +297,11 @@ async function fetchCash(){
   try{
     var r=await fetch(BLOCKSCOUT+'/api/v2/addresses/'+POLY_ADDR+'/token-balances');
     var data=await r.json();
-    var usdc=data.find(function(t){return t.token&&(t.token.address_hash||'').toLowerCase().includes(USDC_ADDR);});
+    // 精確匹配 USDC.e 合約地址（完整比對，不用 includes 避免抓到其他 token）
+    var usdc=data.find(function(t){
+      var addr=(t.token&&(t.token.address_hash||t.token.address)||'').toLowerCase();
+      return addr===USDC_ADDR.toLowerCase();
+    });
     if(usdc&&usdc.token&&usdc.token.decimals){
       return parseInt(usdc.value)/Math.pow(10,parseInt(usdc.token.decimals));
     }
@@ -308,12 +312,14 @@ async function fetchCash(){
 async function refresh(){
   setTs();
   try{
-    var [valR,posR]=await Promise.all([
+    var [valR,posR,cash]=await Promise.all([
       fetch(DATA+'/value?user='+POLY_ADDR).then(r=>r.json()),
       fetch(DATA+'/positions?user='+POLY_ADDR+'&limit=50&sizeThreshold=0').then(r=>r.json()),
+      fetchCash()
     ]);
     var portVal=valR&&valR[0]?parseFloat(valR[0].value):0;
-    var cash=CLOB_CASH;  // injected by generate_dashboard.py (CLOB API)
+    // cash from Blockscout（USDC.e 精確匹配）；fallback 用 CLOB_CASH
+    if(cash===null) cash=CLOB_CASH;
     var total=portVal+cash;
     var sub='Cash $'+cash.toFixed(2)+' + Positions $'+portVal.toFixed(2);
     // Net profit = portfolio value - initial deposit
