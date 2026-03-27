@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-27 03:32 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-27 03:38 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -144,6 +144,39 @@
       <table id="vtable">
         <tr><th>#</th><th>Serial</th><th>Original ID</th><th>Grade</th><th>Score</th><th>IS CAGR</th><th>OOS CAGR</th><th>Max DD</th><th>Trades</th><th>Status</th><th></th></tr>
       </table>
+    </div>
+
+    <!-- EXPLORATION ROUNDS -->
+    <div class="card c12" style="margin-top:12px">
+      <div class="k">🔍 Exploration Rounds</div>
+
+      <!-- W28 -->
+      <div style="border:1px solid #243055;border-radius:10px;padding:12px;margin-top:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-weight:700">W28 · Regime Filter (ADX)</span>
+          <span class="pill ok">✅ A Grade Found</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px">
+          <div><div class="k">測試數</div><div class="v" style="font-size:18px">25</div></div>
+          <div><div class="k">通過率</div><div class="v" style="font-size:18px">13/25</div></div>
+          <div><div class="k">最佳策略</div><div class="v" style="font-size:16px">w28_regime_024</div></div>
+          <div><div class="k">評分</div><div class="v green" style="font-size:18px">A</div></div>
+          <div><div class="k">紙盤</div><div class="v" style="font-size:16px;color:#58a6ff">進行中</div></div>
+        </div>
+        <div style="margin-top:8px;font-size:13px;color:#9fb0d3">
+          BTC CAGR: +6.7% · ETH CAGR: +17.9% · Avg DD: 7.4% · ADX閾值: 30 · 假設: 趨勢強度過濾提升多市場泛化
+        </div>
+      </div>
+
+      <!-- W29 placeholder -->
+      <div id="w29-result" style="border:1px solid #243055;border-radius:10px;padding:12px;margin-top:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-weight:700">W29 · Volatility Regime (ATR)</span>
+          <span class="pill warn">⏳ 探索中…</span>
+        </div>
+        <div style="color:#8b949e;font-size:13px;margin-top:8px">結果即將更新</div>
+      </div>
+
     </div>
   </div>
 
