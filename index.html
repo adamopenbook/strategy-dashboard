@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-27 04:04 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-27 04:07 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -338,14 +338,14 @@ async function fetchCash(){
 async function refresh(){
   setTs();
   try{
-    var [valR,posR,cash]=await Promise.all([
+    var [valR,posR]=await Promise.all([
       fetch(DATA+'/value?user='+POLY_ADDR).then(r=>r.json()),
       fetch(DATA+'/positions?user='+POLY_ADDR+'&limit=50&sizeThreshold=0').then(r=>r.json()),
-      fetchCash()
     ]);
     var portVal=valR&&valR[0]?parseFloat(valR[0].value):0;
-    // cash from Blockscout（USDC.e 精確匹配）；fallback 用 CLOB_CASH
-    if(cash===null) cash=CLOB_CASH;
+    // CLOB_CASH 由 generate_dashboard.py 每 10 分鐘注入（最準確）
+    // Blockscout 的 cash 只作參考（有 2-5 分鐘延遲）
+    var cash=CLOB_CASH;
     var total=portVal+cash;
     var sub='Cash $'+cash.toFixed(2)+' + Positions $'+portVal.toFixed(2);
     // Net profit = portfolio value - initial deposit
