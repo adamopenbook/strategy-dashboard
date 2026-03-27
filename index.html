@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-27 10:32 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-27 10:39 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -241,7 +241,8 @@
 
 <script>
 const vdata=[
-  {serial:"W28-1",orig:"w28_regime_024",score:72,is:0.123,oos:0.074,dd:0.074,tc:76,sens:0.0000,la:false,note:"BTC+ETH雙市場通過 · 紙盤進行中"},
+  {serial:"W32-1",orig:"w32_btc1_eth1_sol1",score:72,is:0.261,oos:0.130,dd:0.106,tc:63,sens:0.0000,la:false,note:"Market-specific regime"},
+  {serial:"W28-1",orig:"w28_regime_024",score:72,is:0.123,oos:0.074,dd:0.074,tc:76,sens:0.0000,la:false,note:"Regime filter"},
   {serial:"S053",orig:"w16_stab_008",score:70,is:0.314,oos:0.024,dd:0.119,tc:72,sens:0.0000,la:false},
   {serial:"S058",orig:"w15_conf_005",score:69,is:0.289,oos:0.027,dd:0.119,tc:72,sens:0.0000,la:false},
   {serial:"S044",orig:"w14_mix_007", score:68,is:0.279,oos:0.027,dd:0.119,tc:71,sens:0.0000,la:false},
@@ -260,8 +261,6 @@ const vdata=[
   {serial:"S041",orig:"w14_mix_002", score:50,is:0.304,oos:-0.009,dd:0.160,tc:57,sens:0.0000,la:false},
   {serial:"S042",orig:"w15_conf_004",score:50,is:0.304,oos:-0.009,dd:0.160,tc:57,sens:0.0000,la:false},
   {serial:"S043",orig:"w16_stab_007",score:50,is:0.304,oos:-0.009,dd:0.160,tc:57,sens:0.0000,la:false},
-  {serial:"S050",orig:"w17_exp_013", score:0, is:0.095,oos:-0.048,dd:0.134,tc:30,sens:0.0000,la:true},
-  {serial:"S059",orig:"w18_stab_016",score:0, is:0.287,oos:-0.106,dd:0.120,tc:21,sens:0.0000,la:false},
 ];
 
 function pct(v){return(v*100).toFixed(1)+'%'}
