@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-28 08:02 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-28 08:12 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -133,7 +133,7 @@
 
 <div class="tab-pane" id="tab-validation">
     <div class="grid" style="margin-bottom:16px">
-      <div class="card c3"><div class="k">Tested Configs (Cumulative)</div><div class="v">818</div><div class="vs">W28–W61 cumulative tested configs</div></div>
+      <div class="card c3"><div class="k">Tested Configs (Cumulative)</div><div class="v">882</div><div class="vs">W28–W65 cumulative tested configs</div></div>
       <div class="card c3"><div class="k">Fully Validated (3-phase)</div><div class="v">20</div><div class="vs">Top candidates only</div></div>
       <div class="card c3"><div class="k">🟢 A Grade (Top20)</div><div class="v green">1</div><div class="vs">Score ≥ 80</div></div>
       <div class="card c3"><div class="k">🟡 B Grade (Top20)</div><div class="v yellow">9</div><div class="vs">Score 60–79 · OBSERVE</div></div>
@@ -418,6 +418,34 @@
           <td><span class="pill ok">🟢</span></td>
           <td class="blue">GO_NEXT</td>
         </tr>
+        <tr>
+          <td class="blue">W62</td><td>R1/W62 anti-clone baseline</td><td>16</td><td>0/16</td>
+          <td style="font-size:12px">none</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:0.0%</td><td>Gate-first + anti-clone + cold-start cadence + 1x/3x/5x/7x(relaxed) + slices + cluster-cap</td>
+          <td><span class="pill bad">❌</span></td>
+          <td class="gray">NO_GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W63</td><td>R2/W63 novelty pressure expansion</td><td>16</td><td>0/16</td>
+          <td style="font-size:12px">none</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:0.0%</td><td>Gate-first + anti-clone + cold-start cadence + 1x/3x/5x/7x(relaxed) + slices + cluster-cap</td>
+          <td><span class="pill bad">❌</span></td>
+          <td class="gray">NO_GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W64</td><td>R3/W64 cadenced cold-start</td><td>16</td><td>0/16</td>
+          <td style="font-size:12px">none</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:0.0%</td><td>Gate-first + anti-clone + cold-start cadence + 1x/3x/5x/7x(relaxed) + slices + cluster-cap</td>
+          <td><span class="pill bad">❌</span></td>
+          <td class="gray">NO_GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W65</td><td>R4/W65 post-cold-start hardening</td><td>16</td><td>1/16</td>
+          <td style="font-size:12px">w65_seed_00</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:20.0%</td><td>Gate-first + anti-clone + cold-start cadence + 1x/3x/5x/7x(relaxed) + slices + cluster-cap</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
 <!-- EXP_ROWS_HERE -->
       </table>
       <!-- EXP_TABLE_END -->
@@ -477,6 +505,7 @@
 
 <script>
 const vdata=[
+  {serial:"W65-1",orig:"w65_seed_00",score:66,is:1.315,oos:0.725,dd:0.083,tc:364,sens:0.0000,la:false,gate:true,note:"W65 PASS (1/16)"},
   {serial:"W61-1",orig:"w61_seed_00",score:88,is:2.407,oos:1.385,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W61 PASS (1/16)"},
   {serial:"W60-1",orig:"w60_seed_00",score:88,is:2.407,oos:1.385,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W60 PASS (1/16)"},
   {serial:"W59-1",orig:"w59_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W59 PASS (1/16)"},
