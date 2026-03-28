@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-28 06:42 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-28 06:52 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -133,7 +133,7 @@
 
 <div class="tab-pane" id="tab-validation">
     <div class="grid" style="margin-bottom:16px">
-      <div class="card c3"><div class="k">Tested Configs (Cumulative)</div><div class="v">658</div><div class="vs">W28–W52 cumulative tested configs</div></div>
+      <div class="card c3"><div class="k">Tested Configs (Cumulative)</div><div class="v">690</div><div class="vs">W28–W53 cumulative tested configs</div></div>
       <div class="card c3"><div class="k">Fully Validated (3-phase)</div><div class="v">20</div><div class="vs">Top candidates only</div></div>
       <div class="card c3"><div class="k">🟢 A Grade (Top20)</div><div class="v green">1</div><div class="vs">Score ≥ 80</div></div>
       <div class="card c3"><div class="k">🟡 B Grade (Top20)</div><div class="v yellow">9</div><div class="vs">Score 60–79 · OBSERVE</div></div>
@@ -355,6 +355,13 @@
           <td><span class="pill ok">🟢</span></td>
           <td class="blue">GO_NEXT</td>
         </tr>
+        <tr>
+          <td class="blue">W53</td><td>W53 top-2 independent cluster restart</td><td>16</td><td>2/16</td>
+          <td style="font-size:12px">w53_a_05</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:15.4%</td><td>Gate-first + 1x/3x/5x/7x + slices + cluster-cap</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
 <!-- EXP_ROWS_HERE -->
       </table>
       <!-- EXP_TABLE_END -->
@@ -414,6 +421,7 @@
 
 <script>
 const vdata=[
+  {serial:"W53-1",orig:"w53_a_05",score:88,is:2.414,oos:1.387,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W53 PASS (2/16)"},
   {serial:"W52-1",orig:"w52_vo_03",score:87,is:2.386,oos:1.379,dd:0.084,tc:508,sens:0.0000,la:false,gate:true,note:"W52 PASS (2/16)"},
   {serial:"W51-1",orig:"w51_vo_03",score:87,is:2.386,oos:1.379,dd:0.084,tc:508,sens:0.0000,la:false,gate:true,note:"W51 PASS (2/16)"},
   {serial:"W50-1",orig:"w50_vo_03",score:87,is:2.392,oos:1.381,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W50 PASS (2/16)"},
