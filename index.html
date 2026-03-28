@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-28 07:02 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-28 07:12 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -133,7 +133,7 @@
 
 <div class="tab-pane" id="tab-validation">
     <div class="grid" style="margin-bottom:16px">
-      <div class="card c3"><div class="k">Tested Configs (Cumulative)</div><div class="v">690</div><div class="vs">W28–W53 cumulative tested configs</div></div>
+      <div class="card c3"><div class="k">Tested Configs (Cumulative)</div><div class="v">754</div><div class="vs">W28–W57 cumulative tested configs</div></div>
       <div class="card c3"><div class="k">Fully Validated (3-phase)</div><div class="v">20</div><div class="vs">Top candidates only</div></div>
       <div class="card c3"><div class="k">🟢 A Grade (Top20)</div><div class="v green">1</div><div class="vs">Score ≥ 80</div></div>
       <div class="card c3"><div class="k">🟡 B Grade (Top20)</div><div class="v yellow">9</div><div class="vs">Score 60–79 · OBSERVE</div></div>
@@ -362,6 +362,34 @@
           <td><span class="pill ok">🟢</span></td>
           <td class="blue">GO_NEXT</td>
         </tr>
+        <tr>
+          <td class="blue">W54</td><td>R1/W54 diversity pressure kickoff</td><td>16</td><td>1/16</td>
+          <td style="font-size:12px">w54_seed_00</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:20.0%</td><td>Gate-first + diversity-pressure + 1x/3x/5x/7x + slices + cluster-cap</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W55</td><td>R2/W55 non-volatility pressure continuation</td><td>16</td><td>1/16</td>
+          <td style="font-size:12px">w55_seed_00</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:16.7%</td><td>Gate-first + diversity-pressure + 1x/3x/5x/7x + slices + cluster-cap</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W56</td><td>R3/W56 novelty hardening</td><td>16</td><td>1/16</td>
+          <td style="font-size:12px">w56_seed_00</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:16.7%</td><td>Gate-first + diversity-pressure + 1x/3x/5x/7x + slices + cluster-cap</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W57</td><td>R4/W57 final diversity consolidation</td><td>16</td><td>1/16</td>
+          <td style="font-size:12px">w57_seed_00</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:16.7%</td><td>Gate-first + diversity-pressure + 1x/3x/5x/7x + slices + cluster-cap</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
 <!-- EXP_ROWS_HERE -->
       </table>
       <!-- EXP_TABLE_END -->
@@ -421,6 +449,10 @@
 
 <script>
 const vdata=[
+  {serial:"W57-1",orig:"w57_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W57 PASS (1/16)"},
+  {serial:"W56-1",orig:"w56_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W56 PASS (1/16)"},
+  {serial:"W55-1",orig:"w55_seed_00",score:88,is:2.415,oos:1.387,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W55 PASS (1/16)"},
+  {serial:"W54-1",orig:"w54_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W54 PASS (1/16)"},
   {serial:"W53-1",orig:"w53_a_05",score:88,is:2.414,oos:1.387,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W53 PASS (2/16)"},
   {serial:"W52-1",orig:"w52_vo_03",score:87,is:2.386,oos:1.379,dd:0.084,tc:508,sens:0.0000,la:false,gate:true,note:"W52 PASS (2/16)"},
   {serial:"W51-1",orig:"w51_vo_03",score:87,is:2.386,oos:1.379,dd:0.084,tc:508,sens:0.0000,la:false,gate:true,note:"W51 PASS (2/16)"},
