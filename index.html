@@ -512,17 +512,17 @@
 
 <script>
 const vdata=[
-  {serial:"W66-1",orig:"w66_seed_00",score:73,is:1.602,oos:0.935,dd:0.087,tc:426,sens:0.0000,la:false,gate:true,note:"W66 PASS (1/16)"},
-  {serial:"W65-1",orig:"w65_seed_00",score:66,is:1.315,oos:0.725,dd:0.083,tc:364,sens:0.0000,la:false,gate:true,note:"W65 PASS (1/16)"},
-  {serial:"W61-1",orig:"w61_seed_00",score:88,is:2.407,oos:1.385,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W61 PASS (1/16)"},
-  {serial:"W60-1",orig:"w60_seed_00",score:88,is:2.407,oos:1.385,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W60 PASS (1/16)"},
+  {serial:"W66-1",orig:"w66_seed_00",score:73,is:1.602,oos:0.935,dd:0.087,tc:426,sens:0.0000,la:false,gate:true,l3:true,note:"W66 PASS (1/16)"},
+  {serial:"W65-1",orig:"w65_seed_00",score:66,is:1.315,oos:0.725,dd:0.083,tc:364,sens:0.0000,la:false,gate:true,l3:true,note:"W65 PASS (1/16)"},
+  {serial:"W61-1",orig:"w61_seed_00",score:88,is:2.407,oos:1.385,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,l3:true,note:"W61 PASS (1/16)"},
+  {serial:"W60-1",orig:"w60_seed_00",score:88,is:2.407,oos:1.385,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,l3:true,note:"W60 PASS (1/16)"},
   {serial:"W59-1",orig:"w59_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W59 PASS (1/16)"},
   {serial:"W58-1",orig:"w58_seed_00",score:88,is:2.409,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W58 PASS (1/16)"},
   {serial:"W57-1",orig:"w57_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W57 PASS (1/16)"},
-  {serial:"W56-1",orig:"w56_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W56 PASS (1/16)"},
-  {serial:"W55-1",orig:"w55_seed_00",score:88,is:2.415,oos:1.387,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W55 PASS (1/16)"},
-  {serial:"W54-1",orig:"w54_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W54 PASS (1/16)"},
-  {serial:"W53-1",orig:"w53_a_05",score:88,is:2.414,oos:1.387,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W53 PASS (2/16)"},
+  {serial:"W56-1",orig:"w56_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,l3:true,note:"W56 PASS (1/16)"},
+  {serial:"W55-1",orig:"w55_seed_00",score:88,is:2.415,oos:1.387,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,l3:true,note:"W55 PASS (1/16)"},
+  {serial:"W54-1",orig:"w54_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,l3:true,note:"W54 PASS (1/16)"},
+  {serial:"W53-1",orig:"w53_a_05",score:88,is:2.414,oos:1.387,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,l3:true,note:"W53 PASS (2/16)"},
   {serial:"W52-1",orig:"w52_vo_03",score:87,is:2.386,oos:1.379,dd:0.084,tc:508,sens:0.0000,la:false,gate:true,note:"W52 PASS (2/16)"},
   {serial:"W51-1",orig:"w51_vo_03",score:87,is:2.386,oos:1.379,dd:0.084,tc:508,sens:0.0000,la:false,gate:true,note:"W51 PASS (2/16)"},
   {serial:"W50-1",orig:"w50_vo_03",score:87,is:2.392,oos:1.381,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W50 PASS (2/16)"},
@@ -597,7 +597,7 @@ vdata.forEach((d,i)=>{
     <td class="${ooscol}">${pct(d.oos)}</td>
     <td class="${ddcol}">${pct(d.dd)}</td>
     <td class="${d.tc>=20&&d.tc<=80?'green':'yellow'}">${d.tc}</td>
-    <td>${d.la?'<span class="pill bad">⚠️ look-ahead</span>':(d.gate===true?'<span class="pill ok">✅ gate pass</span>':(d.gate===false?'<span class="pill bad">❌ gate fail</span>':'<span class="pill">legacy score</span>'))}</td>
+    <td>${d.la?'<span class="pill bad">⚠️ look-ahead</span>':(d.gate===true?(d.l3===true?'<span class="pill ok">✅ gate + 🧪3phase</span>':'<span class="pill ok">✅ gate pass</span>'):(d.gate===false?'<span class="pill bad">❌ gate fail</span>':'<span class="pill">legacy score</span>'))}</td>
     <td><span class="expand-btn" onclick="toggle(${i})">▼</span></td>`;
   tbody.appendChild(tr);
   const xr=document.createElement('tr');
