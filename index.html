@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-28 06:12 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-28 06:22 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -133,7 +133,7 @@
 
 <div class="tab-pane" id="tab-validation">
     <div class="grid" style="margin-bottom:16px">
-      <div class="card c3"><div class="k">Tested Configs (Cumulative)</div><div class="v">594</div><div class="vs">W28–W48 cumulative tested configs</div></div>
+      <div class="card c3"><div class="k">Tested Configs (Cumulative)</div><div class="v">642</div><div class="vs">W28–W51 cumulative tested configs</div></div>
       <div class="card c3"><div class="k">Fully Validated (3-phase)</div><div class="v">20</div><div class="vs">Top candidates only</div></div>
       <div class="card c3"><div class="k">🟢 A Grade (Top20)</div><div class="v green">1</div><div class="vs">Score ≥ 80</div></div>
       <div class="card c3"><div class="k">🟡 B Grade (Top20)</div><div class="v yellow">9</div><div class="vs">Score 60–79 · OBSERVE</div></div>
@@ -327,6 +327,27 @@
           <td><span class="pill ok">🟢</span></td>
           <td class="blue">GO_NEXT</td>
         </tr>
+        <tr>
+          <td class="blue">W49</td><td>R1/W49 vol-neighborhood diversification</td><td>16</td><td>2/16</td>
+          <td style="font-size:12px">w49_vo_02</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:33.3%</td><td>Gate-first + 1x/3x/5x/7x + slices + cluster-cap</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W50</td><td>R2/W50 trend-breakout stress mix</td><td>16</td><td>2/16</td>
+          <td style="font-size:12px">w50_vo_03</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:33.3%</td><td>Gate-first + 1x/3x/5x/7x + slices + cluster-cap</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W51</td><td>R3/W51 conservative stability squeeze</td><td>16</td><td>2/16</td>
+          <td style="font-size:12px">w51_vo_03</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:33.3%</td><td>Gate-first + 1x/3x/5x/7x + slices + cluster-cap</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
 <!-- EXP_ROWS_HERE -->
       </table>
       <!-- EXP_TABLE_END -->
@@ -386,6 +407,9 @@
 
 <script>
 const vdata=[
+  {serial:"W51-1",orig:"w51_vo_03",score:87,is:2.386,oos:1.379,dd:0.084,tc:508,sens:0.0000,la:false,gate:true,note:"W51 PASS (2/16)"},
+  {serial:"W50-1",orig:"w50_vo_03",score:87,is:2.392,oos:1.381,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W50 PASS (2/16)"},
+  {serial:"W49-1",orig:"w49_vo_02",score:87,is:2.369,oos:1.367,dd:0.084,tc:499,sens:0.0000,la:false,gate:true,note:"W49 PASS (2/16)"},
   {serial:"W48-1",orig:"w48_vo_09",score:84,is:2.166,oos:1.243,dd:0.077,tc:473,sens:0.0000,la:false,gate:true,note:"W48 anti-dup + 7x PASS (2/16)"},
   {serial:"W47D-1",orig:"w47d_vo_02",score:84,is:2.138,oos:1.236,dd:0.077,tc:473,sens:0.0000,la:false,gate:true,note:"W47d 4-round cycle PASS (12/12)"},
   {serial:"W47C-1",orig:"w47c_vo_02",score:84,is:2.132,oos:1.234,dd:0.076,tc:473,sens:0.0000,la:false,gate:true,note:"W47c 4-round cycle PASS (12/12)"},
