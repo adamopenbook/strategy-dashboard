@@ -63,7 +63,7 @@
 <div class="wrap">
 
   <h1>🚀 Strategy Command Dashboard</h1>
-  <div class="sub">Updated: <span id="ts">2026-03-27 23:52 UTC</span> · Auto-refresh 60s</div>
+  <div class="sub">Updated: <span id="ts">2026-03-28 05:12 UTC</span> · Auto-refresh 60s</div>
 
   <!-- Live Status Cards -->
   <div class="grid" style="margin-bottom:16px">
@@ -110,7 +110,7 @@
       <div class="card c3">
         <div class="k">Win Rate</div>
         <div class="v green">94%</div>
-        <div class="vs">58/62 · V1+V2 combined</div>
+        <div class="vs">60/64 · V1+V2 combined</div>
       </div>
     </div>
     <div class="grid">
@@ -133,7 +133,7 @@
 
 <div class="tab-pane" id="tab-validation">
     <div class="grid" style="margin-bottom:16px">
-      <div class="card c3"><div class="k">Tested Configs (Cumulative)</div><div class="v">425</div><div class="vs">W28–W39 累積測試組合數</div></div>
+      <div class="card c3"><div class="k">Tested Configs (Cumulative)</div><div class="v">594</div><div class="vs">W28–W48 cumulative tested configs</div></div>
       <div class="card c3"><div class="k">Fully Validated (3-phase)</div><div class="v">20</div><div class="vs">Top candidates only</div></div>
       <div class="card c3"><div class="k">🟢 A Grade (Top20)</div><div class="v green">1</div><div class="vs">Score ≥ 80</div></div>
       <div class="card c3"><div class="k">🟡 B Grade (Top20)</div><div class="v yellow">9</div><div class="vs">Score 60–79 · OBSERVE</div></div>
@@ -148,9 +148,9 @@
 
     <!-- EXPLORATION ROUNDS -->
     <div class="card c12" style="margin-top:12px">
-      <div class="k">🔍 Exploration Rounds</div>
+      <div class="k">🔍 Exploration Rounds（最近20輪）</div>
       <!-- EXP_TABLE_START -->
-      <table style="margin-top:8px">
+      <table id="exp-table" style="margin-top:8px">
         <tr><th>輪次</th><th>方向</th><th>測試</th><th>通過</th><th>最佳策略</th><th>最佳 CAGR</th><th>DD</th><th>評級</th><th>狀態</th></tr>
         <tr>
           <td class="blue">W28</td><td>Regime Filter (ADX)</td><td>25</td><td>13/25</td>
@@ -243,7 +243,91 @@
           <td><span class="pill info">🔍 REVIEW</span></td>
           <td class="gray">結果異常強，待嚴格複核</td>
         </tr>
-        <!-- EXP_ROWS_HERE -->
+        <tr>
+          <td class="blue">W40</td><td>Focused 3-Family Survivability</td><td>24</td><td>4/24</td>
+          <td style="font-size:12px">w40_vt_00</td>
+          <td class="green">Volatility-Targeted pass 4/8</td><td>Best DD 6.0%</td>
+          <td><span class="pill warn">🟠 C</span></td>
+          <td class="blue">Gate PASS（可進 paper pipeline）</td>
+        </tr>
+        <tr>
+          <td class="blue">W41</td><td>4h Cycle R1 (Adaptive Start)</td><td>12</td><td>2/12</td>
+          <td style="font-size:12px">w41_vo_00</td>
+          <td class="yellow">Pass rate 16.7%</td><td>Bootstrap round</td>
+          <td><span class="pill warn">🟡</span></td>
+          <td class="gray">Low-pass baseline</td>
+        </tr>
+        <tr>
+          <td class="blue">W42</td><td>4h Cycle R2 (Mutation Tighten)</td><td>9</td><td>7/9</td>
+          <td style="font-size:12px">w42_vo_00</td>
+          <td class="green">Pass rate 77.8%</td><td>Family converged</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">Convergence confirmed</td>
+        </tr>
+        <tr>
+          <td class="blue">W43</td><td>4h Cycle R3 (Robustness Hold)</td><td>12</td><td>9/12</td>
+          <td style="font-size:12px">w43_vo_00</td>
+          <td class="green">Pass rate 75.0%</td><td>Stable high-pass</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">Sustained</td>
+        </tr>
+        <tr>
+          <td class="blue">W44</td><td>4h Cycle R4 (Final Confirmation)</td><td>12</td><td>9/12</td>
+          <td style="font-size:12px">w44_vo_00</td>
+          <td class="green">Best OOS + stress profile</td><td>DD 8.2%</td>
+          <td><span class="pill warn">🟡 B</span></td>
+          <td class="blue">Gate PASS（GO_NEXT）</td>
+        </tr>
+        <tr>
+          <td class="blue">W45</td><td>R1/W45 adaptive exploration</td><td>12</td><td>10/12</td>
+          <td style="font-size:12px">w45_vo_08</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:100.0%</td><td>Gate-first 1x/3x/5x + slices</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W46</td><td>R1/W46 adaptive exploration</td><td>12</td><td>10/12</td>
+          <td style="font-size:12px">w46_vo_09</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:100.0%</td><td>Gate-first 1x/3x/5x + slices</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W47a</td><td>R1/W47a adaptive exploration</td><td>12</td><td>8/12</td>
+          <td style="font-size:12px">w47a_vo_07</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:100.0%</td><td>Gate-first 1x/3x/5x + slices</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W47b</td><td>R2/W47b adaptive exploration</td><td>12</td><td>12/12</td>
+          <td style="font-size:12px">w47b_vo_02</td>
+          <td class="green">Volatility-Targeted:100.0%</td><td>Gate-first 1x/3x/5x + slices</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W47c</td><td>R3/W47c adaptive exploration</td><td>12</td><td>12/12</td>
+          <td style="font-size:12px">w47c_vo_02</td>
+          <td class="green">Volatility-Targeted:100.0%</td><td>Gate-first 1x/3x/5x + slices</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W47d</td><td>R4/W47d adaptive exploration</td><td>12</td><td>12/12</td>
+          <td style="font-size:12px">w47d_vo_02</td>
+          <td class="green">Volatility-Targeted:100.0%</td><td>Gate-first 1x/3x/5x + slices</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+        <tr>
+          <td class="blue">W48</td><td>R1/W48 anti-dup + 7x stress</td><td>16</td><td>2/16</td>
+          <td style="font-size:12px">w48_vo_09</td>
+          <td class="green">Breakout-Defensive:0.0% / Trend-Pullback:0.0% / Volatility-Targeted:16.7%</td><td>Gate-first + 1x/3x/5x/7x + slices + cluster-cap</td>
+          <td><span class="pill ok">🟢</span></td>
+          <td class="blue">GO_NEXT</td>
+        </tr>
+<!-- EXP_ROWS_HERE -->
       </table>
       <!-- EXP_TABLE_END -->
     </div>
@@ -253,41 +337,46 @@
   <div class="tab-pane" id="tab-framework">
     <div class="grid">
       <div class="card c6">
-        <div class="k">Scoring System (0–100)</div>
+        <div class="k">Gate Checks (Decision-first)</div>
         <table>
-          <tr><th>Metric</th><th>Max</th><th>Criteria</th></tr>
-          <tr><td>IS CAGR (2024–2025)</td><td class="blue">40 pts</td><td>≥60%=40, ≥40%=30, ≥20%=20</td></tr>
-          <tr><td>OOS CAGR (2022–2023 Bear)</td><td class="blue">30 pts</td><td>≥10%=30, ≥0%=15, &lt;0%=0</td></tr>
-          <tr><td>Param Sensitivity</td><td class="blue">20 pts</td><td>&lt;0.05=20, &lt;0.10=15, &lt;0.15=10</td></tr>
-          <tr><td>Trade Frequency</td><td class="blue">10 pts</td><td>20–80/yr=10, 10–120=5</td></tr>
+          <tr><th>Check</th><th>Rule</th><th>Type</th></tr>
+          <tr><td>IS CAGR</td><td>IS (2022–2024) ≥ 20%</td><td class="blue">Hard gate</td></tr>
+          <tr><td>OOS CAGR</td><td>OOS (2025–2026) ≥ 10%</td><td class="blue">Hard gate</td></tr>
+          <tr><td>Max Drawdown</td><td>DD ≤ 15%</td><td class="blue">Hard gate</td></tr>
+          <tr><td>Lookahead</td><td>Fail-closed anti-lookahead must PASS</td><td class="blue">Hard gate</td></tr>
+          <tr><td>Walk-forward</td><td>Forward-only expanding folds</td><td class="blue">Hard gate</td></tr>
+          <tr><td>Friction stress</td><td>1x / 3x / 5x required</td><td class="blue">Hard gate</td></tr>
         </table>
       </div>
       <div class="card c6">
-        <div class="k">Grade & Action</div>
+        <div class="k">Decision Logic (now)</div>
         <table>
-          <tr><th>Grade</th><th>Score</th><th>Action</th></tr>
-          <tr><td><span class="badge ba">🟢 A</span></td><td>80–100</td><td>Direct paper trading</td></tr>
-          <tr><td><span class="badge bb">🟡 B</span></td><td>60–79</td><td>Observe / paper</td></tr>
-          <tr><td><span class="badge bc">🟠 C</span></td><td>40–59</td><td>Keep for review</td></tr>
-          <tr><td><span class="badge" style="background:#2d1315;color:#f85149;border:1px solid #f85149">🔴 D</span></td><td>0–39</td><td>Reject</td></tr>
-          <tr><td><span class="badge bdq">💀 DQ</span></td><td>0</td><td>Disqualified — look-ahead</td></tr>
+          <tr><th>Status</th><th>Meaning</th><th>Action</th></tr>
+          <tr><td><span class="badge ba">✅ PASS</span></td><td>All hard gate checks pass</td><td>Eligible for next paper step</td></tr>
+          <tr><td><span class="badge" style="background:#2d1315;color:#f85149;border:1px solid #f85149">❌ FAIL</span></td><td>Any hard gate fails</td><td>Reject / iterate next round</td></tr>
+          <tr><td><span class="badge bdq">💀 DQ</span></td><td>Lookahead / chronology violation</td><td>Invalidate run immediately</td></tr>
+          <tr><td><span class="badge bb">🕘 LEGACY</span></td><td>Old row without full gate metadata</td><td>Reference only, not promotion basis</td></tr>
         </table>
       </div>
       <div class="card c6">
-        <div class="k">Hard Disqualifiers</div>
+        <div class="k">Auto-Reject Triggers</div>
         <table>
-          <tr><th>Condition</th><th>Threshold</th></tr>
-          <tr><td>Max Drawdown</td><td class="red">DD &gt; 20%</td></tr>
-          <tr><td>Look-ahead bias</td><td class="red">Extra shift raises CAGR</td></tr>
+          <tr><th>Trigger</th><th>Rule</th></tr>
+          <tr><td>Same-bar execution</td><td class="red">Signal & fill on same bar => REJECT</td></tr>
+          <tr><td>Reversed chronology</td><td class="red">IS/OOS or WF folds not forward => REJECT</td></tr>
+          <tr><td>Lookahead check fail-open</td><td class="red">Any checker exception treated as pass => REJECT</td></tr>
+          <tr><td>5x stress breach</td><td class="red">Severe 5x DD/OOS collapse => REJECT</td></tr>
         </table>
       </div>
       <div class="card c6">
-        <div class="k">Validation Time Ranges</div>
+        <div class="k">Validation Windows & Stress</div>
         <table>
           <tr><th>Phase</th><th>Range</th><th>Purpose</th></tr>
-          <tr><td>In-Sample (P1)</td><td>2024–2025</td><td>Dev + optimization (2yr)</td></tr>
-          <tr><td>OOS Stress (P2)</td><td>2022–2023</td><td>Bear market test</td></tr>
-          <tr><td>Sensitivity (P3)</td><td>Same as P1</td><td>±10/20% param variation</td></tr>
+          <tr><td>In-Sample (IS)</td><td>2022–2024</td><td>Development / fit</td></tr>
+          <tr><td>Out-of-Sample (OOS)</td><td>2025–2026</td><td>Primary forward validation</td></tr>
+          <tr><td>OOS slices</td><td>2025H1 / 2025H2 / 2026YTD</td><td>Consistency check</td></tr>
+          <tr><td>Friction tiers</td><td>1x / 3x / 5x</td><td>Execution realism stress</td></tr>
+          <tr><td>Walk-forward</td><td>Expanding forward folds</td><td>Chronology robustness</td></tr>
         </table>
       </div>
     </div>
@@ -297,7 +386,16 @@
 
 <script>
 const vdata=[
-  {serial:"W38A-1",orig:"w38a_rc_000",score:88,is:2.031,oos:0.528,dd:0.086,tc:568,sens:0.0000,la:false,note:"W38 recheck PASS"},
+  {serial:"W48-1",orig:"w48_vo_09",score:84,is:2.166,oos:1.243,dd:0.077,tc:473,sens:0.0000,la:false,gate:true,note:"W48 anti-dup + 7x PASS (2/16)"},
+  {serial:"W47D-1",orig:"w47d_vo_02",score:84,is:2.138,oos:1.236,dd:0.077,tc:473,sens:0.0000,la:false,gate:true,note:"W47d 4-round cycle PASS (12/12)"},
+  {serial:"W47C-1",orig:"w47c_vo_02",score:84,is:2.132,oos:1.234,dd:0.076,tc:473,sens:0.0000,la:false,gate:true,note:"W47c 4-round cycle PASS (12/12)"},
+  {serial:"W47B-1",orig:"w47b_vo_02",score:84,is:2.126,oos:1.233,dd:0.076,tc:473,sens:0.0000,la:false,gate:true,note:"W47b 4-round cycle PASS (12/12)"},
+  {serial:"W47A-1",orig:"w47a_vo_07",score:84,is:2.120,oos:1.231,dd:0.076,tc:473,sens:0.0000,la:false,gate:true,note:"W47a 4-round cycle PASS (8/12)"},
+  {serial:"W38A-1",orig:"w38a_rc_000",score:88,is:2.031,oos:0.528,dd:0.086,tc:568,sens:0.0000,la:false,gate:true,note:"W38 recheck PASS"},
+  {serial:"W40-1",orig:"w40_vt_00",score:54,is:0.791,oos:0.454,dd:0.060,tc:943,sens:0.0000,la:false,gate:true,note:"W40 strict gate PASS (GO_NEXT)"},
+  {serial:"W44-1",orig:"w44_vo_00",score:71,is:1.450,oos:0.873,dd:0.082,tc:1335,sens:0.0000,la:false,gate:true,note:"4-round cycle best; final confirmation PASS"},
+  {serial:"W45-1",orig:"w45_vo_08",score:71,is:1.475,oos:0.881,dd:0.082,tc:1335,sens:0.0000,la:false,gate:true,note:"W45 adaptive extension PASS (10/12)"},
+  {serial:"W46-1",orig:"w46_vo_09",score:76,is:1.758,oos:1.028,dd:0.087,tc:1457,sens:0.0000,la:false,gate:true,note:"W46 adaptive extension PASS (10/12)"},
   {serial:"W32-1",orig:"w32_btc1_eth1_sol1",score:72,is:0.261,oos:0.130,dd:0.106,tc:63,sens:0.0000,la:false,note:"Market-specific regime"},
   {serial:"W28-1",orig:"w28_regime_024",score:72,is:0.123,oos:0.074,dd:0.074,tc:76,sens:0.0000,la:false,note:"Regime filter"},
   {serial:"S053",orig:"w16_stab_008",score:70,is:0.314,oos:0.024,dd:0.119,tc:72,sens:0.0000,la:false},
@@ -316,12 +414,11 @@ const vdata=[
   {serial:"S038",orig:"w16_stab_001",score:52,is:0.257,oos:-0.020,dd:0.160,tc:52,sens:0.0000,la:false},
   {serial:"S039",orig:"w16_stab_004",score:52,is:0.257,oos:-0.020,dd:0.160,tc:52,sens:0.0000,la:false},
   {serial:"S041",orig:"w14_mix_002", score:50,is:0.304,oos:-0.009,dd:0.160,tc:57,sens:0.0000,la:false},
-  {serial:"S042",orig:"w15_conf_004",score:50,is:0.304,oos:-0.009,dd:0.160,tc:57,sens:0.0000,la:false},
 ];
 
 function pct(v){return(v*100).toFixed(1)+'%'}
 function sc(s){return s>=80?'#3fb950':s>=60?'#d29922':s>=40?'#f0883e':'#f85149'}
-function grade(s,la){
+function grade(s,la,gate){
   if(la)return{cls:'bdq',label:'💀 DQ'};
   if(s>=80)return{cls:'ba',label:'🟢 A'};
   if(s>=60)return{cls:'bb',label:'🟡 B'};
@@ -345,7 +442,7 @@ function bkd(d){
 
 const tbody=document.querySelector('#vtable');
 vdata.forEach((d,i)=>{
-  const g=grade(d.score,d.la);
+  const g=grade(d.score,d.la,d.gate);
   const c=sc(d.score);
   const ddcol=d.dd>0.2?'red':d.dd>0.15?'yellow':'green';
   const ooscol=d.oos>=0.05?'green':d.oos>=0?'yellow':'red';
@@ -359,7 +456,7 @@ vdata.forEach((d,i)=>{
     <td class="${ooscol}">${pct(d.oos)}</td>
     <td class="${ddcol}">${pct(d.dd)}</td>
     <td class="${d.tc>=20&&d.tc<=80?'green':'yellow'}">${d.tc}</td>
-    <td>${d.la?'<span class="pill bad">⚠️ look-ahead</span>':d.dd>0.2?'<span class="pill bad">DD>20%</span>':'<span class="pill ok">✓ clean</span>'}</td>
+    <td>${d.la?'<span class="pill bad">⚠️ look-ahead</span>':(d.gate===true?'<span class="pill ok">✅ gate pass</span>':(d.gate===false?'<span class="pill bad">❌ gate fail</span>':'<span class="pill">legacy score</span>'))}</td>
     <td><span class="expand-btn" onclick="toggle(${i})">▼</span></td>`;
   tbody.appendChild(tr);
   const xr=document.createElement('tr');
@@ -369,6 +466,16 @@ vdata.forEach((d,i)=>{
 });
 
 function toggle(i){const r=document.getElementById('xr'+i);r.style.display=r.style.display==='table-row'?'none':'table-row';}
+
+// Keep exploration table to recent 20 rounds only (data rows, excluding header)
+(function limitExplorationRows(){
+  const t=document.getElementById('exp-table');
+  if(!t) return;
+  const rows=[...t.querySelectorAll('tr')];
+  if(rows.length<=21) return; // 1 header + up to 20 rows
+  rows.slice(1, rows.length-20).forEach(r=>r.remove());
+})();
+
 function switchTab(name,el){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -381,7 +488,7 @@ let cd=60; setInterval(()=>{cd--;if(cd<=0){cd=60;location.reload();}},1000);
 
 
 const POLY_ADDR='0x36723e366cca7a0db32c8efa6dfb24b015eb92a5';
-var CLOB_CASH=463.48;   // injected by generate_dashboard.py
+var CLOB_CASH=478.48;   // injected by generate_dashboard.py
 var DEPOSIT_AMT=471.81; // injected by generate_dashboard.py
 const DATA='https://data-api.polymarket.com';
 const BLOCKSCOUT='https://polygon.blockscout.com';
