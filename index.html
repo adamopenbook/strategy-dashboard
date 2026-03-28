@@ -522,7 +522,7 @@ const vdata=[
   {serial:"W56-1",orig:"w56_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W56 PASS (1/16)"},
   {serial:"W55-1",orig:"w55_seed_00",score:88,is:2.415,oos:1.387,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W55 PASS (1/16)"},
   {serial:"W54-1",orig:"w54_seed_00",score:88,is:2.411,oos:1.386,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W54 PASS (1/16)"},
-  {serial:"W53-1",orig:"w53_a_05",score:88,is:2.414,oos:1.387,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W53 PASS (2/16)"},
+  {serial:"W53-1",orig:"w53_a_05",score:88,is:2.414,oos:1.387,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,l3:true,note:"W53 PASS (2/16)"},
   {serial:"W52-1",orig:"w52_vo_03",score:87,is:2.386,oos:1.379,dd:0.084,tc:508,sens:0.0000,la:false,gate:true,note:"W52 PASS (2/16)"},
   {serial:"W51-1",orig:"w51_vo_03",score:87,is:2.386,oos:1.379,dd:0.084,tc:508,sens:0.0000,la:false,gate:true,note:"W51 PASS (2/16)"},
   {serial:"W50-1",orig:"w50_vo_03",score:87,is:2.392,oos:1.381,dd:0.085,tc:508,sens:0.0000,la:false,gate:true,note:"W50 PASS (2/16)"},
@@ -567,6 +567,17 @@ function grade(s,la,gate){
   return{cls:'',label:'🔴 D'};
 }
 
+function statusPills(d){
+  if(d.la) return '<span class="pill bad">⚠️ look-ahead</span>';
+  const gate = d.gate===true
+    ? '<span class="pill ok">✅ gate pass</span>'
+    : (d.gate===false ? '<span class="pill bad">❌ gate fail</span>' : '<span class="pill">gate n/a</span>');
+  const l3 = d.l3===true
+    ? '<span class="pill ok">🧪 3phase pass</span>'
+    : (d.l3===false ? '<span class="pill bad">🧪 3phase fail</span>' : '');
+  return gate + (l3 ? '&nbsp;' + l3 : '');
+}
+
 function bkd(d){
   const s=d.score,is=d.is,oos=d.oos,sens=d.sens,tc=d.tc;
   const cp=is>=0.6?40:is>=0.4?Math.round(30+(is-0.4)/0.2*10):is>=0.2?Math.round(20+(is-0.2)/0.2*10):Math.max(0,Math.round(is/0.2*20));
@@ -597,7 +608,7 @@ vdata.forEach((d,i)=>{
     <td class="${ooscol}">${pct(d.oos)}</td>
     <td class="${ddcol}">${pct(d.dd)}</td>
     <td class="${d.tc>=20&&d.tc<=80?'green':'yellow'}">${d.tc}</td>
-    <td>${d.la?'<span class="pill bad">⚠️ look-ahead</span>':(d.gate===true?'<span class="pill ok">✅ gate pass</span>':(d.gate===false?'<span class="pill bad">❌ gate fail</span>':'<span class="pill">legacy score</span>'))}</td>
+    <td>${statusPills(d)}</td>
     <td><span class="expand-btn" onclick="toggle(${i})">▼</span></td>`;
   tbody.appendChild(tr);
   const xr=document.createElement('tr');
