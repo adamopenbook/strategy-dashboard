@@ -1,0 +1,11 @@
+# Dummy workflow - this disables the GitHub Pages auto-deploy
+# To re-enable: delete this file or restore proper content
+name: pages-build-deployment
+on:
+  workflow_dispatch:
+
+jobs:
+  dummy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Disabled"
